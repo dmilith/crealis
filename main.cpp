@@ -10,11 +10,13 @@
 #include "config.h"
 
 
+Cworld *umbra; // umbra
+Cworld *crealis; // noob land
+
 void thread_timer() {
 	boost::timer loop_timer;
 	boost::xtime xt;
 	std::cout << "Endless Timer Thread" << std::endl;
-	//std::cout << loop_timer.elapsed();
 	 do {
 #ifdef DEBUG
 		//set bright red ANSI color in console
@@ -25,7 +27,7 @@ void thread_timer() {
 	  printf("%c[%dm", 0x1B, 0);
 #endif		
 		boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 100000000;
+		xt.nsec += 1000000000;
 		boost::thread::sleep( xt ); 
 	 } while ( true );
 }
@@ -45,13 +47,24 @@ void thread_main_loop() {
 #endif		
 	 boost::xtime_get( &xt, boost::TIME_UTC );
 		xt.nsec += 100000000;
+		//do_an_operation();
 		boost::thread::sleep( xt ); 
 	 } while ( true );
 
 }
 
 void recv_signal( int sig ) {
-	exit( 0 );
+	 std::cout << std::endl << "Bye" << std::endl;
+
+	 //cleaning up
+#ifdef DEBUG
+	std::cout << "debug: saving world." << std::endl;
+#endif
+	 umbra->save_world();
+	 crealis->save_world();
+	 delete umbra;
+	 delete crealis;
+	 exit( 0 );
 }
 
 
@@ -62,6 +75,12 @@ int main( int argc, char* argv[] ) {
 	signal( SIGINT, recv_signal );
 	signal( SIGTERM, recv_signal );
 	
+	// creating worlds
+	umbra = new Cworld( 255, 255, 255, 255, 0 );
+	umbra->load_world();
+	crealis = new Cworld( 1, 1, 3, 3, 1.2 );
+	crealis->load_world();
+
 	boost::thread timer_thread( &thread_timer );
 	// wait for the thread to finish
 	#ifdef DEBUG
@@ -71,9 +90,9 @@ int main( int argc, char* argv[] ) {
 			std::cout << "debug: Main loop thread joined." << std::endl;
 			fflush( stdout );
 	#endif
-	
 	boost::thread main_loop_thread( &thread_main_loop );
 	
+
 	// wait for the threads to finish
 	main_loop_thread.join();
 	timer_thread.join();

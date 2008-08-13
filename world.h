@@ -41,6 +41,8 @@ public:
 	Ctheritory theritory; //terytorium world'a
 	std::string version; //wersja swiata. od tego zaleza ew niekompatybilnosci
 
+	void load_world();
+	void save_world();
 };
 
 #endif //_CWORLD_H_

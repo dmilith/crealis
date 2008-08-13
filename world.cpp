@@ -1,6 +1,12 @@
 #include "world.h"
 #include "version.h"
 
+void Cworld::save_world() {
+};
+
+void Cworld::load_world() {
+};
+
 Cworld::Cworld() {
 	//domyslne wartosci zmiennych
 	xTheritorySize = DEFAULT_THERITORY_X;
