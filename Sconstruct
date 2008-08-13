@@ -1,0 +1,12 @@
+SharedLibrary('backpack','backpack.cpp')
+SharedLibrary('character', 'character.cpp')
+SharedLibrary('coordinates', 'coordinates.cpp')
+SharedLibrary('item', 'item.cpp')
+SharedLibrary('map', 'map.cpp')
+SharedLibrary('place', 'place.cpp')
+SharedLibrary('soul', 'soul.cpp')
+SharedLibrary('theritory', 'theritory.cpp')
+SharedLibrary('world', 'world.cpp')
+SharedLibrary('backpack', 'backpack.cpp')
+Program('world', 'main.cpp', LIBS=[ 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], LIBPATH='.')
+
