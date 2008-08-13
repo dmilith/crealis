@@ -1,10 +1,10 @@
 import os
 print 'scons script written by dmilith[at]gmail[dot]com  (c) 2oo8'
 
-release32 = Environment( CXX = 'g++ -m32' )
-release64 = Environment( CXX = 'g++ ' )
-debug32 = Environment( CXX = 'g++ -m32 -g -W' )
-debug64 = Environment( CXX = 'g++ -g -W' )
+release32 = Environment( CXX = 'g++ -m32 -Os -march=athlon64' )
+release64 = Environment( CXX = 'g++ -Os -march=athlon64' )
+debug32 = Environment( CXX = 'g++ -m32 -pg -W' )
+debug64 = Environment( CXX = 'g++ -pg -W' )
 
 release = debug64
 
@@ -18,5 +18,5 @@ release.SharedLibrary('soul', 'soul.cpp')
 release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
 release.Program('world' , 'main.cpp', 
-    LIBS=[ 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
-    LIBPATH='.')
+    LIBS=[ 'boost_thread', 'boost_filesystem', 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
+    LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])

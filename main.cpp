@@ -1,11 +1,87 @@
 #include <iostream>
+#include <boost/filesystem/operations.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/thread/xtime.hpp>
+#include <boost/progress.hpp>
+
+#include <signal.h>
+
 #include "world.h"
+#include "config.h"
 
-//tester klas systemu
 
-int main()
-{
-	Cworld delmirum; //swiat delmirum (mroczne krolestwo), 
+void thread_timer() {
+	boost::timer loop_timer;
+	boost::xtime xt;
+	std::cout << "Endless Timer Thread" << std::endl;
+	//std::cout << loop_timer.elapsed();
+	 do {
+#ifdef DEBUG
+		//set bright red ANSI color in console
+		printf("%c[%d;%d;%dm", 0x1B, BRIGHT, GREEN, BG_BLACK);
+		std::cout << loop_timer.elapsed(); //std::endl;
+		fflush( stdout );
+	  //reset ANSI code to default:
+	  printf("%c[%dm", 0x1B, 0);
+#endif		
+		boost::xtime_get( &xt, boost::TIME_UTC );
+		xt.nsec += 100000000;
+		boost::thread::sleep( xt ); 
+	 } while ( true );
+}
+
+void thread_main_loop() {
+	boost::timer loop_timer;
+	boost::xtime xt;
+	std::cout << "Endless Main Loop Thread" << std::endl;
+	 do {
+#ifdef DEBUG
+		//set bright red ANSI color in console
+		printf("%c[%d;%d;%dm", 0x1B, BRIGHT,RED,BG_BLACK);
+		std::cout << ".";
+		fflush( stdout );
+	  //reset ANSI code to default:
+	  printf("%c[%dm", 0x1B, 0);
+#endif		
+	 boost::xtime_get( &xt, boost::TIME_UTC );
+		xt.nsec += 100000000;
+		boost::thread::sleep( xt ); 
+	 } while ( true );
+
+}
+
+void recv_signal( int sig ) {
+	exit( 0 );
+}
+
+
+/*
+ * server
+ */
+int main( int argc, char* argv[] ) {
+	signal( SIGINT, recv_signal );
+	signal( SIGTERM, recv_signal );
+	
+	boost::thread timer_thread( &thread_timer );
+	// wait for the thread to finish
+	#ifdef DEBUG
+	    std::cout << "debug: Timer thread joined." << std::endl;
+	#endif
+	#ifdef DEBUG
+			std::cout << "debug: Main loop thread joined." << std::endl;
+			fflush( stdout );
+	#endif
+	
+	boost::thread main_loop_thread( &thread_main_loop );
+	
+	// wait for the threads to finish
+	main_loop_thread.join();
+	timer_thread.join();
+
+	return 0;
+}
+
+	 /*Cworld delmirum; //swiat delmirum (mroczne krolestwo), 
 			    //przykladowo 10 na 10 theritoriow ;} na 200 graczy styka lekko;}
 	Cworld crealis(1,1,3,3,1.2); //swiat crealis (dolina gluchej ciszy -noob'landia)
 	//Cworld umbra(255,255,255,255,0); //ogrom, plus zero grawitacji.. czyli nie miejsce dla smiertelnikow :}
@@ -55,6 +131,4 @@ int main()
 	
 	char z;
 	std::cin >> z ;	
-	
-	return 0;
-}
+	*/
