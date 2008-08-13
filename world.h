@@ -1,6 +1,9 @@
 #ifndef _CWORLD_H_
 #define _CWORLD_H_
 
+#include <vector>
+#include <iostream>
+#include <string.h>
 #include "item.h"
 #include "backpack.h"
 #include "character.h"
@@ -9,7 +12,6 @@
 #include "map.h"
 #include "soul.h"
 #include "coordinates.h"
-#include <vector>
 
 #define MAX_PLAYERS 2000
 #define DEFAULT_BACKPACK_SIZE 2 //medium
@@ -25,19 +27,19 @@
 class Cworld {
 public:
 	Cworld(); //domyslnie
-	Cworld(unsigned int x,unsigned int y,double g); //podajemy rozmiar,i wartosc grawitacji
-	Cworld(unsigned int x,unsigned int y,unsigned int x1, unsigned int y1, double g); //tu rozmiar w ther., rozmiar w place'ach, i grawitacja
+	Cworld( unsigned int x, unsigned int y, double g ); //podajemy rozmiar,i wartosc grawitacji
+	Cworld( unsigned int x, unsigned int y, unsigned int x1, unsigned int y1, double g ); //tu rozmiar w ther., rozmiar w place'ach, i grawitacja
 
-	unsigned int xTheritorySize,yTheritorySize,xPlaceSize,yPlaceSize; //rozmiary obszaru zdefiniowanego na serwerze (w theritoriach/place'ach))
+	unsigned int xTheritorySize, yTheritorySize, xPlaceSize, yPlaceSize; //rozmiary obszaru zdefiniowanego na serwerze (w theritoriach/place'ach))
 
 	std::vector<Ccharacter> character; //tablica postaci jako wektor
 
 	double gravity; //grawitacja
-	char* name;
+	std::string name;
 
 	//THERITORY
 	Ctheritory theritory; //terytorium world'a
-	char* version; //wersja swiata. od tego zaleza ew niekompatybilnosci
+	std::string version; //wersja swiata. od tego zaleza ew niekompatybilnosci
 
 };
 

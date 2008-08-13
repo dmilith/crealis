@@ -1,13 +1,15 @@
 #ifndef _CTHERITORY_H_
 #define _CTHERITORY_H_
 
+#include <iostream>
+#include <string.h>
 #include "place.h"
 
 //THERITORY
 class Ctheritory {
 public:
 	Ctheritory();
-	char* name; //theritory name
+	std::string name; //theritory name and/or sha1 identifier
 	//PLACE
 	Cplace place; //terytorium place'a
 

@@ -1,12 +1,22 @@
-SharedLibrary('backpack','backpack.cpp')
-SharedLibrary('character', 'character.cpp')
-SharedLibrary('coordinates', 'coordinates.cpp')
-SharedLibrary('item', 'item.cpp')
-SharedLibrary('map', 'map.cpp')
-SharedLibrary('place', 'place.cpp')
-SharedLibrary('soul', 'soul.cpp')
-SharedLibrary('theritory', 'theritory.cpp')
-SharedLibrary('world', 'world.cpp')
-SharedLibrary('backpack', 'backpack.cpp')
-Program('world', 'main.cpp', LIBS=[ 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], LIBPATH='.')
+import os
+print 'scons script written by dmilith[at]gmail[dot]com  (c) 2oo8'
 
+release32 = Environment( CXX = 'g++ -m32' )
+release64 = Environment( CXX = 'g++ ' )
+debug32 = Environment( CXX = 'g++ -m32 -g -W' )
+debug64 = Environment( CXX = 'g++ -g -W' )
+
+release = debug64
+
+release.SharedLibrary('backpack','backpack.cpp')
+release.SharedLibrary('character', 'character.cpp')
+release.SharedLibrary('coordinates', 'coordinates.cpp')
+release.SharedLibrary('item', 'item.cpp')
+release.SharedLibrary('map', 'map.cpp')
+release.SharedLibrary('place', 'place.cpp')
+release.SharedLibrary('soul', 'soul.cpp')
+release.SharedLibrary('theritory', 'theritory.cpp')
+release.SharedLibrary('world', 'world.cpp')
+release.Program('world' , 'main.cpp', 
+    LIBS=[ 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
+    LIBPATH='.')

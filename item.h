@@ -3,7 +3,7 @@
 
 #include "item.h"
 
-enum Esize {tiny=0,small,medium,large,outgenerous,huge};
+enum Esize { tiny = 0, small, medium, large, outgenerous, huge };
 
 class Citem {
 public:

@@ -1,6 +1,6 @@
 #include "item.h"
 
 Citem::Citem() {
-	weight=0;
-	sizeOfItem=tiny;
+	weight = 0;
+	sizeOfItem = tiny;
 }

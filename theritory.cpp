@@ -3,6 +3,6 @@
 
 //THERITORY
 Ctheritory::Ctheritory() {
-    name="unnamed-theritory"; //theritory name
+    name = "unnamed-theritory"; //theritory name
 };
 //terytorium world'a
