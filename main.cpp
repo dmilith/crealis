@@ -8,8 +8,10 @@
 
 #include "world.h"
 #include "config.h"
+#include "job.h"
+#include "character.h"
 
-
+static std::vector<Job> job_list;
 Cworld *umbra; // umbra
 Cworld *crealis; // noob land
 
@@ -32,6 +34,33 @@ void thread_timer() {
 	 } while ( true );
 }
 
+// execution of job
+void get_job_from_stack() {
+	if ( job_list.size() == 0 ) {
+#ifdef DEBUG
+		 std::cout << job_list.size() << std::endl;
+		 fflush( stdout );
+#endif
+		 //return;
+		 exit( 0 );
+	}
+
+#ifdef DEBUG
+	std::cout << job_list.at( job_list.size() - 1 ).job_info;
+	fflush( stdout );
+#endif	
+	//running job
+	job_list.at( job_list.size() - 1 ).run();
+	//removing from stack
+	//std::vector<Job>::iterator rm = job_list.end();
+	//job_list.erase( rm );
+	job_list.pop_back();
+}
+
+void add_job_to_stack( Job job ) { 
+	job_list.push_back( job );
+}
+
 void thread_main_loop() {
 	boost::timer loop_timer;
 	boost::xtime xt;
@@ -46,8 +75,8 @@ void thread_main_loop() {
 	  printf("%c[%dm", 0x1B, 0);
 #endif		
 	 boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 100000000;
-		//do_an_operation();
+		xt.nsec += 1000000;	
+		get_job_from_stack();
 		boost::thread::sleep( xt ); 
 	 } while ( true );
 
@@ -68,6 +97,16 @@ void recv_signal( int sig ) {
 }
 
 
+#ifdef DEBUG
+//	std::cout << "argh! i'm running!";
+//	fflush( stdout );
+#endif
+
+#ifdef DEBUG
+//	std::cout << "argh! i'm Fighting!";
+//	fflush( stdout );
+#endif
+
 /*
  * server
  */
@@ -80,6 +119,36 @@ int main( int argc, char* argv[] ) {
 	umbra->load_world();
 	crealis = new Cworld( 1, 1, 3, 3, 1.2 );
 	crealis->load_world();
+
+	// creating objects/ players
+	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	
+	Job idle, fight;
+	for ( int i = 0; i < 500; i++ ) { 
+		 //idle = new Job();
+		 idle.job_info = "I";
+		 idle.job_data = "data2";
+		 idle.type = action_IDLE;
+#ifdef DEBUG
+		//std::cout << idle.actors.
+#endif
+		 idle.actors.push_back( umbra->characters.at( 0 ) );
+		 idle.actors.push_back( umbra->characters.at( 1 ) );
+		 add_job_to_stack( idle );
+
+		 //fight = new Job();
+		 fight.job_info = "F";
+		 fight.job_data = "data2";
+		 fight.type = action_ATTACK;
+		 idle.actors.push_back( umbra->characters.at( 0 ) );
+		 idle.actors.push_back( umbra->characters.at( 1 ) );
+		 add_job_to_stack( fight );
+	}
+	//delete fight;
+	//delete idle;
 
 	boost::thread timer_thread( &thread_timer );
 	// wait for the thread to finish
@@ -94,8 +163,8 @@ int main( int argc, char* argv[] ) {
 	
 
 	// wait for the threads to finish
-	main_loop_thread.join();
 	timer_thread.join();
+	main_loop_thread.join();
 
 	return 0;
 }
@@ -114,7 +183,6 @@ int main( int argc, char* argv[] ) {
 	
 	//modyfikujemy pozycje w crealis
 	
-	delmirum.character.push_back( Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
 	
 		//tworzymy postac krasnoluda
 		crealis.character.push_back( Ccharacter() );

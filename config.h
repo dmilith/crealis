@@ -1,6 +1,8 @@
 #ifndef _CCONFIG_H_
 #define _CCONFIG_H_
 
+#define DEBUG
+
 /*
 Attributes
 	0    All attributes off
@@ -35,6 +37,5 @@ Background colors
 #define GREEN 32
 #define BG_BLACK 40
 
-#define DEBUG
 
 #endif

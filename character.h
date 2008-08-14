@@ -19,7 +19,8 @@ public:
 	Ccharacter(); //domyslnie tworzony jest czlowiek
 	Ccharacter( Eraces race ); //podajemy rase postaci
 	std::string name;	//imie/nazwa postaci
-	unsigned char	
+	uint64_t
+		  health,
 			intelligence,
 			strength,
 			dexterity,

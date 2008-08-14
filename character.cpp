@@ -4,6 +4,7 @@
 Ccharacter::Ccharacter()
 {
 	name = "unnamed"; ///imie/nazwa postaci
+	health = 100;
 	intelligence = 0;
 	strength = 0;
 	dexterity = 0;

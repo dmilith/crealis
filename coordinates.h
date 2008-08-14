@@ -5,7 +5,7 @@
 #include <string.h>
 
 struct Sposition {
-	uint32_t x, y;
+	uint64_t x, y;
 };
 
 

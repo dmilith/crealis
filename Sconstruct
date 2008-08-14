@@ -17,6 +17,7 @@ release.SharedLibrary('place', 'place.cpp')
 release.SharedLibrary('soul', 'soul.cpp')
 release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
+release.SharedLibrary('job', 'job.cpp')
 release.Program('world' , 'main.cpp', 
-    LIBS=[ 'boost_thread', 'boost_filesystem', 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
+    LIBS=[ 'boost_thread', 'boost_filesystem', 'job', 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
     LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])

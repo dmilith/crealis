@@ -32,7 +32,7 @@ public:
 
 	unsigned int xTheritorySize, yTheritorySize, xPlaceSize, yPlaceSize; //rozmiary obszaru zdefiniowanego na serwerze (w theritoriach/place'ach))
 
-	std::vector<Ccharacter> character; //tablica postaci jako wektor
+	std::vector<Ccharacter*> characters; //tablica postaci jako wektor
 
 	double gravity; //grawitacja
 	std::string name;
