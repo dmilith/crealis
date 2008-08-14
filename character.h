@@ -17,7 +17,7 @@ enum Eraces {
 class Ccharacter  {
 public:
 	Ccharacter(); //domyslnie tworzony jest czlowiek
-	Ccharacter( Eraces race ); //podajemy rase postaci
+	Ccharacter( Eraces born_race ); //podajemy rase postaci
 	std::string name;	//imie/nazwa postaci
 	uint64_t
 		  health,

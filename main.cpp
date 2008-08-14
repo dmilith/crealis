@@ -14,47 +14,50 @@
 static std::vector<Job> job_list;
 Cworld *umbra; // umbra
 Cworld *crealis; // noob land
+uint64_t timer;
 
 void thread_timer() {
-	boost::timer loop_timer;
+//	boost::timer loop_timer;
 	boost::xtime xt;
 	std::cout << "Endless Timer Thread" << std::endl;
 	 do {
 #ifdef DEBUG
 		//set bright red ANSI color in console
 		printf("%c[%d;%d;%dm", 0x1B, BRIGHT, GREEN, BG_BLACK);
-		std::cout << loop_timer.elapsed(); //std::endl;
+		std::cout << (uint64_t)timer; //loop_timer.elapsed(); //std::endl;
 		fflush( stdout );
 	  //reset ANSI code to default:
 	  printf("%c[%dm", 0x1B, 0);
 #endif		
 		boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 1000000000;
+		xt.nsec += 500000000; // half second
 		boost::thread::sleep( xt ); 
+		++timer;
 	 } while ( true );
 }
 
 // execution of job
 void get_job_from_stack() {
-	if ( job_list.size() == 0 ) {
+	if ( job_list.empty() ) {
 #ifdef DEBUG
-		 std::cout << job_list.size() << std::endl;
+	std::cout << "Empty";
 		 fflush( stdout );
 #endif
 		 //return;
 		 exit( 0 );
 	}
-
 #ifdef DEBUG
 	std::cout << job_list.at( job_list.size() - 1 ).job_info;
 	fflush( stdout );
-#endif	
+#endif
 	//running job
-	job_list.at( job_list.size() - 1 ).run();
+	if ( job_list.at( job_list.size() -1 ).actors.size() > 1 ) {
+		job_list.at( job_list.size() - 1 ).run();
 	//removing from stack
 	//std::vector<Job>::iterator rm = job_list.end();
 	//job_list.erase( rm );
-	job_list.pop_back();
+		job_list.pop_back();
+	}
 }
 
 void add_job_to_stack( Job job ) { 
@@ -75,9 +78,9 @@ void thread_main_loop() {
 	  printf("%c[%dm", 0x1B, 0);
 #endif		
 	 boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 1000000;	
+		xt.nsec += 10000000;	
 		get_job_from_stack();
-		boost::thread::sleep( xt ); 
+		boost::thread::sleep( xt );
 	 } while ( true );
 
 }
@@ -95,12 +98,6 @@ void recv_signal( int sig ) {
 	 delete crealis;
 	 exit( 0 );
 }
-
-
-#ifdef DEBUG
-//	std::cout << "argh! i'm running!";
-//	fflush( stdout );
-#endif
 
 #ifdef DEBUG
 //	std::cout << "argh! i'm Fighting!";
@@ -121,36 +118,49 @@ int main( int argc, char* argv[] ) {
 	crealis->load_world();
 
 	// creating objects/ players
-	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	umbra->characters.push_back( new Ccharacter() ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	
-	Job idle, fight;
-	for ( int i = 0; i < 500; i++ ) { 
-		 //idle = new Job();
-		 idle.job_info = "I";
-		 idle.job_data = "data2";
-		 idle.type = action_IDLE;
-#ifdef DEBUG
-		//std::cout << idle.actors.
-#endif
-		 idle.actors.push_back( umbra->characters.at( 0 ) );
-		 idle.actors.push_back( umbra->characters.at( 1 ) );
-		 add_job_to_stack( idle );
+	Ccharacter *a_man, *an_elve, *a_dwarf;
+	a_man = new Ccharacter( (Eraces)human );
+	a_man->name = "Olgierd";
+	an_elve = new Ccharacter( (Eraces)elve );
+	an_elve->name = "Gabriel";
+	a_dwarf = new Ccharacter( (Eraces)dwarf );
+	a_dwarf->name = "Gimbl";
 
-		 //fight = new Job();
-		 fight.job_info = "F";
-		 fight.job_data = "data2";
-		 fight.type = action_ATTACK;
-		 idle.actors.push_back( umbra->characters.at( 0 ) );
-		 idle.actors.push_back( umbra->characters.at( 1 ) );
-		 add_job_to_stack( fight );
+	umbra->characters.push_back( a_man ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	umbra->characters.push_back( an_elve ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	umbra->characters.push_back( a_dwarf ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+
+#ifdef DEBUG
+	std::cout << std::endl << "@" << a_man->name << "-" << ( (Ccharacter*)umbra->characters.at( 0 ) )->name;
+	fflush( stdout );
+#endif
+
+	Job *idle, *fight;
+	for ( int i = 0; i < 100; i++ ) { 
+		 idle = new Job();
+		 idle->job_info = "I";
+		 idle->job_data = "data2";
+		 idle->type = action_IDLE;
+#ifdef DEBUG
+#endif
+//		 idle.actors.push_back( (Ccharacter*)umbra->characters.at( 0 ) );
+//		 idle.actors.push_back( (Ccharacter*)umbra->characters.at( 1 ) );
+//		 add_job_to_stack( idle );
+
+		 fight = new Job();
+		 fight->job_info = "F";
+		 fight->job_data = "data2";
+		 fight->type = action_ATTACK;
+		 fight->actors.push_back( a_man );
+		 fight->actors.push_back( a_dwarf );
+		 add_job_to_stack( *fight );
 	}
-	//delete fight;
-	//delete idle;
+	delete fight;
+	delete idle;
 
 	boost::thread timer_thread( &thread_timer );
+	boost::thread main_loop_thread( &thread_main_loop );
+	
 	// wait for the thread to finish
 	#ifdef DEBUG
 	    std::cout << "debug: Timer thread joined." << std::endl;
@@ -159,13 +169,9 @@ int main( int argc, char* argv[] ) {
 			std::cout << "debug: Main loop thread joined." << std::endl;
 			fflush( stdout );
 	#endif
-	boost::thread main_loop_thread( &thread_main_loop );
-	
-
-	// wait for the threads to finish
 	timer_thread.join();
 	main_loop_thread.join();
-
+	recv_signal( 0 );
 	return 0;
 }
 

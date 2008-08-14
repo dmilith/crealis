@@ -16,6 +16,8 @@ void Job::run() {
 	 // matter on job type, do something with data
 	 switch ( type ) {
 			case action_IDLE:
+				 std::cout << ( (Ccharacter*)this->actors.at( 0 ) )->health; // self only
+				 fflush( stdout );
 #ifdef DEBUG
 	std::cout << "A:" << action_IDLE;
 #endif
@@ -31,9 +33,19 @@ void Job::run() {
 #endif
 						break;
 			case action_ATTACK:
-//					 actors.at( 0 )->health = 53; // first is always attacking player	
-	//				 actors.at( 1 )->health = 0; // always attacking at least one target
-
+#ifdef DEBUG
+	std::cout << "size:" << this->actors.size();
+	fflush( stdout );
+#endif
+						if ( this->actors.size() < 2 ) break; // attack with no target? always must be attacker and someone to attack to
+							( (Ccharacter*)this->actors.at( 0 ) )->health -= 3; // first is always attacking player	
+					 		( (Ccharacter*)this->actors.at( 1 ) )->health -= 7; // always attacking at least one target
+							
+#ifdef DEBUG
+	std::cout << "A=>" << this->actors.at( 0 )->health << std::endl;
+	std::cout << "A=>" << this->actors.at( 1 )->health << std::endl;
+	fflush( stdout );
+#endif
 
 #ifdef DEBUG
 	std::cout << "A:" << action_ATTACK;
