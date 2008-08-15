@@ -69,40 +69,91 @@ void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) 
 	 delete action;
 }
 
+std::string& print_character( Ccharacter *ch ) {
+	 std::cout << std::endl <<
+			"Name:" << ch->name << ", " <<
+			"Age:" << ch->age << ", " <<
+			"Race:" << ch->race << ", " <<
+			"Health:" << ch->health << ", " <<
+			"Int:" << ch->intelligence << ", " <<
+			"Dex:" << ch->dexterity << ", " <<
+			"Str:" << ch->strength << ", " <<
+			"Luck:" << ch->luck << ", " <<
+			"M-Str:" << ch->mind_strength << ", " << std::endl;
+}
+
 // main threads:
 //
+void thread_console() {
+	 char command = '-';
+	 std::string command_str = "";
+#ifdef DEBUG
+	std::cout << "Console Ready!" << std::endl;
+	fflush( stdout );
+#endif
+		 do {
+				std::cout << "#_:"; 
+				std::cin >> command_str;
+				if ( command_str == "status" ) command = '-';
+				if ( command_str == "idle" ) command = 'i';
+				if ( command_str == "attack" ) command = '1';
+				if ( command_str == "defend" ) command = '2';
+				switch( command ) {
+					case '-':
+						 break;
+					case 'i':
+						 _do( action_IDLE, a_man );
+						 std::cout << "Done IDLE: " << std::endl << print_character( a_man );
+						 fflush( stdout );
+						 break;
+					case '1':
+						 _do( action_ATTACK, a_man, a_cave_troll );
+						 std::cout << "Done ATTACK: " << std::endl << print_character( a_man ) << print_character( a_cave_troll );
+						 fflush( stdout );
+						 break;
+					case '2':
+						 _do( action_ATTACK, a_cave_troll, a_man );
+						 std::cout << "Done DEFEND: " << std::endl << print_character( a_cave_troll ) << print_character( a_man );
+						 fflush( stdout );
+						 break;
+					 default:
+							break;
+				}
+		 } while( true );
+}
+
+
 void thread_timer() {
 	boost::xtime xt;
-	//date d;
-	//now.get();
 	 do {
 #ifdef DEBUG
-		//set bright red ANSI color in console
-		printf("%c[%d;%d;%dm", 0x1B, BRIGHT, GREEN, BG_BLACK);
-		std::cout << (uint64_t)timer; //loop_timer.elapsed(); //std::endl;
-		fflush( stdout );
-	  //reset ANSI code to default:
-	  printf("%c[%dm", 0x1B, 0);
+	//set bright red ANSI color in console
+	printf("%c[%d;%d;%dm", 0x1B, BRIGHT, GREEN, BG_BLACK);
+	std::cout << (uint64_t)timer; //loop_timer.elapsed(); //std::endl;
+	fflush( stdout );
+	//reset ANSI code to default:
+	printf("%c[%dm", 0x1B, 0);
 #endif
-		std::time_t now;
-		std::time ( &now );
 #ifndef DEBUG
 		boost::xtime_get( &xt, boost::TIME_UTC );
 #endif
 #ifdef DEBUG
+	std::time_t now;
+	std::time ( &now );
 	boost::xtime_get( &xt, boost::TIME_UTC );
 	std::cout << "[" << now << "]$ " << std::endl;
 	fflush( stdout );
+	xt.nsec += 500000000; // adding additional slowdown
 #endif
-	xt.nsec += 500000000; // half second
-	boost::thread::sleep( xt );
-	++timer;
+		xt.nsec += 500000000; // half second
+		boost::thread::sleep( xt );
+		++timer;
 #ifdef DEBUG
-					if ( timer % 3 == 0 ) {
-						 	_do( action_ATTACK, a_cave_troll, a_man );
-					}
+	if ( timer % 241 == 0 ) {
+		_do( action_ATTACK, a_cave_troll, a_man );
+	}
 #endif
-	 } while ( true );
+	} while ( true );
 }
 
 void thread_main_loop() {
@@ -120,7 +171,7 @@ void thread_main_loop() {
 	 boost::xtime_get( &xt, boost::TIME_UTC );
 		xt.nsec += 5000;
 #ifdef DEBUG
-		xt.nsec += 20000000;	
+		xt.nsec += 200000000;	
 #endif
 		get_job_from_stack();
 		boost::thread::sleep( xt );
@@ -130,10 +181,10 @@ void thread_main_loop() {
 
 void recv_signal( int sig ) {
 	 std::cout << std::endl << "Bye" << std::endl;
-
 	 //cleaning up
 #ifdef DEBUG
 	std::cout << "debug: saving world." << std::endl;
+	fflush( stdout );
 #endif
 	 umbra->save_world();
 	 crealis->save_world();
@@ -178,16 +229,16 @@ int main( int argc, char* argv[] ) {
 	std::cout << std::endl << "@" << a_man->name << "^" << a_man->health << "^" << a_man->strength << ", ";
 	std::cout << std::endl << "@" << a_dwarf->name << "^" << a_dwarf->health <<"^" << a_dwarf->strength <<  ", ";
 	std::cout << std::endl << "@" << a_cave_troll->name << "^" << a_cave_troll->health << "^" << a_cave_troll->strength <<  ", ";
-
 	fflush( stdout );
 #endif
 
 	boost::thread timer_thread( &thread_timer );
 	boost::thread main_loop_thread( &thread_main_loop );
-	
+	boost::thread console_thread( &thread_console );
 	// wait for the thread to finish
 	timer_thread.join();
 	main_loop_thread.join();
+	console_thread.join();
 	recv_signal( 0 );
 	return 0;
 }
