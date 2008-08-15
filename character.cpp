@@ -24,7 +24,7 @@ Ccharacter::Ccharacter() {
 	dexterity = 0;
 	srand( (unsigned)time( NULL ) );
 	luck = ( rand() % 21 ) - 10;
-	mindStrength = 0; //cechy postaci
+	mind_strength = 0; //cechy postaci
 	
 } //obiekt npc'a/ postaci gracza/ potwora
 
@@ -38,13 +38,41 @@ Ccharacter::Ccharacter( Eraces born_race ) {
 	dead = false;
 	srand( (unsigned)time( NULL ) );
 	intelligence = ( ( rand() % 50 ) - ( race * 20 ) ) + 100  ;
-	age = 10;
+	age = 10 + ( rand() % 75 ); // it's poor to be old ;}
 	srand( (unsigned)time( NULL ) );
 	strength = ( race * 2 ) + ( rand() % 10 ) + 3;
 	dexterity = 0;
 	srand( (unsigned)time( NULL ) );
 	luck = ( rand() % 21 ) - 10;
-	mindStrength = 0; //cechy postaci
+	switch( race ) {
+		 case annimal:
+				srand( (unsigned)time( NULL ) );
+				mind_strength = ( rand() % 10 ) + ( rand() % 3 ); //cechy postaci
+				break;
+		 case human:
+				srand( (unsigned)time( NULL ) );
+				mind_strength = ( rand() % 35 ) + ( rand() % 3 ); //cechy postaci
+				break;
+		 case elve:
+				srand( (unsigned)time( NULL ) );
+				mind_strength = ( rand() % 55) + ( rand() % 7 ); //cechy postaci
+				break;
+		 case dwarf:
+				srand( (unsigned)time( NULL ) );
+				mind_strength = ( rand() % 45 ) + ( rand() % 3 ); //cechy postaci
+				break;
+		 case cave_troll:
+				srand( (unsigned)time( NULL ) );
+				mind_strength = 120 + ( rand() % 75 ); //cechy postaci
+				break;
+		 case grizzly:
+				srand( (unsigned)time( NULL ) );
+				mind_strength = 60 + ( rand() % 15 ); //cechy postaci
+				break;
+		 default:
+					mind_strength = 100; //cechy postaci
+					break;
+	}
 	
 } //obiekt npc'a/ postaci gracza/ potwora
 
@@ -57,8 +85,7 @@ void Ccharacter::kill() {
 	fflush( stdout );
 #endif
 	this->name = this->name + "(dead)";
-//	this->health = 0;
 	this->dead = true;
-//	this->~Ccharacter();
+	// let character to stay in this world as living dead ;}
 }
 

@@ -38,7 +38,7 @@ public:
 			strength,
 			dexterity,
 			instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
-			mindStrength;//cechy postaci
+			mind_strength;//cechy postaci
 	uint32_t age; // wiek postaci
 	int32_t luck; //szczescie moze byc -
 	Ccoordinates pos; //pozycja postaci w swiecie

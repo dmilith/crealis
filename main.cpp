@@ -1,9 +1,9 @@
 #include <iostream>
+#include "boost/date_time/gregorian/gregorian.hpp"
 #include <boost/filesystem/operations.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/thread/xtime.hpp>
 #include <boost/progress.hpp>
-
 #include <signal.h>
 
 #include "world.h"
@@ -34,10 +34,6 @@ void get_job_from_stack() {
 		 return;
 		 //exit( 0 );
 	}
-#ifdef DEBUG
-//	std::cout << job_list.at( job_list.size() - 1 ).job_info;
-//	fflush( stdout );
-#endif
 	//running job
 	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
 			job_list.at( job_list.size() - 1 ).run();
@@ -49,9 +45,10 @@ void add_job_to_stack( Job job ) {
 	job_list.push_back( job );
 }
 
+
 // perform one job
 void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
-	 Job *action;
+	 		Job *action;
 				action = new Job();
 				action->job_info = "FFF";
 				action->job_data = "data2";
@@ -60,6 +57,7 @@ void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) 
 #ifdef DEBUG
 	std::cout << "\nCatched on trying perform a job without c1! ";
 	fflush( stdout );
+	exit( 1 );
 #endif
 					 return;
 				}
@@ -75,6 +73,8 @@ void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) 
 //
 void thread_timer() {
 	boost::xtime xt;
+	//date d;
+	//now.get();
 	 do {
 #ifdef DEBUG
 		//set bright red ANSI color in console
@@ -83,11 +83,20 @@ void thread_timer() {
 		fflush( stdout );
 	  //reset ANSI code to default:
 	  printf("%c[%dm", 0x1B, 0);
-#endif		
+#endif
+		std::time_t now;
+		std::time ( &now );
+#ifndef DEBUG
 		boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 500000000; // half second
-		boost::thread::sleep( xt );
-		++timer;
+#endif
+#ifdef DEBUG
+	boost::xtime_get( &xt, boost::TIME_UTC );
+	std::cout << "[" << now << "]$ " << std::endl;
+	fflush( stdout );
+#endif
+	xt.nsec += 500000000; // half second
+	boost::thread::sleep( xt );
+	++timer;
 #ifdef DEBUG
 					if ( timer % 3 == 0 ) {
 						 	_do( action_ATTACK, a_cave_troll, a_man );
