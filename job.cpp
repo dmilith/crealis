@@ -38,8 +38,8 @@ void Job::run() {
 						break;
 			case action_ATTACK:
 #ifdef DEBUG
-	std::cout << "s:" << this->actors.size();
-	fflush( stdout );
+//	std::cout << "(s:" << this->actors.size() << ")";
+//	fflush( stdout );
 #endif
 						if ( this->actors.size() < 2 ) break; // attack with no target? always must be attacker and someone to attack to
 						if ( (Ccharacter*)this->actors.at( 0 )->health <= 0 ) {
@@ -90,8 +90,8 @@ void Job::run() {
 #endif
 						}
 #ifdef DEBUG
-	std::cout << " A=>" << this->actors.at( 0 )->health << ","; // << std::endl;
-	std::cout << " B=>" << this->actors.at( 1 )->health << ","; // << std::endl;
+	std::cout << " A=>" << this->actors.at( 0 )->health << ", "; // << std::endl;
+	std::cout << " B=>" << this->actors.at( 1 )->health << ", "; // << std::endl;
 	fflush( stdout );
 #endif
 

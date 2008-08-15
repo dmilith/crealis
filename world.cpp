@@ -14,7 +14,7 @@ Cworld::Cworld() {
 	xPlaceSize = DEFAULT_PLACE_X;
 	yPlaceSize = DEFAULT_PLACE_Y;
 	gravity = DEFAULT_GRAVITY;
-	version = systemClassesVersion;
+	version = SYSTEM_CLASS_VERSION;
 };
 
 Cworld::Cworld( unsigned int x, unsigned int y, double g ) { //maxX, maxY, grawitacja
@@ -24,7 +24,7 @@ Cworld::Cworld( unsigned int x, unsigned int y, double g ) { //maxX, maxY, grawi
 	xPlaceSize = DEFAULT_PLACE_X;
 	yPlaceSize = DEFAULT_PLACE_Y;
 	gravity = g;
-	version = systemClassesVersion;
+	version = SYSTEM_CLASS_VERSION;
 };
 
 Cworld::Cworld( unsigned int x, unsigned int y, unsigned int x1, unsigned int y1, double g ) { //THmaxX, THmaxY, PLmaxY, PLmaxX grawitacja
@@ -34,6 +34,6 @@ Cworld::Cworld( unsigned int x, unsigned int y, unsigned int x1, unsigned int y1
 	xPlaceSize = x1;
 	yPlaceSize = y1;
 	gravity = g;
-	version = systemClassesVersion; //z version.h
+	version = SYSTEM_CLASS_VERSION; //z version.h
 };
 

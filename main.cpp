@@ -10,14 +10,70 @@
 #include "config.h"
 #include "job.h"
 #include "character.h"
+#include "version.h"
 
+//removing from stack
+//std::vector<Job>::iterator rm = job_list.end();
+//job_list.erase( rm );
 static std::vector<Job> job_list;
 Cworld *umbra; // umbra
 Cworld *crealis; // noob land
 uint64_t timer;
+	
+Ccharacter *a_man, *an_elve, *a_dwarf, *a_cave_troll;
 
+
+
+// execution of job
+void get_job_from_stack() {
+	if ( job_list.empty() ) {
+#ifdef DEBUG
+	std::cout << ".";
+		 fflush( stdout );
+#endif
+		 return;
+		 //exit( 0 );
+	}
+#ifdef DEBUG
+//	std::cout << job_list.at( job_list.size() - 1 ).job_info;
+//	fflush( stdout );
+#endif
+	//running job
+	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
+			job_list.at( job_list.size() - 1 ).run();
+			job_list.pop_back();
+	}
+}
+
+void add_job_to_stack( Job job ) { 
+	job_list.push_back( job );
+}
+
+// perform one job
+void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
+	 Job *action;
+				action = new Job();
+				action->job_info = "FFF";
+				action->job_data = "data2";
+				action->type = action_to_perform;
+				if ( c1 == NULL ) {
+#ifdef DEBUG
+	std::cout << "\nCatched on trying perform a job without c1! ";
+	fflush( stdout );
+#endif
+					 return;
+				}
+				action->actors.push_back( c1 );
+				if ( c2 != NULL ) {
+					action->actors.push_back( c2 );
+				}
+				add_job_to_stack( *action );
+	 delete action;
+}
+
+// main threads:
+//
 void thread_timer() {
-//	boost::timer loop_timer;
 	boost::xtime xt;
 	 do {
 #ifdef DEBUG
@@ -30,39 +86,14 @@ void thread_timer() {
 #endif		
 		boost::xtime_get( &xt, boost::TIME_UTC );
 		xt.nsec += 500000000; // half second
-		boost::thread::sleep( xt ); 
+		boost::thread::sleep( xt );
 		++timer;
+#ifdef DEBUG
+					if ( timer % 3 == 0 ) {
+						 	_do( action_ATTACK, a_man, an_elve );
+					}
+#endif
 	 } while ( true );
-}
-
-// execution of job
-void get_job_from_stack() {
-	if ( job_list.empty() ) {
-#ifdef DEBUG
-	std::cout << "Empty";
-		 fflush( stdout );
-#endif
-		 //return;
-		 exit( 0 );
-	}
-#ifdef DEBUG
-//	std::cout << job_list.at( job_list.size() - 1 ).job_info;
-//	fflush( stdout );
-#endif
-	//running job
-	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
-//		if ( ! job_list.at( job_list.size() - 1 ).done ) {
-			job_list.at( job_list.size() - 1 ).run();
-		 //removing from stack
-		 //std::vector<Job>::iterator rm = job_list.end();
-		 //job_list.erase( rm );
-//		}
-			job_list.pop_back();
-	}
-}
-
-void add_job_to_stack( Job job ) { 
-	job_list.push_back( job );
 }
 
 void thread_main_loop() {
@@ -78,7 +109,10 @@ void thread_main_loop() {
 	  printf("%c[%dm", 0x1B, 0);
 #endif		
 	 boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 1000;	
+		xt.nsec += 5000;
+#ifdef DEBUG
+		xt.nsec += 20000000;	
+#endif
 		get_job_from_stack();
 		boost::thread::sleep( xt );
 	 } while ( true );
@@ -116,7 +150,6 @@ int main( int argc, char* argv[] ) {
 	crealis->load_world();
 
 	// creating objects/ players
-	Ccharacter *a_man, *an_elve, *a_dwarf, *a_cave_troll;
 	an_elve = new Ccharacter( (Eraces)elve );
 	an_elve->name = "Gabriel";
 	a_man = new Ccharacter( (Eraces)human );
@@ -139,23 +172,6 @@ int main( int argc, char* argv[] ) {
 
 	fflush( stdout );
 #endif
-
-	Job *fight;
-	for ( int i = 0; i < 1000; i++ ) { 
-		 fight = new Job();
-		 fight->job_info = "F";
-		 fight->job_data = "data2";
-		 if ( i % 2 == 0 ) {
-		 	fight->type = action_ATTACK;
-		 } else {
-		 	fight->type = action_IDLE;
-		 }
-		 fight->actors.push_back( a_man );
-		 fight->actors.push_back( a_dwarf );
-		 add_job_to_stack( *fight );
-	}
-	delete fight;
-//	delete idle;
 
 	boost::thread timer_thread( &thread_timer );
 	boost::thread main_loop_thread( &thread_main_loop );
