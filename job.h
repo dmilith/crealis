@@ -18,12 +18,15 @@ enum ETypeOfJob {
 
 class Job {
     public:
-				std::string job_info;
+				Job();
+			 	std::string job_info;
 				std::string job_data;
 				ETypeOfJob type;
 				//bool continuable; // is current job continuable?
 				//void* continue_func(); // to make able Job trigger other Job
 				std::vector<Ccharacter*> actors; // first is always main player
+				std::vector<Ccharacter*>::iterator actor;
+//				bool done;
 				void run();
 };
 

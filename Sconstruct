@@ -6,7 +6,8 @@ release64 = Environment( CXX = 'g++ -Os -march=athlon64' )
 debug32 = Environment( CXX = 'g++ -m32 -pg -W' )
 debug64 = Environment( CXX = 'g++ -pg -W' )
 
-release = debug64
+#release = debug64
+release = release64
 
 release.SharedLibrary('backpack','backpack.cpp')
 release.SharedLibrary('character', 'character.cpp')
