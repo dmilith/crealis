@@ -19,9 +19,11 @@ Ccharacter::Ccharacter() {
 	srand( (unsigned)time( NULL ) );
 	intelligence = ( ( rand() % 50 ) - ( race * 20 ) ) + 100  ;
 	age = 10;
-	strength = 0;
+	srand( (unsigned)time( NULL ) );
+	strength = ( race * 2 ) + ( rand() % 10 ) + 3;
 	dexterity = 0;
-	luck = 0;
+	srand( (unsigned)time( NULL ) );
+	luck = ( rand() % 21 ) - 10;
 	mindStrength = 0; //cechy postaci
 	
 } //obiekt npc'a/ postaci gracza/ potwora
@@ -37,9 +39,11 @@ Ccharacter::Ccharacter( Eraces born_race ) {
 	srand( (unsigned)time( NULL ) );
 	intelligence = ( ( rand() % 50 ) - ( race * 20 ) ) + 100  ;
 	age = 10;
-	strength = 0;
+	srand( (unsigned)time( NULL ) );
+	strength = ( race * 2 ) + ( rand() % 10 ) + 3;
 	dexterity = 0;
-	luck = 0;
+	srand( (unsigned)time( NULL ) );
+	luck = ( rand() % 21 ) - 10;
 	mindStrength = 0; //cechy postaci
 	
 } //obiekt npc'a/ postaci gracza/ potwora

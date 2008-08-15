@@ -39,14 +39,14 @@ public:
 			dexterity,
 			instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
 			mindStrength;//cechy postaci
- 
 	uint32_t age; // wiek postaci
 	int32_t luck; //szczescie moze byc -
 	Ccoordinates pos; //pozycja postaci w swiecie
 	Cbackpack backpack( Esize ); //plecak
 	Csoul soul; // aktualna dusza :}
 	Eraces race;
-		
+  // TODO: Citem. 
+	// Citem weapon1, weapon2;
 }; //obiekt npc'a/ postaci gracza/ potwora
 
 #endif //_CCHARACTER_H_

@@ -90,7 +90,7 @@ void thread_timer() {
 		++timer;
 #ifdef DEBUG
 					if ( timer % 3 == 0 ) {
-						 	_do( action_ATTACK, a_man, an_elve );
+						 	_do( action_ATTACK, a_cave_troll, a_man );
 					}
 #endif
 	 } while ( true );
@@ -165,10 +165,10 @@ int main( int argc, char* argv[] ) {
 	umbra->characters.push_back( a_cave_troll ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
 
 #ifdef DEBUG
-	std::cout << std::endl << "@" << an_elve->name << "^" << an_elve->health <<"^" << an_elve->intelligence <<  ", ";
-	std::cout << std::endl << "@" << a_man->name << "^" << a_man->health << "^" << a_man->intelligence << ", ";
-	std::cout << std::endl << "@" << a_dwarf->name << "^" << a_dwarf->health <<"^" << a_dwarf->intelligence <<  ", ";
-	std::cout << std::endl << "@" << a_cave_troll->name << "^" << a_cave_troll->health << "^" << a_cave_troll->intelligence <<  ", ";
+	std::cout << std::endl << "@" << an_elve->name << "^" << an_elve->health <<"^" << an_elve->strength <<  ", ";
+	std::cout << std::endl << "@" << a_man->name << "^" << a_man->health << "^" << a_man->strength << ", ";
+	std::cout << std::endl << "@" << a_dwarf->name << "^" << a_dwarf->health <<"^" << a_dwarf->strength <<  ", ";
+	std::cout << std::endl << "@" << a_cave_troll->name << "^" << a_cave_troll->health << "^" << a_cave_troll->strength <<  ", ";
 
 	fflush( stdout );
 #endif

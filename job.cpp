@@ -72,8 +72,9 @@ void Job::run() {
 #endif
 							 break;
 						}
-						( (Ccharacter*)this->actors.at( 0 ) )->health -= 2; // first is always attacking player	
-					 	( (Ccharacter*)this->actors.at( 1 ) )->health -= 7; // always attacking at least one target
+						( (Ccharacter*)this->actors.at( 0 ) )->health -= 1; // first is always attacking player	
+					 	( (Ccharacter*)this->actors.at( 1 ) )->health -= 
+								 ( (Ccharacter*)this->actors.at( 0 ) )->strength ; // always attacking at least one target
 						if ( ( (Ccharacter*)this->actors.at( 0 ) )->health <= 0 ) {
 								( (Ccharacter*)this->actors.at( 0 ) )->kill();
 #ifdef DEBUG
