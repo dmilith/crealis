@@ -82,7 +82,7 @@ Ccharacter::~Ccharacter() {
 void Ccharacter::kill() {
 #ifdef DEBUG
 	std::cout << "Killed.";
-	fflush( stdout );
+	std::cout.flush();
 #endif
 	this->name = this->name + "(dead)";
 	this->dead = true;

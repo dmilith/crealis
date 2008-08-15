@@ -14,7 +14,7 @@ Job::Job() {
 void Job::run() {
 #ifdef DEBUG
 	std::cout << "R";
-	fflush( stdout );
+	std::cout.flush();
 #endif
 	 // matter on job type, do something with data
 	 switch ( type ) {
@@ -22,7 +22,7 @@ void Job::run() {
 #ifdef DEBUG
 	 std::cout << "I:" << action_IDLE;
 	 std::cout << ( (Ccharacter*)this->actors.at( 0 ) )->name << ":" << ( (Ccharacter*)this->actors.at( 0 ) )->health; // self only
-	 fflush( stdout );
+	 std::cout.flush();
 #endif
 						break;
 			case action_WALK:
@@ -39,20 +39,20 @@ void Job::run() {
 			case action_ATTACK:
 #ifdef DEBUG
 //	std::cout << "(s:" << this->actors.size() << ")";
-//	fflush( stdout );
+//	std::cout.flush();
 #endif
 						if ( this->actors.size() < 2 ) break; // attack with no target? always must be attacker and someone to attack to
 						if ( (Ccharacter*)this->actors.at( 0 )->health <= 0 ) {
 #ifdef DEBUG
 	std::cout << "A(0)h:0 ";
-	fflush( stdout );
+	std::cout.flush();
 #endif
 							 break;
 						}
 						if ( (Ccharacter*)this->actors.at( 0 )->health <= 0 ) {
 #ifdef DEBUG
 	std::cout << "A(1)h:0 ";
-	fflush( stdout );
+	std::cout.flush();
 #endif
 							 break;
 						}
@@ -60,7 +60,7 @@ void Job::run() {
 #ifdef DEBUG
 	std::cout << "#KDD, "; // killing a dead
 	std::cout << ( (Ccharacter*)this->actors.at( 0 ) )->name << ":" << ( (Ccharacter*)this->actors.at( 0 ) )->health; // self only
-	fflush( stdout );
+	std::cout.flush();
 #endif
 							 break;
 						}
@@ -68,7 +68,7 @@ void Job::run() {
 #ifdef DEBUG
 	std::cout << "#KDD, "; // killing a dead
 	std::cout << ( (Ccharacter*)this->actors.at( 1 ) )->name << ":" << ( (Ccharacter*)this->actors.at( 1 ) )->health; // self only
-	fflush( stdout );
+	std::cout.flush();
 #endif
 							 break;
 						}
@@ -79,7 +79,7 @@ void Job::run() {
 								( (Ccharacter*)this->actors.at( 0 ) )->kill();
 #ifdef DEBUG
 	std::cout << "DEAD0";
-	fflush( stdout );
+	std::cout.flush();
 #endif
 						}
 
@@ -87,13 +87,13 @@ void Job::run() {
 								( (Ccharacter*)this->actors.at( 1 ) )->kill();
 #ifdef DEBUG
 	std::cout << "DEAD1";
-	fflush( stdout );
+	std::cout.flush();
 #endif
 						}
 #ifdef DEBUG
 	std::cout << " A=>" << this->actors.at( 0 )->health << ", "; // << std::endl;
 	std::cout << " B=>" << this->actors.at( 1 )->health << ", "; // << std::endl;
-	fflush( stdout );
+	std::cout.flush();
 #endif
 
 						break;
