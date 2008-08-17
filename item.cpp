@@ -2,5 +2,5 @@
 
 Citem::Citem() {
 	weight = 0;
-	sizeOfItem = tiny;
+	size_of_item = tiny;
 }

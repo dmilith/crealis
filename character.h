@@ -1,10 +1,21 @@
+/*
+ 
+    This is OpenSource Project;
+    It's licensed on GPL/ LGPL public license;
+    It's written by Daniel (dmilith) Dettlaff since August 2oo8.
+    You can redistribute this project only with this header.
+    
+*/
+
 #ifndef _CCHARACTER_H_
 #define _CCHARACTER_H_
 
-#include <iostream>
-#include <string.h>
+
+#include <fstream>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 #include "coordinates.h"
-#include "backpack.h"
+#include "item.h"
 #include "soul.h"
 
 const uint32_t MAX_HUMAN_AGE = 115;
@@ -39,14 +50,16 @@ public:
 			dexterity,
 			instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
 			mind_strength;//cechy postaci
+	uint64_t gold;		
 	uint32_t age; // wiek postaci
 	int32_t luck; //szczescie moze byc -
 	Ccoordinates pos; //pozycja postaci w swiecie
-	Cbackpack backpack( Esize ); //plecak
+//	Cbackpack backpack; //plecak
 	Csoul soul; // aktualna dusza :}
 	Eraces race;
-  // TODO: Citem. 
-	// Citem weapon1, weapon2;
+	//std::list<Citem> items;
+	Citem items[50];
+	Citem private_box[250];
 }; //obiekt npc'a/ postaci gracza/ potwora
 
 #endif //_CCHARACTER_H_

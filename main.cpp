@@ -15,13 +15,12 @@
 //removing from stack
 //std::vector<Job>::iterator rm = job_list.end();
 //job_list.erase( rm );
+
 static std::vector<Job> job_list;
 Cworld *umbra; // umbra
 Cworld *crealis; // noob land
 uint64_t timer;
 Ccharacter *a_man, *an_elve, *a_dwarf, *a_cave_troll;
-
-
 
 void recv_signal( int sig ) {
 	 std::cout << std::endl << "Bye" << std::endl;
@@ -42,8 +41,10 @@ void recv_signal( int sig ) {
 void get_job_from_stack() {
 	if ( job_list.empty() ) {
 #ifdef DEBUG
+	printf("%c[%d;%d;%dm", 0x1B, BRIGHT, MAGENTA, BG_BLACK);
 	std::cout << ".";
-		 std::cout.flush();
+	printf("%c[%dm", 0x1B, 0);
+	std::cout.flush();
 #endif
 		 return;
 		 //exit( 0 );
@@ -101,18 +102,20 @@ std::string& print_character( Ccharacter *ch ) {
 //
 void thread_console() {
 	 char command = '-';
+	 char command_s[128]; // = new std::string();
 #ifdef DEBUG
 	std::cout << "Console Ready!" << std::endl;
 	std::cout.flush();
 #endif
 		 do {
-	 			std::string *command_str = new std::string();
 				std::cout << std::endl << "#_:";
 				std::cout.flush();
-				*command_str = std::cin.get();
+			  std::cin.getline( command_s, 128 );
+	 			std::string *command_str = new std::string( command_s );
 #ifdef DEBUG
 #endif
-				if ( *command_str == "s") command = '-';
+				command = '0';
+				if ( *command_str == "s") command = '0';
 				if ( *command_str == "i") command = 'i';
 				if ( *command_str == "a" ) command = '1';
 				if ( *command_str == "d" ) command = '2';
@@ -122,7 +125,7 @@ void thread_console() {
 					case 'q':
 						 recv_signal( 0 );
 						 exit( 0 );
-					case '-':
+					case '0':
 						 break;
 					case 'i':
 						 _do( action_IDLE, a_man );
@@ -138,7 +141,8 @@ void thread_console() {
 						 break;
 					case '2':
 						 _do( action_ATTACK, a_cave_troll, a_man );
-						 std::cout << "Done DEFEND: " << std::endl << print_character( a_cave_troll ) << print_character( a_man );
+						 std::cout << "Done DEFEND: " << std::endl;
+						 std::cout << print_character( a_cave_troll ) << print_character( a_man );
 						 std::cout.flush();
 						 break;
 					 default:
@@ -174,9 +178,11 @@ void thread_timer() {
 		boost::thread::sleep( xt );
 		++timer;
 #ifdef DEBUG
-	if ( timer % 241 == 0 ) {
+	if ( timer % 100 == 0 ) {
 		_do( action_ATTACK, a_cave_troll, a_man );
 	}
+#endif
+#ifdef DEBUG
 #endif
 	} while ( true );
 }
@@ -205,16 +211,13 @@ void thread_main_loop() {
 }
 
 
-#ifdef DEBUG
-#endif
-
 /*
  * server
  */
 int main( int argc, char* argv[] ) {
 	signal( SIGINT, recv_signal );
 	signal( SIGTERM, recv_signal );
-	
+
 	// creating worlds
 	umbra = new Cworld( 255, 255, 255, 255, 0 );
 	umbra->load_world();
@@ -229,7 +232,7 @@ int main( int argc, char* argv[] ) {
 	a_dwarf = new Ccharacter( (Eraces)dwarf );
 	a_dwarf->name = "Glorn";
 	a_cave_troll = new Ccharacter( (Eraces)cave_troll );
-	a_cave_troll->name = "Burgh";
+	a_cave_troll->name = "Burgh";	
 
 	umbra->characters.push_back( a_man ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
 	umbra->characters.push_back( an_elve ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
@@ -240,7 +243,7 @@ int main( int argc, char* argv[] ) {
 	std::cout << std::endl << "@" << an_elve->name << "^" << an_elve->health <<"^" << an_elve->strength <<  ", ";
 	std::cout << std::endl << "@" << a_man->name << "^" << a_man->health << "^" << a_man->strength << ", ";
 	std::cout << std::endl << "@" << a_dwarf->name << "^" << a_dwarf->health <<"^" << a_dwarf->strength <<  ", ";
-	std::cout << std::endl << "@" << a_cave_troll->name << "^" << a_cave_troll->health << "^" << a_cave_troll->strength <<  ", ";
+	std::cout << std::endl << "@" << a_cave_troll->name << "^" << a_cave_troll->health << "^" << a_cave_troll->strength <<  ", " << std::endl;
 	std::cout.flush();
 #endif
 

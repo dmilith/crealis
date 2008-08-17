@@ -1,6 +1,8 @@
 #ifndef _CSOUL_H_
 #define _CSOUL_H_
 
+#include <iostream>
+
 enum Ealignment {
 		chaoticEvil = -3,
 		evil = -2,
@@ -15,11 +17,11 @@ enum Ealignment {
 class Csoul {
 public:
 	Csoul();
-	unsigned int mana,
-		     mindStrength; //sila umyslu
+	uint64_t mana,
+			mind_strength; //sila umyslu
 	Ealignment alignment; //charakter
 	
-	bool soulExist; //czy istnieje dusza. czyli czy postac jest graczem czy nie
+	bool soul_exist; //czy istnieje dusza. czyli czy postac jest graczem czy nie
 	
 };
 

@@ -9,7 +9,6 @@ debug64 = Environment( CXX = 'g++ -g -W' )
 #release = debug64
 release = release64
 
-release.SharedLibrary('backpack','backpack.cpp')
 release.SharedLibrary('character', 'character.cpp')
 release.SharedLibrary('coordinates', 'coordinates.cpp')
 release.SharedLibrary('item', 'item.cpp')
@@ -20,5 +19,5 @@ release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
 release.SharedLibrary('job', 'job.cpp')
 release.Program('world' , 'main.cpp', 
-    LIBS=[ 'boost_thread', 'boost_filesystem', 'job', 'backpack', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
+    LIBS=[ 'boost_thread', 'boost_filesystem', 'job', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
     LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])

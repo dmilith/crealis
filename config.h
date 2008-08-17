@@ -1,7 +1,7 @@
 #ifndef _CCONFIG_H_
 #define _CCONFIG_H_
 
-//#define DEBUG
+#define DEBUG
 
 /*
 Attributes
@@ -32,10 +32,10 @@ Background colors
 	46    Cyan																																																																			        47    White
 */
 
+#define BG_BLACK 40
 #define BRIGHT 1
 #define RED 31
 #define GREEN 32
-#define BG_BLACK 40
-
+#define MAGENTA 35
 
 #endif

@@ -1,0 +1,3 @@
+#! /bin/bash
+#g++ serialization_test.cpp -L.. -lboost_serialization -lcharacter -lsoul -lcoordinates -o test_serialization_1
+g++ serialization_test_2.cpp -L.. -lboost_serialization -litem -lsoul -lcoordinates -lcharacter -o test_serialization_2

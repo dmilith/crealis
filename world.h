@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string.h>
 #include "item.h"
-#include "backpack.h"
 #include "character.h"
 #include "theritory.h"
 #include "place.h"
