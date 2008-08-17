@@ -1,0 +1,6 @@
+echo "Cleaning up.."
+scons -c
+cd tests/
+rm -f test_*
+echo "Done."
+

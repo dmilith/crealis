@@ -8,11 +8,14 @@
 */
 
 #include <fstream>
+// include headers that implement a archive in simple text format
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/version.hpp>
 //#include <boost/serialization/split_member.hpp>
-//#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/base_object.hpp>
 //#include "../coordinates.h"
 #include "../soul.h"
 #include "../item.h"
@@ -76,7 +79,7 @@ int main() {
 
     // save data to archive
     {
-        boost::archive::binary_oarchive oa( ofs );
+        boost::archive::binary_oarchive oa( ofs, 1 );
         // write class instance to archive
         oa << g;
     	// archive and stream closed when destructors are called
@@ -87,7 +90,8 @@ int main() {
     {
         // create and open an archive for input
         std::ifstream ifs("test_character_serialized");
-        boost::archive::binary_iarchive ia( ifs );
+        boost::archive::binary_iarchive ia( ifs, 1 );
+        //boost::archive::text_iarchive ia( ofs );
         // read class state from archive
         ia >> newg;
         std::cout << "x: " << newg.soul.mana << std::endl;
