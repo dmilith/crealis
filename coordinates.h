@@ -1,19 +1,16 @@
 #ifndef _CCOORDINATES_H_
 #define _CCOORDINATES_H_
 
-#include <iostream>
-#include <string.h>
-
-struct Sposition {
-	uint64_t x, y;
-};
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/version.hpp>
 
 
 class Ccoordinates {
 public:
 	Ccoordinates(); //zerowanie koordynatow -zeby nie bylo zadnych krzakow
-	Sposition tCoord,pCoord; //territory x,y  place coord...
-	std::string mCoord; //nazwa mapy jako koordynat gdzie jestes
+	std::string position; // sha1 identyfikujące daną pozycję mapy
+	std::string parent_positions[6]; // sha1 z sha sąsiadujących elementów liczone od lewego boku 6 kąta
 };
 
 #endif //_CCOORDINATES_H_

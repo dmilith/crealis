@@ -1,0 +1,7 @@
+This file contains some important changes to HEAD. 
+For more detailed changes see the SVN logs.
+(This file will be cleared with every release)
+--------------------------------------------------
+
+17.02.2008
+hashlib++ version 0.3.1 has been released.

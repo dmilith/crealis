@@ -17,6 +17,7 @@
 //#include <boost/serialization/split_member.hpp>
 #include <boost/serialization/base_object.hpp>
 //#include "../coordinates.h"
+
 #include "../soul.h"
 #include "../item.h"
 #include "../character.h"
@@ -27,6 +28,12 @@ namespace serialization {
         void serialize(Archive & ar, Citem & item, const unsigned int version) {
             ar & item.weight;
             ar & item.size_of_item;
+        } // namespace serialization
+        
+        template<class Archive>
+        void serialize(Archive & ar, Ccoordinates & pos, const unsigned int version) {
+            ar & pos.position;
+            ar & pos.parent_positions;
         } // namespace serialization
         
         template<class Archive>
@@ -51,7 +58,7 @@ namespace serialization {
             ar & ch.luck; //szczescie moze byc -
             ar & ch.soul;
             ar & ch.gold;
-           // ar & ch.pos;
+            ar & ch.pos;
             ar & ch.items;
             ar & ch.private_box;
             ar & ch.race;
@@ -65,8 +72,10 @@ int main() {
 
     // create class instance
     Ccharacter g;
-    Csoul soul;
+    Ccoordinates pos;
+    g.pos = pos;
     Citem item;
+    Csoul soul;
     item.weight = 5;
     soul.mana = 666;
     g.age = 12;
@@ -96,9 +105,11 @@ int main() {
         ia >> newg;
         std::cout << "x: " << newg.soul.mana << std::endl;
         std::cout << "y: " << newg.gold << std::endl;
-        std::cout << "z: ";
-        std::cout << newg.items[0].weight << std::endl;
-        std::cout << newg.private_box[0].weight << std::endl;
+        std::cout << "z: " << newg.items[0].weight << std::endl;
+        std::cout << "p: " << newg.private_box[0].weight << std::endl;
+        for ( int i = 0; i < 6; ++i ) {
+            std::cout << i << ": " << pos.parent_positions[ i ] << std::endl;    
+        }
         
        // newg.items.begin();
         // archive and stream closed when destructors are called

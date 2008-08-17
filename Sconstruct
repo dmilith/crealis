@@ -9,6 +9,9 @@ debug64 = Environment( CXX = 'g++ -g -W' )
 #release = debug64
 release = release64
 
+release.Library('hl-sha', 
+    [ 'hashlib/hl_sha1.cpp', 'hashlib/hl_sha1wrapper.cpp', 'hashlib/hl_sha256.cpp', 'hashlib/hl_sha256wrapper.cpp' ] )
+
 release.SharedLibrary('character', 'character.cpp')
 release.SharedLibrary('coordinates', 'coordinates.cpp')
 release.SharedLibrary('item', 'item.cpp')
@@ -19,5 +22,8 @@ release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
 release.SharedLibrary('job', 'job.cpp')
 release.Program('world' , 'main.cpp', 
-    LIBS=[ 'boost_thread', 'boost_filesystem', 'job', 'character', 'coordinates', 'item', 'map', 'place', 'soul', 'theritory', 'world' ], 
+    LIBS=[ 'boost_thread', 'boost_filesystem', 
+					 'job', 'character', 'coordinates', 
+					 'item', 'map', 'place', 'soul', 'theritory', 
+					 'world', 'hl-sha' ], 
     LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])
