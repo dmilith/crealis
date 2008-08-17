@@ -70,6 +70,26 @@ int main() {
     // create and open a character archive for output
     std::ofstream ofs("test_character_serialized");
 
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout.flush();
+    
     // create class instance
     Ccharacter g;
     Ccoordinates pos;

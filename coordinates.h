@@ -5,6 +5,8 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/version.hpp>
 
+std::string
+generate_sha1( bool timeize_srand = false );
 
 class Ccoordinates {
 public:

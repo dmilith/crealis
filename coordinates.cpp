@@ -12,15 +12,22 @@ uint2cstr( uint64_t i ) {
   return temp.c_str();
 }
 
-Ccoordinates::Ccoordinates() {
+std::string
+generate_sha1( bool timeize_srand ) {
 	hashwrapper *sha1 = new sha1wrapper();
-	srand( (unsigned)time( NULL ) );
-	position = sha1->getHashFromString( (std::string)( uint2cstr( rand() % time( NULL ) ) ) );
-	parent_positions[0] = position;
-	parent_positions[1] = "void";
-	parent_positions[2] = "void";
-	parent_positions[3] = "void";
-	parent_positions[4] = "void";
-	parent_positions[5] = "void";
-	
+	if ( timeize_srand ) srand( (unsigned)time( NULL ) );
+	std::string result = sha1->getHashFromString( (std::string)( uint2cstr( rand() % time( NULL ) ) ) );
+	delete sha1;
+	return result;
 }
+
+Ccoordinates::Ccoordinates() {
+	position = generate_sha1(true);
+	parent_positions[0] = generate_sha1();
+	parent_positions[1] = generate_sha1();
+	parent_positions[2] = generate_sha1();
+	parent_positions[3] = generate_sha1();
+	parent_positions[4] = generate_sha1();
+	parent_positions[5] = generate_sha1();
+}
+
