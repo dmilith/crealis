@@ -1,7 +1,4 @@
 #include "coordinates.h"
-#include "hashlib/hashlibpp.h"
-#include <algorithm>
-#include <sstream>
 
 const char*
 uint2cstr( uint64_t i ) {
@@ -23,11 +20,17 @@ generate_sha1( bool timeize_srand ) {
 
 Ccoordinates::Ccoordinates() {
 	position = generate_sha1(true);
-	parent_positions[0] = generate_sha1();
-	parent_positions[1] = generate_sha1();
-	parent_positions[2] = generate_sha1();
-	parent_positions[3] = generate_sha1();
-	parent_positions[4] = generate_sha1();
-	parent_positions[5] = generate_sha1();
+	parent_positions[ 0 ] = generate_sha1();
+	parent_positions[ 1 ] = generate_sha1();
+	parent_positions[ 2 ] = generate_sha1();
+	parent_positions[ 3 ] = generate_sha1();
+	parent_positions[ 4 ] = generate_sha1();
+	parent_positions[ 5 ] = generate_sha1();
 }
 
+Ccoordinates::Ccoordinates( std::string pos, std::string parent_pos[ 6 ] ) {
+	position = pos;
+	for ( int i = 0; i < 6; ++i ) {
+		parent_positions[ i ] = parent_pos[ i ];
+	}
+}

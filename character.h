@@ -14,9 +14,11 @@
 #include <fstream>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+
 #include "coordinates.h"
 #include "item.h"
 #include "soul.h"
+#include "config.h"
 
 const uint32_t MAX_HUMAN_AGE = 115;
 const uint32_t MAX_ELVE_AGE = 2000;
@@ -35,8 +37,8 @@ enum Eraces {
 
 class Ccharacter  {
 public:
-	Ccharacter(); //domyslnie tworzony jest czlowiek
-	Ccharacter( Eraces born_race ); //podajemy rase postaci
+	Ccharacter( std::string new_name = "Zbigniew Żółć" ); //domyslnie tworzony jest czlowiek
+	Ccharacter( Eraces born_race, std::string new_name = "Zbigniew Żółć" ); //podajemy rase postaci
 	~Ccharacter();
 	bool dead;
 	void kill();

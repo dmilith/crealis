@@ -4,3 +4,5 @@
 *.o
 world
 gmon.out
+*.world
+*.item

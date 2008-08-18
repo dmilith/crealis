@@ -1,14 +1,7 @@
 #include "job.h"
-#include "character.h"
-#include "config.h"
 
-#ifdef DEBUG
-#include <iostream>
-#include <string.h>
-#endif
 
 Job::Job() {
-	 this->actor = this->actors.end();
 }
 
 void Job::run() {
@@ -21,7 +14,7 @@ void Job::run() {
 			case action_IDLE:
 #ifdef DEBUG
 	 std::cout << "I:" << action_IDLE;
-	 std::cout << ( (Ccharacter*)this->actors.at( 0 ) )->name << ":" << ( (Ccharacter*)this->actors.at( 0 ) )->health; // self only
+	 std::cout << this->actors[ 0 ].name << ":" << this->actors[ 0 ].health; // self only
 	 std::cout.flush();
 #endif
 						break;
@@ -41,58 +34,57 @@ void Job::run() {
 //	std::cout << "(s:" << this->actors.size() << ")";
 //	std::cout.flush();
 #endif
-						if ( this->actors.size() < 2 ) break; // attack with no target? always must be attacker and someone to attack to
-						if ( (Ccharacter*)this->actors.at( 0 )->health <= 0 ) {
+						//if ( this->actors[ 1 ] ==  ) break; // attack with no target? always must be attacker and someone to attack to
+						if ( this->actors[ 0 ].health <= 0 ) {
 #ifdef DEBUG
 	std::cout << "A(0)h:0 ";
 	std::cout.flush();
 #endif
 							 break;
 						}
-						if ( (Ccharacter*)this->actors.at( 0 )->health <= 0 ) {
+						if ( this->actors[ 0 ].health <= 0 ) {
 #ifdef DEBUG
 	std::cout << "A(1)h:0 ";
 	std::cout.flush();
 #endif
 							 break;
 						}
-						if ( (Ccharacter*)this->actors.at( 0 )->dead ) {
+						if ( this->actors[ 0 ].dead ) {
 #ifdef DEBUG
 	std::cout << "#KDD, "; // killing a dead
-	std::cout << ( (Ccharacter*)this->actors.at( 0 ) )->name << ":" << ( (Ccharacter*)this->actors.at( 0 ) )->health; // self only
+	std::cout << this->actors[ 0 ].name << ":" << this->actors[ 0 ].health; // self only
 	std::cout.flush();
 #endif
 							 break;
 						}
-						if ( (Ccharacter*)this->actors.at( 1 )->dead ) {
+						if ( this->actors[ 1 ].dead ) {
 #ifdef DEBUG
 	std::cout << "#KDD, "; // killing a dead
-	std::cout << ( (Ccharacter*)this->actors.at( 1 ) )->name << ":" << ( (Ccharacter*)this->actors.at( 1 ) )->health; // self only
+	std::cout << this->actors[ 1 ].name << ":" << this->actors[ 1 ].health; // self only
 	std::cout.flush();
 #endif
 							 break;
 						}
-						( (Ccharacter*)this->actors.at( 0 ) )->health -= 1; // first is always attacking player	
-					 	( (Ccharacter*)this->actors.at( 1 ) )->health -= 
-								 ( (Ccharacter*)this->actors.at( 0 ) )->strength ; // always attacking at least one target
-						if ( ( (Ccharacter*)this->actors.at( 0 ) )->health <= 0 ) {
-								( (Ccharacter*)this->actors.at( 0 ) )->kill();
+						this->actors[ 0 ].health -= 1; // first is always attacking player	
+					 	this->actors[ 1 ].health -= this->actors[ 0 ].strength; // always attacking at least one target
+						if ( this->actors[ 0 ].health <= 0 ) {
+								 this->actors[ 0 ].kill();
 #ifdef DEBUG
 	std::cout << "DEAD0";
 	std::cout.flush();
 #endif
 						}
 
-						if ( ( (Ccharacter*)this->actors.at( 1 ) )->health <= 0 ) {
-								( (Ccharacter*)this->actors.at( 1 ) )->kill();
+						if ( this->actors[ 1 ].health <= 0 ) {
+									 this->actors[ 1 ].kill();
 #ifdef DEBUG
 	std::cout << "DEAD1";
 	std::cout.flush();
 #endif
 						}
 #ifdef DEBUG
-	std::cout << " A=>" << this->actors.at( 0 )->health << ", "; // << std::endl;
-	std::cout << " B=>" << this->actors.at( 1 )->health << ", "; // << std::endl;
+	std::cout << " A=>" << this->actors[ 0 ].health << ", "; // << std::endl;
+	std::cout << " B=>" << this->actors[ 1 ].health << ", "; // << std::endl;
 	std::cout.flush();
 #endif
 

@@ -2,7 +2,7 @@
 #define _CTHERITORY_H_
 
 #include <iostream>
-#include <string.h>
+#include <string>
 #include "place.h"
 
 //THERITORY

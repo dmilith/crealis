@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string.h>
-#include <vector>
 
 #include "character.h"
 
@@ -19,14 +18,10 @@ enum ETypeOfJob {
 class Job {
     public:
 				Job();
-			 	std::string job_info;
-				std::string job_data;
+			 	std::string job_id; // sha1? -not yet implemented
+				uint32_t job_flags; // specified flags for non-standard types of jobs -not yet implemented
 				ETypeOfJob type;
-				//bool continuable; // is current job continuable?
-				//void* continue_func(); // to make able Job trigger other Job
-				std::vector<Ccharacter*> actors; // first is always main player
-				std::vector<Ccharacter*>::iterator actor;
-//				bool done;
+				Ccharacter actors[ 2 ]; // first is always main player, second one is optional
 				void run();
 };
 

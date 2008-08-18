@@ -2,7 +2,7 @@
 #define _CPLACE_H_
 
 #include <iostream>
-#include <string.h>
+#include <string>
 #include "map.h"
 
 class Cplace {

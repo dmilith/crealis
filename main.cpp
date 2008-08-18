@@ -1,39 +1,47 @@
-#include <iostream>
-#include "boost/date_time/gregorian/gregorian.hpp"
-#include <boost/filesystem/operations.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/thread/xtime.hpp>
-#include <boost/progress.hpp>
-#include <signal.h>
+#include "main.h"
 
-#include "world.h"
-#include "config.h"
-#include "job.h"
-#include "character.h"
-#include "version.h"
 
 //removing from stack
 //std::vector<Job>::iterator rm = job_list.end();
 //job_list.erase( rm );
 
 static std::vector<Job> job_list;
-Cworld *umbra; // umbra
-Cworld *crealis; // noob land
-uint64_t timer;
-Ccharacter *a_man, *an_elve, *a_dwarf, *a_cave_troll;
+static uint64_t timer;
+static Ccharacter a_man, an_elve, a_dwarf, a_cave_troll;
+static Cworld worlds[ MAX_WORLDS ]; // world.h
+static Ccharacter characters[ MAX_PLAYERS ]; // world.h
+
+
+// save data to archive
+void
+save_world( Cworld world, std::string filename ) {
+    std::ofstream ofs( filename.c_str() );
+	  boost::archive::binary_oarchive oa( ofs, 1 ); // 1 means without header
+    // write class instance to archive
+    oa << world;
+  	// archive and stream closed when destructors are called
+}
+
+// load data from archive
+void
+load_world( Cworld world, std::string filename ) {
+        // create and open an archive for input
+        std::ifstream ifs( filename.c_str() );
+        boost::archive::binary_iarchive ia( ifs, 1 );
+        // read class state from archive
+        ia >> world;
+}
+
 
 void recv_signal( int sig ) {
-	 std::cout << std::endl << "Bye" << std::endl;
-	 //cleaning up
+	std::cout << std::endl << "Bye" << std::endl;
 #ifdef DEBUG
 	std::cout << "debug: saving world." << std::endl;
 	std::cout.flush();
 #endif
-	 umbra->save_world();
-	 crealis->save_world();
-	 delete umbra;
-	 delete crealis;
-	 exit( 0 );
+	save_world( worlds[ 0 ], WORLD_SAVE_PATH + "umbra.world" );
+	save_world( worlds[ 1 ], WORLD_SAVE_PATH + "crealis.world" );
+	exit( 0 );
 }
 
 
@@ -47,14 +55,14 @@ void get_job_from_stack() {
 	std::cout.flush();
 #endif
 		 return;
-		 //exit( 0 );
 	}
 	//running job
-	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
+//	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
 			job_list.at( job_list.size() - 1 ).run();
 			job_list.pop_back();
-	}
+//	}
 }
+
 
 void add_job_to_stack( Job job ) { 
 	job_list.push_back( job );
@@ -63,11 +71,10 @@ void add_job_to_stack( Job job ) {
 
 // perform one job
 void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
-	 		Job *action;
-				action = new Job();
-				action->job_info = "FFF";
-				action->job_data = "data2";
-				action->type = action_to_perform;
+	 		Job *action = new Job();
+			action->job_flags = 0;
+			action->job_id = "std"; // should be identifier. maybe sha1?
+			action->type = action_to_perform;
 				if ( c1 == NULL ) {
 #ifdef DEBUG
 	std::cout << "\nCatched on trying perform a job without c1! ";
@@ -76,25 +83,25 @@ void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) 
 #endif
 					 return;
 				}
-				action->actors.push_back( c1 );
+				action->actors[ 0 ] = *c1;
 				if ( c2 != NULL ) {
-					action->actors.push_back( c2 );
+					action->actors[ 1 ] = *c2;
 				}
 				add_job_to_stack( *action );
-	 delete action;
+			delete action;
 }
 
-std::string& print_character( Ccharacter *ch ) {
+std::string& print_character( Ccharacter& ch ) {
 	 std::cout << std::endl <<
-			"Name:" << ch->name << ", " <<
-			"Age:" << ch->age << ", " <<
-			"Race:" << ch->race << ", " <<
-			"Health:" << ch->health << ", " <<
-			"Int:" << ch->intelligence << ", " <<
-			"Dex:" << ch->dexterity << ", " <<
-			"Str:" << ch->strength << ", " <<
-			"Luck:" << ch->luck << ", " <<
-			"M-Str:" << ch->mind_strength << ".";
+			"Name:" << ch.name << ", " <<
+			"Age:" << ch.age << ", " <<
+			"Race:" << ch.race << ", " <<
+			"Health:" << ch.health << ", " <<
+			"Int:" << ch.intelligence << ", " <<
+			"Dex:" << ch.dexterity << ", " <<
+			"Str:" << ch.strength << ", " <<
+			"Luck:" << ch.luck << ", " <<
+			"M-Str:" << ch.mind_strength << ".";
 	 std::cout.flush();
 }
 
@@ -108,19 +115,18 @@ void thread_console() {
 	std::cout.flush();
 #endif
 		 do {
-				std::cout << std::endl << "#_:";
+				std::cout << std::endl << "#(console)_:";
 				std::cout.flush();
-			  std::cin.getline( command_s, 128 );
-	 			std::string *command_str = new std::string( command_s );
+			  std::cin.getline( command_s, 127 );
+	 			std::string command_str( command_s );
 #ifdef DEBUG
 #endif
 				command = '0';
-				if ( *command_str == "s") command = '0';
-				if ( *command_str == "i") command = 'i';
-				if ( *command_str == "a" ) command = '1';
-				if ( *command_str == "d" ) command = '2';
-				if ( *command_str == "q" ) command = 'q';
-				delete command_str;
+				if ( command_str == "s") command = '0';
+				if ( command_str == "i") command = 'i';
+				if ( command_str == "a" ) command = '1';
+				if ( command_str == "d" ) command = '2';
+				if ( ( command_str == "q" ) || ( command_str == "quit" ) || ( command_str == "exit" ) ) command = 'q';
 				switch( command ) {
 					case 'q':
 						 recv_signal( 0 );
@@ -128,19 +134,19 @@ void thread_console() {
 					case '0':
 						 break;
 					case 'i':
-						 _do( action_IDLE, a_man );
+						 _do( action_IDLE, &a_man );
 						 std::cout << "Done IDLE: " << std::endl;
 						 std::cout << print_character( a_man );
 						 std::cout.flush();
 						 break;
 					case '1':
-						 _do( action_ATTACK, a_man, a_cave_troll );
+						 _do( action_ATTACK, &a_man, &a_cave_troll );
 						 std::cout << "Done ATTACK: " << std::endl;
 						 std::cout << print_character( a_man ) << print_character( a_cave_troll );
 						 std::cout.flush();
 						 break;
 					case '2':
-						 _do( action_ATTACK, a_cave_troll, a_man );
+						 _do( action_ATTACK, &a_cave_troll, &a_man );
 						 std::cout << "Done DEFEND: " << std::endl;
 						 std::cout << print_character( a_cave_troll ) << print_character( a_man );
 						 std::cout.flush();
@@ -164,7 +170,7 @@ void thread_timer() {
 	printf("%c[%dm", 0x1B, 0);
 #endif
 #ifndef DEBUG
-		boost::xtime_get( &xt, boost::TIME_UTC );
+			boost::xtime_get( &xt, boost::TIME_UTC );
 #endif
 #ifdef DEBUG
 	std::time_t now;
@@ -174,12 +180,12 @@ void thread_timer() {
 	std::cout.flush();
 	xt.nsec += 500000000; // adding additional slowdown
 #endif
-		xt.nsec += 500000000; // half second
-		boost::thread::sleep( xt );
-		++timer;
+			xt.nsec += 500000000; // half second
+			boost::thread::sleep( xt );
+			++timer;
 #ifdef DEBUG
 	if ( timer % 100 == 0 ) {
-		_do( action_ATTACK, a_cave_troll, a_man );
+		_do( action_ATTACK, &a_cave_troll, &a_man );
 	}
 #endif
 #ifdef DEBUG
@@ -192,25 +198,24 @@ void thread_main_loop() {
 	boost::xtime xt;
 	 do {
 #ifdef DEBUG
-		//set bright red ANSI color in console
-		printf("%c[%d;%d;%dm", 0x1B, BRIGHT,RED,BG_BLACK);
-		std::cout << ".";
-		std::cout.flush();
-	  //reset ANSI code to default:
-	  printf("%c[%dm", 0x1B, 0);
+	//set bright red ANSI color in console
+	printf("%c[%d;%d;%dm", 0x1B, BRIGHT,RED,BG_BLACK);
+	std::cout << ".";
+	//reset ANSI code to default:
+	printf("%c[%dm", 0x1B, 0);
+	std::cout.flush();
 #endif		
-	 boost::xtime_get( &xt, boost::TIME_UTC );
+		boost::xtime_get( &xt, boost::TIME_UTC );
 		xt.nsec += 5000;
 #ifdef DEBUG
-		xt.nsec += 200000000;	
+	xt.nsec += 200000000;	
 #endif
 		get_job_from_stack();
 		boost::thread::sleep( xt );
 	 } while ( true );
-
 }
 
-
+  
 /*
  * server
  */
@@ -219,31 +224,38 @@ int main( int argc, char* argv[] ) {
 	signal( SIGTERM, recv_signal );
 
 	// creating worlds
-	umbra = new Cworld( 255, 255, 255, 255, 0 );
-	umbra->load_world();
-	crealis = new Cworld( 1, 1, 3, 3, 1.2 );
-	crealis->load_world();
-
+	Cworld umbra( "Umbra", 255, 255, 0 );
+	Cworld crealis( "Crealis", 20, 80, 50 );
+	//load_world( umbra, "umbra.world");
+	//load_world( crealis, "crealis.world");
+	//adding new worlds to worlds vector
+	worlds[ 0 ] = umbra;
+	worlds[ 1 ] = crealis;
+	
 	// creating objects/ players
-	an_elve = new Ccharacter( (Eraces)elve );
-	an_elve->name = "Gabriel";
-	a_man = new Ccharacter( (Eraces)human );
-	a_man->name = "Dmilith";
-	a_dwarf = new Ccharacter( (Eraces)dwarf );
-	a_dwarf->name = "Glorn";
-	a_cave_troll = new Ccharacter( (Eraces)cave_troll );
-	a_cave_troll->name = "Burgh";	
+	
+//	an_elve->name = "Gabriel";
+//	a_man = new Ccharacter( (Eraces)human );
+//	a_man->name = "Dmilith";
+//	a_dwarf = new Ccharacter( (Eraces)dwarf );
+//	a_dwarf->name = "Glorn";
+//	a_cave_troll = new Ccharacter( (Eraces)cave_troll );
+//	a_cave_troll->name = "Burgh";	
 
-	umbra->characters.push_back( a_man ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	umbra->characters.push_back( an_elve ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	umbra->characters.push_back( a_dwarf ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	umbra->characters.push_back( a_cave_troll ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	Ccharacter a_man( human ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+	Ccharacter an_elve( elve );
+	characters[ 0 ] = a_man;
+	characters[ 1 ] = an_elve;
+
+//	characters.push_back( *an_elve ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+//	characters.push_back( *a_dwarf ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
+//	characters.push_back( *a_cave_troll ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
 
 #ifdef DEBUG
-	std::cout << std::endl << "@" << an_elve->name << "^" << an_elve->health <<"^" << an_elve->strength <<  ", ";
-	std::cout << std::endl << "@" << a_man->name << "^" << a_man->health << "^" << a_man->strength << ", ";
-	std::cout << std::endl << "@" << a_dwarf->name << "^" << a_dwarf->health <<"^" << a_dwarf->strength <<  ", ";
-	std::cout << std::endl << "@" << a_cave_troll->name << "^" << a_cave_troll->health << "^" << a_cave_troll->strength <<  ", " << std::endl;
+	std::cout << std::endl << "@" << an_elve.name << "^" << an_elve.health <<"^" << an_elve.strength <<  ", ";
+	std::cout << std::endl << "@" << a_man.name << "^" << a_man.health << "^" << a_man.strength << ", ";
+	std::cout << std::endl << "@" << a_dwarf.name << "^" << a_dwarf.health <<"^" << a_dwarf.strength <<  ", ";
+	std::cout << std::endl << "@" << a_cave_troll.name << "^" << a_cave_troll.health << "^" << a_cave_troll.strength <<  ", " << std::endl;
 	std::cout.flush();
 #endif
 

@@ -25,7 +25,7 @@ release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
 release.SharedLibrary('job', 'job.cpp')
 release.Program('world' , 'main.cpp', 
-    LIBS=[ 'boost_thread', 'boost_filesystem', 
+    LIBS=[ 'boost_thread', 'boost_filesystem', 'boost_serialization', 
 					 'job', 'character', 'coordinates', 
 					 'item', 'map', 'place', 'soul', 'theritory', 
 					 'world' ], 

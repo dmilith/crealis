@@ -25,6 +25,15 @@
 namespace boost {
 namespace serialization {
         template<class Archive>
+        void serialize(Archive & ar, Cworld & world, const unsigned int version) {
+            ar & world.x_theritory_size;
+            ar & world.y_theritory_size
+            ar & world.gravity; //grawitacja
+            ar & world.name;
+            ar & world.version; //wersja swiata. od tego zaleza ew niekompatybilnosci
+        } // namespace serialization
+        
+        template<class Archive>
         void serialize(Archive & ar, Citem & item, const unsigned int version) {
             ar & item.weight;
             ar & item.size_of_item;

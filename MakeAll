@@ -1,0 +1,14 @@
+#! /bin/bash
+
+scons 2> compile.log
+
+if [ $? = 0 ]; then
+	echo "done. ready"
+fi
+
+if [ -s "compile.log" ]; then
+	less compile.log
+else
+	rm compile.log
+fi
+

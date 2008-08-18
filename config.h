@@ -1,10 +1,30 @@
 #ifndef _CCONFIG_H_
 #define _CCONFIG_H_
 
+#include <string>
+
 #define DEBUG
 
+
+const std::string SLASH = "/";
+const std::string BACKSLASH = "\\";
+static std::string pp = SLASH; // "normal" UNIX slash to separate parts path
+
+// main declarations and constants
+#ifndef WIN32
+ #include <cstdlib>
+ const std::string MAIN_DIR = std::string( getenv( "HOME" ) ) + pp + ".cWorld";
+#else
+ pp = BACKSLASH;
+ // TODO: fix static path for windows 
+ const std::string MAIN_DIR = std::string( "C:" + pp + "CWorld" );
+#endif
+
+const std::string WORLD_SAVE_PATH = "save" + pp;
+
+
 /*
-Attributes
+ANSI Attributes
 	0    All attributes off
 	1    Bold on
 	4    Underscore (on monochrome display adapter only)
@@ -32,6 +52,7 @@ Background colors
 	46    Cyan																																																																			        47    White
 */
 
+// ANSI color codes
 #define BG_BLACK 40
 #define BRIGHT 1
 #define RED 31
