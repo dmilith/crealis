@@ -44,7 +44,6 @@
 #include "hl_sha1wrapper.h"
 #include "hl_sha256wrapper.h"
 
-
 //----------------------------------------------------------------------
 #endif
 

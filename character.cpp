@@ -1,7 +1,17 @@
+/*
+ 
+    This is OpenSource Project;
+    It's licensed on GPL/ LGPL public license;
+    It's written by Daniel (dmilith) Dettlaff since August 2oo8.
+    You can redistribute this project only with this header.
+    
+*/
+
 #include "character.h"
 
+
 Ccharacter::Ccharacter( std::string new_name ) {
-	name = new_name; ///imie/nazwa postaci
+	name = new_name; // creature name
 	race = human; //(0)
 	base_health = ( ( race * 100 ) + ( rand() % 10 ) ) + 100;
 	health = base_health + ( rand() % 125 ) - 75; 
@@ -11,12 +21,12 @@ Ccharacter::Ccharacter( std::string new_name ) {
 	strength = ( race * 2 ) + ( rand() % 10 ) + 3;
 	dexterity = 0;
 	luck = ( rand() % 21 ) - 10;
-	mind_strength = 0; //cechy postaci
+	mind_strength = 0; // creature properties
 	
-} //obiekt npc'a/ postaci gracza/ potwora
+} // creature properties
 
 Ccharacter::Ccharacter( Eraces born_race, std::string new_name ) {
-	name = new_name; ///imie/nazwa postaci
+	name = new_name;
 	race = born_race; //(0)
 	base_health = ( ( race * 100 ) + ( rand() % 10 ) ) + 100;
 	health = base_health + ( rand() % 125 ) - 75 ;

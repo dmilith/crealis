@@ -6,20 +6,21 @@
     You can redistribute this project only with this header.
     
 */
-
-#ifndef _CITEM_H_
-#define _CITEM_H_
+#ifndef _HL_TOOLS_H
+#define _HL_TOOLS_H
 
 #include <iostream>
+#include <algorithm>
+#include <string>
+#include <sstream>
 
-enum Esize { tiny = 0, small, medium, large, outgenerous, huge };
+#include "hashlibpp.h"
 
-class Citem {
-public:
-	Citem();
-	int64_t weight;
-	Esize size_of_item;
-		
-};
+const char*
+uint2cstr( uint64_t i );
 
-#endif //_CITEM_H_
+std::string
+generate_sha1( bool timeize_srand = false );
+
+#endif
+

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "boost/date_time/gregorian/gregorian.hpp"
+#include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/thread/xtime.hpp>
@@ -8,7 +8,6 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <signal.h>
-
 #include "job.h"
 #include "world.h"
 #include "config.h"
@@ -18,6 +17,7 @@
 #include "place.h"
 #include "soul.h"
 #include "version.h"
+#include "../local/lib/ruby/1.8/x86_64-linux/ruby.h"
 
 namespace boost {
 namespace serialization {

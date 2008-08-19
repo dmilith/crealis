@@ -1,15 +1,19 @@
+/*
+ 
+    This is OpenSource Project;
+    It's licensed on GPL/ LGPL public license;
+    It's written by Daniel (dmilith) Dettlaff since August 2oo8.
+    You can redistribute this project only with this header.
+    
+*/
+
 #ifndef _CCOORDINATES_H_
 #define _CCOORDINATES_H_
 
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
-#include <algorithm>
-#include <sstream>
 
-#include "hashlib/hashlibpp.h"
-
-std::string
-generate_sha1( bool timeize_srand = false );
+#include "hashlib/hl_tools.h" //instead of haslibpp.h. It's kinda proxy for hashlib
 
 class Ccoordinates {
 public:

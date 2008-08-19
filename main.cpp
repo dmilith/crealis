@@ -1,5 +1,13 @@
-#include "main.h"
+/*
+ 
+    This is OpenSource Project;
+    It's licensed on GPL/ LGPL public license;
+    It's written by Daniel (dmilith) Dettlaff since August 2oo8.
+    You can redistribute this project only with this header.
+    
+*/
 
+#include "main.h"
 
 //removing from stack
 //std::vector<Job>::iterator rm = job_list.end();
@@ -7,10 +15,29 @@
 
 static std::vector<Job> job_list;
 static uint64_t timer;
-static Ccharacter a_man, an_elve, a_dwarf, a_cave_troll;
+Ccharacter a_man( human, "zdzich" ), an_elve( elve, "rodżer"), a_dwarf( dwarf, "glon"), a_cave_troll( cave_troll, "brugh" );
 static Cworld worlds[ MAX_WORLDS ]; // world.h
 static Ccharacter characters[ MAX_PLAYERS ]; // world.h
 
+// save data to archive
+void
+save_job( Job job, std::string filename ) {
+    std::ofstream ofs( filename.c_str() );
+	  boost::archive::binary_oarchive oa( ofs, 1 ); // 1 means without header
+    // write class instance to archive
+    oa << job;
+  	// archive and stream closed when destructors are called
+}
+
+// load data from archive
+void
+load_job( Job job, std::string filename ) {
+	// create and open an archive for input
+	std::ifstream ifs( filename.c_str() );
+	boost::archive::binary_iarchive ia( ifs, 1 );
+	// read class state from archive
+	ia >> job;
+}
 
 // save data to archive
 void
@@ -33,7 +60,8 @@ load_world( Cworld world, std::string filename ) {
 }
 
 
-void recv_signal( int sig ) {
+void
+recv_signal( int sig ) {
 	std::cout << std::endl << "Bye" << std::endl;
 #ifdef DEBUG
 	std::cout << "debug: saving world." << std::endl;
@@ -46,7 +74,8 @@ void recv_signal( int sig ) {
 
 
 // execution of job
-void get_job_from_stack() {
+void
+get_job_from_stack() {
 	if ( job_list.empty() ) {
 #ifdef DEBUG
 	printf("%c[%d;%d;%dm", 0x1B, BRIGHT, MAGENTA, BG_BLACK);
@@ -59,22 +88,26 @@ void get_job_from_stack() {
 	//running job
 //	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
 			job_list.at( job_list.size() - 1 ).run();
+			save_job( (Job)job_list.at( job_list.size() - 1), JOB_SAVE_PATH +
+								(std::string)( job_list[ job_list.size() - 1 ] ).job_id + ".job" );
 			job_list.pop_back();
 //	}
 }
 
 
-void add_job_to_stack( Job job ) { 
+void
+add_job_to_stack( Job job ) { 
 	job_list.push_back( job );
 }
 
 
 // perform one job
-void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
-	 		Job *action = new Job();
-			action->job_flags = 0;
-			action->job_id = "std"; // should be identifier. maybe sha1?
-			action->type = action_to_perform;
+void
+_do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
+	 		Job action;
+			action.job_flags = 0;
+			action.job_id = generate_sha1( true ); // should be identifier. maybe sha1?
+			action.type = action_to_perform;
 				if ( c1 == NULL ) {
 #ifdef DEBUG
 	std::cout << "\nCatched on trying perform a job without c1! ";
@@ -83,12 +116,13 @@ void _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) 
 #endif
 					 return;
 				}
-				action->actors[ 0 ] = *c1;
+				action.actors[ 0 ] = *c1;
 				if ( c2 != NULL ) {
-					action->actors[ 1 ] = *c2;
+					action.actors[ 1 ] = *c2;
 				}
-				add_job_to_stack( *action );
-			delete action;
+				add_job_to_stack( action );
+
+			//delete action;
 }
 
 std::string& print_character( Ccharacter& ch ) {
@@ -105,9 +139,15 @@ std::string& print_character( Ccharacter& ch ) {
 	 std::cout.flush();
 }
 
+
 // main threads:
 //
-void thread_console() {
+void
+thread_console() {
+#ifdef RUBY_EMB	
+	ruby_init();
+	ruby_init_loadpath();
+#endif
 	 char command = '-';
 	 char command_s[128]; // = new std::string();
 #ifdef DEBUG
@@ -115,9 +155,9 @@ void thread_console() {
 	std::cout.flush();
 #endif
 		 do {
-				std::cout << std::endl << "#(console)_:";
+				std::cout << std::endl << "#(con)_:";
 				std::cout.flush();
-			  std::cin.getline( command_s, 127 );
+			  std::cin.getline( command_s, 60 );
 	 			std::string command_str( command_s );
 #ifdef DEBUG
 #endif
@@ -129,6 +169,9 @@ void thread_console() {
 				if ( ( command_str == "q" ) || ( command_str == "quit" ) || ( command_str == "exit" ) ) command = 'q';
 				switch( command ) {
 					case 'q':
+#ifdef RUBY_EMB
+	ruby_finalize();
+#endif
 						 recv_signal( 0 );
 						 exit( 0 );
 					case '0':
@@ -158,7 +201,8 @@ void thread_console() {
 }
 
 
-void thread_timer() {
+void
+thread_timer() {
 	boost::xtime xt;
 	 do {
 #ifdef DEBUG
@@ -226,6 +270,7 @@ int main( int argc, char* argv[] ) {
 	// creating worlds
 	Cworld umbra( "Umbra", 255, 255, 0 );
 	Cworld crealis( "Crealis", 20, 80, 50 );
+	
 	//load_world( umbra, "umbra.world");
 	//load_world( crealis, "crealis.world");
 	//adding new worlds to worlds vector

@@ -6,3 +6,5 @@ world
 gmon.out
 *.world
 *.item
+*.swp
+*.job

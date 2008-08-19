@@ -1,3 +1,12 @@
+/*
+ 
+    This is OpenSource Project;
+    It's licensed on GPL/ LGPL public license;
+    It's written by Daniel (dmilith) Dettlaff since August 2oo8.
+    You can redistribute this project only with this header.
+    
+*/
+
 #ifndef _CTHERITORY_H_
 #define _CTHERITORY_H_
 

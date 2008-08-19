@@ -3,6 +3,7 @@
 
 Cworld::Cworld() {
 	//domyslne wartosci zmiennych
+
 	this->name = "Somewhere in the bush";
 	this->x_theritory_size = DEFAULT_THERITORY_X;
 	this->y_theritory_size = DEFAULT_THERITORY_Y;

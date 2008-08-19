@@ -3,20 +3,17 @@ print 'scons script written by dmilith[at]gmail[dot]com  (c) 2oo8'
 
 release32 = Environment( CXX = 'g++ -m32 -O2 -march=athlon64' )
 release64 = Environment( CXX = 'g++ -O2 -march=athlon64' )
-debug32 = Environment( CXX = 'g++ -m32 -g -W' )
-debug64 = Environment( CXX = 'g++ -g -W' )
+debug32 = Environment( CXX = 'g++ -m32 -O0 -ggdb -W' )
+debug64 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 
-#release = debug64
-release = release64
+release = debug64
+#release = release64
 
-#release.Library('hl-sha', 
-#    [ 'hashlib/hl_sha1.cpp', 'hashlib/hl_sha1wrapper.cpp', 'hashlib/hl_sha256.cpp', 'hashlib/hl_sha256wrapper.cpp' ] )
-
-release.SharedLibrary('character', 'character.cpp')
-release.SharedLibrary('coordinates', 
-    [ 'coordinates.cpp', 'hashlib/hl_sha1.cpp', 
+release.SharedLibrary('hl-sha', [ 'hashlib/hl_sha1.cpp', 
     'hashlib/hl_sha1wrapper.cpp', 'hashlib/hl_sha256.cpp', 
-    'hashlib/hl_sha256wrapper.cpp' ] )
+    'hashlib/hl_sha256wrapper.cpp', 'hashlib/hl_tools.cpp' ] )
+release.SharedLibrary('character', 'character.cpp')
+release.SharedLibrary('coordinates', 'coordinates.cpp')
 release.SharedLibrary('item', 'item.cpp')
 release.SharedLibrary('map', 'map.cpp')
 release.SharedLibrary('place', 'place.cpp')
@@ -25,8 +22,9 @@ release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
 release.SharedLibrary('job', 'job.cpp')
 release.Program('world' , 'main.cpp', 
-    LIBS=[ 'boost_thread', 'boost_filesystem', 'boost_serialization', 
+    LIBS=[ 'boost_thread', 'boost_filesystem', 'hl-sha', 'boost_serialization', 
 					 'job', 'character', 'coordinates', 
 					 'item', 'map', 'place', 'soul', 'theritory', 
-					 'world' ], 
+					 'world'], 
+#, 'ruby' ], 
     LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])
