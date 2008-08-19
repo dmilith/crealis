@@ -1,3 +1,6 @@
+#ifndef _MAIN_H
+#define _MAIN_H
+
 #include <iostream>
 #include <fstream>
 #include <boost/date_time/gregorian/gregorian.hpp>
@@ -17,7 +20,12 @@
 #include "place.h"
 #include "soul.h"
 #include "version.h"
+
+#ifdef RUBY_LOCAL_INSTALL
 #include "../local/lib/ruby/1.8/x86_64-linux/ruby.h"
+#else
+#include "../lib/ruby/1.8/x86_64-linux/ruby.h"
+#endif
 
 namespace boost {
 namespace serialization {
@@ -79,4 +87,6 @@ namespace serialization {
         } // namespace serialization
     } // namespace boost
 }
+
+#endif
 

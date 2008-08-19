@@ -13,7 +13,8 @@
 #include <string>
 
 #define DEBUG
-//#define RUBY_EMB
+#define RUBY_LOCAL_INSTALL // if defined then we'll look for headers in /usr/local instead of /usr
+// TODO: #define RUBY_EMB // if defined we'll use Ruby As Embeeded Scripting Language
 
 const std::string SLASH = "/";
 const std::string BACKSLASH = "\\";
@@ -21,7 +22,7 @@ static std::string pp = SLASH; // "normal" UNIX slash to separate parts path
 
 // main declarations and constants
 #ifndef WIN32
- #include <cstdlib>
+#include <cstdlib>
  const std::string MAIN_DIR = std::string( getenv( "HOME" ) ) + pp + ".cWorld";
 #else
  pp = BACKSLASH;
