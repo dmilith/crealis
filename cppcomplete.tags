@@ -4,20 +4,20 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
-BACKSLASH	config.h	18;"	v
-BG_BLACK	config.h	65;"	d
-BRIGHT	config.h	66;"	d
+BACKSLASH	config.h	20;"	v
+BG_BLACK	config.h	66;"	d
+BRIGHT	config.h	67;"	d
 CREALIS_VERSION	version.h	5;"	v
 Ccharacter	character.cpp	13;"	f	class:Ccharacter
 Ccharacter	character.cpp	28;"	f	class:Ccharacter
 Ccharacter	character.h	38;"	c
 Ccharacter	character.h	40;"	p	class:Ccharacter	access:public
 Ccharacter	character.h	41;"	p	class:Ccharacter	access:public
-Ccoordinates	coordinates.cpp	30;"	f	class:Ccoordinates
-Ccoordinates	coordinates.cpp	40;"	f	class:Ccoordinates
-Ccoordinates	coordinates.h	23;"	c
-Ccoordinates	coordinates.h	25;"	p	class:Ccoordinates	access:public
-Ccoordinates	coordinates.h	26;"	p	class:Ccoordinates	access:public
+Ccoordinates	coordinates.cpp	12;"	f	class:Ccoordinates
+Ccoordinates	coordinates.cpp	22;"	f	class:Ccoordinates
+Ccoordinates	coordinates.h	18;"	c
+Ccoordinates	coordinates.h	20;"	p	class:Ccoordinates	access:public
+Ccoordinates	coordinates.h	21;"	p	class:Ccoordinates	access:public
 Citem	item.cpp	12;"	f	class:Citem
 Citem	item.h	17;"	c
 Citem	item.h	19;"	p	class:Citem	access:public
@@ -46,27 +46,28 @@ DEBUG	config.h	15;"	d
 DEFAULT_GRAVITY	world.h	27;"	v
 DEFAULT_THERITORY_X	world.h	28;"	v
 DEFAULT_THERITORY_Y	world.h	29;"	v
-ETypeOfJob	job.h	22;"	g
+ETypeOfJob	job.h	23;"	g
 Ealignment	soul.h	15;"	g
 Eraces	character.h	27;"	g
 Esize	item.h	15;"	g
-GREEN	config.h	68;"	d
-JOB_SAVE_PATH	config.h	32;"	v
+GREEN	config.h	69;"	d
+JOB_SAVE_PATH	config.h	34;"	v
 Job	job.cpp	13;"	f	class:Job
-Job	job.h	31;"	c
-Job	job.h	33;"	p	class:Job	access:public
-MAGENTA	config.h	69;"	d
-MAIN_DIR	config.h	24;"	v
-MAIN_DIR	config.h	28;"	v
+Job	job.h	32;"	c
+Job	job.h	34;"	p	class:Job	access:public
+MAGENTA	config.h	70;"	d
+MAIN_DIR	config.h	26;"	v
+MAIN_DIR	config.h	30;"	v
 MAX_DWARF_AGE	character.h	25;"	v
 MAX_ELVE_AGE	character.h	24;"	v
 MAX_HUMAN_AGE	character.h	23;"	v
 MAX_PLAYERS	world.h	25;"	v
 MAX_WORLDS	world.h	26;"	v
-RED	config.h	67;"	d
-SLASH	config.h	17;"	v
+RED	config.h	68;"	d
+RUBY_LOCAL_INSTALL	config.h	16;"	d
+SLASH	config.h	19;"	v
 SYSTEM_CLASS_VERSION	version.h	6;"	v
-WORLD_SAVE_PATH	config.h	31;"	v
+WORLD_SAVE_PATH	config.h	33;"	v
 _CCHARACTER_H_	character.h	11;"	d
 _CCONFIG_H_	config.h	11;"	d
 _CCOORDINATES_H_	coordinates.h	11;"	d
@@ -77,24 +78,21 @@ _CPLACE_H_	place.h	11;"	d
 _CSOUL_H_	soul.h	11;"	d
 _CTHERITORY_H_	theritory.h	11;"	d
 _CWORLD_H_	world.h	12;"	d
+_MAIN_H	main.h	2;"	d
 _VERSION_H_	version.h	2;"	d
-_do	main.cpp	106;"	f
-a_cave_troll	main.cpp	18;"	p	file:
-a_dwarf	main.cpp	18;"	p	file:
-a_man	main.cpp	18;"	p	file:
-action_ATTACK	job.h	26;"	e	enum:ETypeOfJob
-action_DEFEND	job.h	27;"	e	enum:ETypeOfJob
-action_IDLE	job.h	23;"	e	enum:ETypeOfJob
-action_RUN	job.h	25;"	e	enum:ETypeOfJob
-action_WALK	job.h	24;"	e	enum:ETypeOfJob
-actors	job.h	37;"	m	class:Job	access:public
-add_job_to_stack	main.cpp	99;"	f
+_do	main.cpp	108;"	f
+action_ATTACK	job.h	27;"	e	enum:ETypeOfJob
+action_DEFEND	job.h	28;"	e	enum:ETypeOfJob
+action_IDLE	job.h	24;"	e	enum:ETypeOfJob
+action_RUN	job.h	26;"	e	enum:ETypeOfJob
+action_WALK	job.h	25;"	e	enum:ETypeOfJob
+actors	job.h	38;"	m	class:Job	access:public
+add_job_to_stack	main.cpp	101;"	f
 age	character.h	56;"	m	class:Ccharacter	access:public
 alignment	soul.h	31;"	m	class:Csoul	access:public
-an_elve	main.cpp	18;"	p	file:
 annimal	character.h	28;"	e	enum:Eraces
 base_health	character.h	48;"	m	class:Ccharacter	access:public
-boost	main.h	22;"	n
+boost	main.h	32;"	n
 cave_troll	character.h	33;"	e	enum:Eraces
 chaoticEvil	soul.h	16;"	e	enum:Ealignment
 characters	main.cpp	20;"	v	file:
@@ -106,9 +104,7 @@ dwarf	character.h	31;"	e	enum:Eraces
 elve	character.h	29;"	e	enum:Eraces
 evil	soul.h	17;"	e	enum:Ealignment
 fileName	map.h	21;"	m	class:Cmap	access:public
-generate_sha1	coordinates.cpp	22;"	f
-generate_sha1	coordinates.h	21;"	p
-get_job_from_stack	main.cpp	78;"	f
+get_job_from_stack	main.cpp	80;"	f
 gold	character.h	55;"	m	class:Ccharacter	access:public
 good	soul.h	21;"	e	enum:Ealignment
 gravity	world.h	37;"	m	class:Cworld	access:public
@@ -119,10 +115,10 @@ human	character.h	30;"	e	enum:Eraces
 instinct	character.h	53;"	m	class:Ccharacter	access:public
 intelligence	character.h	50;"	m	class:Ccharacter	access:public
 items	character.h	63;"	m	class:Ccharacter	access:public
-job_crc	job.h	34;"	m	class:Job	access:public
-job_flags	job.h	35;"	m	class:Job	access:public
-job_id	job.h	34;"	m	class:Job	access:public
-job_list	main.cpp	16;"	v	file:
+job_crc	job.h	35;"	m	class:Job	access:public
+job_flags	job.h	36;"	m	class:Job	access:public
+job_id	job.h	35;"	m	class:Job	access:public
+job_list	main.cpp	17;"	v	file:
 kill	character.cpp	68;"	f	class:Ccharacter
 kill	character.h	44;"	p	class:Ccharacter	access:public
 large	item.h	15;"	e	enum:Esize
@@ -130,7 +126,7 @@ lawfulGood	soul.h	22;"	e	enum:Ealignment
 load_job	main.cpp	34;"	f
 load_world	main.cpp	54;"	f
 luck	character.h	57;"	m	class:Ccharacter	access:public
-main	main.cpp	261;"	f
+main	main.cpp	276;"	f
 mana	soul.h	29;"	m	class:Csoul	access:public
 map	place.h	24;"	m	class:Cplace	access:public
 medium	item.h	15;"	e	enum:Esize
@@ -145,38 +141,37 @@ neutral	soul.h	19;"	e	enum:Ealignment
 neutralEvil	soul.h	18;"	e	enum:Ealignment
 neutralGood	soul.h	20;"	e	enum:Ealignment
 outgenerous	item.h	15;"	e	enum:Esize
-parent_positions	coordinates.h	28;"	m	class:Ccoordinates	access:public
+parent_positions	coordinates.h	23;"	m	class:Ccoordinates	access:public
 place	theritory.h	23;"	m	class:Ctheritory	access:public
 pos	character.h	58;"	m	class:Ccharacter	access:public
-position	coordinates.h	27;"	m	class:Ccoordinates	access:public
-pp	config.h	19;"	v
-print_character	main.cpp	128;"	f
+position	coordinates.h	22;"	m	class:Ccoordinates	access:public
+pp	config.h	21;"	v
+print_character	main.cpp	130;"	f
 private_box	character.h	64;"	m	class:Ccharacter	access:public
 race	character.h	61;"	m	class:Ccharacter	access:public
 recv_signal	main.cpp	64;"	f
 run	job.cpp	17;"	f	class:Job
-run	job.h	38;"	p	class:Job	access:public
+run	job.h	39;"	p	class:Job	access:public
 save_job	main.cpp	24;"	f
 save_world	main.cpp	44;"	f
-serialization	main.h	23;"	n	namespace:boost
-serialize	main.h	25;"	f	namespace:boost::serialization
-serialize	main.h	33;"	f	namespace:boost::serialization
-serialize	main.h	42;"	f	namespace:boost::serialization
-serialize	main.h	48;"	f	namespace:boost::serialization
-serialize	main.h	54;"	f	namespace:boost::serialization
-serialize	main.h	62;"	f	namespace:boost::serialization
+serialization	main.h	33;"	n	namespace:boost
+serialize	main.h	35;"	f	namespace:boost::serialization
+serialize	main.h	43;"	f	namespace:boost::serialization
+serialize	main.h	52;"	f	namespace:boost::serialization
+serialize	main.h	58;"	f	namespace:boost::serialization
+serialize	main.h	64;"	f	namespace:boost::serialization
+serialize	main.h	72;"	f	namespace:boost::serialization
 size_of_item	item.h	21;"	m	class:Citem	access:public
 small	item.h	15;"	e	enum:Esize
 soul	character.h	60;"	m	class:Ccharacter	access:public
 soul_exist	soul.h	33;"	m	class:Csoul	access:public
 strength	character.h	51;"	m	class:Ccharacter	access:public
-thread_console	main.cpp	146;"	f
-thread_main_loop	main.cpp	235;"	f
-thread_timer	main.cpp	200;"	f
-timer	main.cpp	17;"	v	file:
+thread_console	main.cpp	148;"	f
+thread_main_loop	main.cpp	242;"	f
+thread_timer	main.cpp	207;"	f
+timer	main.cpp	18;"	v	file:
 tiny	item.h	15;"	e	enum:Esize
-type	job.h	36;"	m	class:Job	access:public
-uint2cstr	coordinates.cpp	13;"	f
+type	job.h	37;"	m	class:Job	access:public
 weight	item.h	20;"	m	class:Citem	access:public
 worlds	main.cpp	19;"	v	file:
 x_theritory_size	world.h	36;"	m	class:Cworld	access:public

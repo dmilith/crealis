@@ -15,9 +15,11 @@
 
 static std::vector<Job> job_list;
 static uint64_t timer;
-Ccharacter a_man( human, "zdzich" ), an_elve( elve, "rodżer"), a_dwarf( dwarf, "glon"), a_cave_troll( cave_troll, "brugh" );
-static Cworld worlds[ MAX_WORLDS ]; // world.h
-static Ccharacter characters[ MAX_PLAYERS ]; // world.h
+static uint64_t characters_online; // current amount of online players
+static uint64_t worlds_online;
+
+static Cworld* worlds[ MAX_WORLDS ]; // world.h
+static Ccharacter* characters[ MAX_PLAYERS ]; // world.h
 
 // save data to archive
 void
@@ -67,8 +69,8 @@ recv_signal( int sig ) {
 	std::cout << "debug: saving world." << std::endl;
 	std::cout.flush();
 #endif
-	save_world( worlds[ 0 ], WORLD_SAVE_PATH + "umbra.world" );
-	save_world( worlds[ 1 ], WORLD_SAVE_PATH + "crealis.world" );
+	save_world( *worlds[ 0 ], WORLD_SAVE_PATH + "umbra.world" );
+	save_world( *worlds[ 1 ], WORLD_SAVE_PATH + "crealis.world" );
 	exit( 0 );
 }
 
@@ -85,13 +87,12 @@ get_job_from_stack() {
 #endif
 		 return;
 	}
-	//running job
-//	if ( ( job_list.at( job_list.size() - 1 ) ).actors.size() >= 1 ) {
 			job_list.at( job_list.size() - 1 ).run();
+#ifdef DEBUG
 			save_job( (Job)job_list.at( job_list.size() - 1), JOB_SAVE_PATH +
 								(std::string)( job_list[ job_list.size() - 1 ] ).job_id + ".job" );
+#endif								
 			job_list.pop_back();
-//	}
 }
 
 
@@ -104,10 +105,10 @@ add_job_to_stack( Job job ) {
 // perform one job
 void
 _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
-	 		Job action;
-			action.job_flags = 0;
-			action.job_id = generate_sha1( true ); // should be identifier. maybe sha1?
-			action.type = action_to_perform;
+	 		Job *action = new Job();
+			action->job_flags = 0;
+			action->job_id = generate_sha1( true ); // should be identifier. maybe sha1?
+			action->type = action_to_perform;
 				if ( c1 == NULL ) {
 #ifdef DEBUG
 	std::cout << "\nCatched on trying perform a job without c1! ";
@@ -116,26 +117,26 @@ _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
 #endif
 					 return;
 				}
-				action.actors[ 0 ] = *c1;
+				action->actors[ 0 ] = c1;
 				if ( c2 != NULL ) {
-					action.actors[ 1 ] = *c2;
+					action->actors[ 1 ] = c2;
 				}
-				add_job_to_stack( action );
-
-			//delete action;
+				add_job_to_stack( *action );
+			delete action;
 }
 
-std::string& print_character( Ccharacter& ch ) {
+const std::string&
+print_character( Ccharacter* ch ) {
 	 std::cout << std::endl <<
-			"Name:" << ch.name << ", " <<
-			"Age:" << ch.age << ", " <<
-			"Race:" << ch.race << ", " <<
-			"Health:" << ch.health << ", " <<
-			"Int:" << ch.intelligence << ", " <<
-			"Dex:" << ch.dexterity << ", " <<
-			"Str:" << ch.strength << ", " <<
-			"Luck:" << ch.luck << ", " <<
-			"M-Str:" << ch.mind_strength << ".";
+			"Name:" << ch->name << ", " <<
+			"Age:" << ch->age << ", " <<
+			"Race:" << ch->race << ", " <<
+			"Health:" << ch->health << ", " <<
+			"Int:" << ch->intelligence << ", " <<
+			"Dex:" << ch->dexterity << ", " <<
+			"Str:" << ch->strength << ", " <<
+			"Luck:" << ch->luck << ", " <<
+			"M-Str:" << ch->mind_strength << ".";
 	 std::cout.flush();
 }
 
@@ -157,7 +158,7 @@ thread_console() {
 		 do {
 				std::cout << std::endl << "#(con)_:";
 				std::cout.flush();
-			  std::cin.getline( command_s, 60 );
+			  std::cin.getline( command_s, 128 );
 	 			std::string command_str( command_s );
 #ifdef DEBUG
 #endif
@@ -173,25 +174,24 @@ thread_console() {
 	ruby_finalize();
 #endif
 						 recv_signal( 0 );
-						 exit( 0 );
 					case '0':
 						 break;
 					case 'i':
-						 _do( action_IDLE, &a_man );
+						 _do( action_IDLE, characters[ 0 ] );
 						 std::cout << "Done IDLE: " << std::endl;
-						 std::cout << print_character( a_man );
+						 std::cout << print_character( characters[ 0 ] );
 						 std::cout.flush();
 						 break;
 					case '1':
-						 _do( action_ATTACK, &a_man, &a_cave_troll );
+						 _do( action_ATTACK, characters[ 0 ], characters[ 1 ] );
 						 std::cout << "Done ATTACK: " << std::endl;
-						 std::cout << print_character( a_man ) << print_character( a_cave_troll );
+						 std::cout << print_character( characters[ 0 ] ) << print_character( characters[ 1 ] );
 						 std::cout.flush();
 						 break;
 					case '2':
-						 _do( action_ATTACK, &a_cave_troll, &a_man );
+						 _do( action_ATTACK, characters[ 1 ], characters[ 0 ] );
 						 std::cout << "Done DEFEND: " << std::endl;
-						 std::cout << print_character( a_cave_troll ) << print_character( a_man );
+						 std::cout << print_character( characters[ 1 ] ) << print_character( characters[ 0 ] );
 						 std::cout.flush();
 						 break;
 					 default:
@@ -220,7 +220,7 @@ thread_timer() {
 	std::time_t now;
 	std::time ( &now );
 	boost::xtime_get( &xt, boost::TIME_UTC );
-	std::cout << "[" << now << "]$ " << std::endl;
+	std::cout << "[" << now << "];" << std::endl;
 	std::cout.flush();
 	xt.nsec += 500000000; // adding additional slowdown
 #endif
@@ -228,8 +228,8 @@ thread_timer() {
 			boost::thread::sleep( xt );
 			++timer;
 #ifdef DEBUG
-	if ( timer % 100 == 0 ) {
-		_do( action_ATTACK, &a_cave_troll, &a_man );
+	if ( timer % 10 == 0 ) {
+		_do( action_ATTACK, characters[ 1 ], characters[ 0 ] );
 	}
 #endif
 #ifdef DEBUG
@@ -259,7 +259,15 @@ void thread_main_loop() {
 	 } while ( true );
 }
 
-  
+
+/*
+void
+setup_dirs() {
+  // this method will check existance of main program directories and it will try to create them if they doesn't exist
+  if ( !exists( MAIN_DIR ) ) create_directory( DSIP_MAIN_DIR );
+}
+*/
+
 /*
  * server
  */
@@ -268,49 +276,32 @@ int main( int argc, char* argv[] ) {
 	signal( SIGTERM, recv_signal );
 
 	// creating worlds
-	Cworld umbra( "Umbra", 255, 255, 0 );
-	Cworld crealis( "Crealis", 20, 80, 50 );
-	
-	//load_world( umbra, "umbra.world");
-	//load_world( crealis, "crealis.world");
-	//adding new worlds to worlds vector
-	worlds[ 0 ] = umbra;
-	worlds[ 1 ] = crealis;
-	
-	// creating objects/ players
-	
-//	an_elve->name = "Gabriel";
-//	a_man = new Ccharacter( (Eraces)human );
-//	a_man->name = "Dmilith";
-//	a_dwarf = new Ccharacter( (Eraces)dwarf );
-//	a_dwarf->name = "Glorn";
-//	a_cave_troll = new Ccharacter( (Eraces)cave_troll );
-//	a_cave_troll->name = "Burgh";	
+	//adding new worlds to worlds array
+	// TODO: make it on vector
+	worlds[ 0 ] = new Cworld( "Umbra", 255, 255, 0 );
+	worlds[ 1 ] = new Cworld( "Crealis", 20, 80, 50 );
+	worlds_online = 2;
 
-	Ccharacter a_man( human ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-	Ccharacter an_elve( elve );
-	characters[ 0 ] = a_man;
-	characters[ 1 ] = an_elve;
-
-//	characters.push_back( *an_elve ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-//	characters.push_back( *a_dwarf ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-//	characters.push_back( *a_cave_troll ); //dodanie nowego gracza na koniec wektora dynamicznej listy graczy
-
-#ifdef DEBUG
-	std::cout << std::endl << "@" << an_elve.name << "^" << an_elve.health <<"^" << an_elve.strength <<  ", ";
-	std::cout << std::endl << "@" << a_man.name << "^" << a_man.health << "^" << a_man.strength << ", ";
-	std::cout << std::endl << "@" << a_dwarf.name << "^" << a_dwarf.health <<"^" << a_dwarf.strength <<  ", ";
-	std::cout << std::endl << "@" << a_cave_troll.name << "^" << a_cave_troll.health << "^" << a_cave_troll.strength <<  ", " << std::endl;
-	std::cout.flush();
-#endif
+  if ( boost::filesystem::exists( WORLD_SAVE_PATH ) ) {
+		load_world( *worlds[0], WORLD_SAVE_PATH + "umbra.world" );
+		load_world( *worlds[1], WORLD_SAVE_PATH + "crealis.world" );
+	}
+	
+	characters[ 0 ] = new Ccharacter( human, "Marys" ); 
+	characters[ 1 ] = new Ccharacter( elve, "Gabriel" );
+	characters[ 2 ] = new Ccharacter( dwarf, "Mirmil" );
+	characters[ 3 ] = new Ccharacter( cave_troll, "Burgh" );
+	characters_online = 4;
 
 	boost::thread timer_thread( &thread_timer );
 	boost::thread main_loop_thread( &thread_main_loop );
 	boost::thread console_thread( &thread_console );
-	// wait for the thread to finish
+
+	// wait for the threads to finish
 	timer_thread.join();
 	main_loop_thread.join();
-	console_thread.join();
+//	console_thread.join();
+	
 	recv_signal( 0 );
 	return 0;
 }

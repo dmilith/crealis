@@ -35,7 +35,7 @@ class Job {
 			 	std::string job_id, job_crc; // sha1? -not yet implemented
 				uint32_t job_flags; // specified flags for non-standard types of jobs -not yet implemented
 				ETypeOfJob type;
-				Ccharacter actors[ 2 ]; // first is always main player, second one is optional
+				Ccharacter* actors[ 2 ]; // first is always main player, second one is optional
 				void run();
 };
 

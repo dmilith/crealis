@@ -33,7 +33,6 @@ static std::string pp = SLASH; // "normal" UNIX slash to separate parts path
 const std::string WORLD_SAVE_PATH = "save" + pp;
 const std::string JOB_SAVE_PATH = "jobs" + pp;
 
-
 /*
 ANSI Attributes
 	0    All attributes off

@@ -10,7 +10,9 @@
 #include <boost/progress.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+#include <boost/filesystem/operations.hpp>
 #include <signal.h>
+
 #include "job.h"
 #include "world.h"
 #include "config.h"
