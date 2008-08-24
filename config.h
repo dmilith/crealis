@@ -12,7 +12,7 @@
 
 #include <string>
 
-#define DEBUG
+//#define DEBUG
 #define RUBY_LOCAL_INSTALL // if defined then we'll look for headers in /usr/local instead of /usr
 // TODO: #define RUBY_EMB // if defined we'll use Ruby As Embeeded Scripting Language
 

@@ -13,6 +13,12 @@
 Ccharacter::Ccharacter( std::string new_name ) {
 	name = new_name; // creature name
 	race = human; //(0)
+	for ( int i = 0; i < 50; ++i ) {
+		items[ i ] = NULL;
+	}
+	for ( int i = 0; i < 250; ++i ) {
+		private_box[ i ] = NULL;
+	}
 	base_health = ( ( race * 100 ) + ( rand() % 10 ) ) + 100;
 	health = base_health + ( rand() % 125 ) - 75; 
 	dead = false;
@@ -22,12 +28,18 @@ Ccharacter::Ccharacter( std::string new_name ) {
 	dexterity = 0;
 	luck = ( rand() % 21 ) - 10;
 	mind_strength = 0; // creature properties
-	
+
 } // creature properties
 
 Ccharacter::Ccharacter( Eraces born_race, std::string new_name ) {
 	name = new_name;
 	race = born_race; //(0)
+	for ( int i = 0; i < 50; ++i ) {
+		items[ i ] = NULL;
+	}
+	for ( int i = 0; i < 250; ++i ) {
+		private_box[ i ] = NULL;
+	}
 	base_health = ( ( race * 100 ) + ( rand() % 10 ) ) + 100;
 	health = base_health + ( rand() % 125 ) - 75 ;
 	dead = false;
@@ -63,6 +75,13 @@ Ccharacter::Ccharacter( Eraces born_race, std::string new_name ) {
 } //obiekt npc'a/ postaci gracza/ potwora
 
 Ccharacter::~Ccharacter() {
+/*	for ( int i = 0; i < 50; ++i ) {
+		items[ i ] = NULL;
+	}
+	for ( int i = 0; i < 250; ++i ) {
+		private_box[ i ] = NULL;
+	}
+	*/
 }
 
 void Ccharacter::kill() {

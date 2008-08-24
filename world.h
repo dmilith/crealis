@@ -22,11 +22,12 @@
 #include "soul.h"
 #include "coordinates.h"
 
+// global consts
 const uint32_t MAX_PLAYERS = 2000;
 const uint32_t MAX_WORLDS = 50;
 const uint32_t DEFAULT_GRAVITY = 0;
-const uint32_t DEFAULT_THERITORY_X = 1; // X theritory'w w jednej kolumnie world'a.. itd.. ;}
-const uint32_t DEFAULT_THERITORY_Y = 1; // Y theritory w jednym rzedzie world'a (czyli 1x1)
+const uint32_t DEFAULT_THERITORY_X = 1;
+const uint32_t DEFAULT_THERITORY_Y = 1;
 
 // WORLD
 class Cworld {

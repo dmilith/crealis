@@ -1,6 +1,7 @@
 echo "Cleaning up.."
 scons -c
 rm -f *.os
+rm -f *.o
 rm -f *.so
 rm -f test_*
 cd tests/

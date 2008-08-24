@@ -17,6 +17,10 @@ Job::Job() {
 }
 
 
+Job::~Job() {
+	actors[ 0 ] = NULL;
+	actors[ 1 ] = NULL;
+}
 
 void Job::run() {
 #ifdef DEBUG

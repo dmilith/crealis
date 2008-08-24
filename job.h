@@ -32,6 +32,7 @@ enum ETypeOfJob {
 class Job {
     public:
 				Job();
+				~Job();
 			 	std::string job_id, job_crc; // sha1? -not yet implemented
 				uint32_t job_flags; // specified flags for non-standard types of jobs -not yet implemented
 				ETypeOfJob type;

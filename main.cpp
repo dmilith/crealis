@@ -8,7 +8,6 @@
 */
 
 #include "main.h"
-
 //removing from stack
 //std::vector<Job>::iterator rm = job_list.end();
 //job_list.erase( rm );
@@ -20,6 +19,12 @@ static uint64_t worlds_online;
 
 static Cworld* worlds[ MAX_WORLDS ]; // world.h
 static Ccharacter* characters[ MAX_PLAYERS ]; // world.h
+
+void
+init_structures() {
+	for ( uint32_t i = 0; i < MAX_WORLDS; i++ ) worlds[ i ] = NULL;
+	for ( uint32_t i = 0; i < MAX_PLAYERS; i++ ) characters[ i ] = NULL;
+}
 
 // save data to archive
 void
@@ -54,11 +59,11 @@ save_world( Cworld world, std::string filename ) {
 // load data from archive
 void
 load_world( Cworld world, std::string filename ) {
-        // create and open an archive for input
-        std::ifstream ifs( filename.c_str() );
-        boost::archive::binary_iarchive ia( ifs, 1 );
-        // read class state from archive
-        ia >> world;
+	 // create and open an archive for input
+	 std::ifstream ifs( filename.c_str() );
+	 boost::archive::binary_iarchive ia( ifs, 1 );
+	 // read class state from archive
+	 ia >> world;
 }
 
 
@@ -105,10 +110,10 @@ add_job_to_stack( Job job ) {
 // perform one job
 void
 _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
-	 		Job *action = new Job();
-			action->job_flags = 0;
-			action->job_id = generate_sha1( true ); // should be identifier. maybe sha1?
-			action->type = action_to_perform;
+	 		Job action;
+			action.job_flags = 0;
+			action.job_id = generate_sha1( true ); // should be identifier. maybe sha1?
+			action.type = action_to_perform;
 				if ( c1 == NULL ) {
 #ifdef DEBUG
 	std::cout << "\nCatched on trying perform a job without c1! ";
@@ -117,12 +122,11 @@ _do( ETypeOfJob action_to_perform, Ccharacter *c1, Ccharacter *c2 = NULL ) {
 #endif
 					 return;
 				}
-				action->actors[ 0 ] = c1;
+				action.actors[ 0 ] = c1;
 				if ( c2 != NULL ) {
-					action->actors[ 1 ] = c2;
+					action.actors[ 1 ] = c2;
 				}
-				add_job_to_stack( *action );
-			delete action;
+				add_job_to_stack( action );
 }
 
 const std::string&
@@ -151,6 +155,7 @@ thread_console() {
 #endif
 	 char command = '-';
 	 char command_s[128]; // = new std::string();
+
 #ifdef DEBUG
 	std::cout << "Console Ready!" << std::endl;
 	std::cout.flush();
@@ -160,8 +165,6 @@ thread_console() {
 				std::cout.flush();
 			  std::cin.getline( command_s, 128 );
 	 			std::string command_str( command_s );
-#ifdef DEBUG
-#endif
 				command = '0';
 				if ( command_str == "s") command = '0';
 				if ( command_str == "i") command = 'i';
@@ -177,13 +180,29 @@ thread_console() {
 					case '0':
 						 break;
 					case 'i':
-						 _do( action_IDLE, characters[ 0 ] );
+					 	 for ( int i = 0; i < 50000; i++ ) {
+						 		_do( action_IDLE, characters[ 0 ] );
+#pragma omp flush( worlds, characters, job_list, timer, characters_online, worlds_online )
+						}
 						 std::cout << "Done IDLE: " << std::endl;
 						 std::cout << print_character( characters[ 0 ] );
 						 std::cout.flush();
 						 break;
 					case '1':
-						 _do( action_ATTACK, characters[ 0 ], characters[ 1 ] );
+#ifndef DEBUG
+	std::cout << std::endl << std::time( 0 );
+#endif
+						//characters[ 1 ]->health = 400000000000;
+				//	 	for ( int i = 0; i < 20000; i++ ) {
+					 	 for ( int i = 0; i < 20000; i++ ) {
+						 _do( action_ATTACK, characters[ 0 ], characters[ 1 ] );//, characters[ 1 ] );
+#pragma omp flush( worlds, characters, job_list, timer, characters_online, worlds_online )
+						}
+				//		}
+#ifndef DEBUG
+	std::cout << std::endl << std::time( 0 );
+#endif
+						// _do( action_ATTACK, characters[ 0 ], characters[ 1 ] );
 						 std::cout << "Done ATTACK: " << std::endl;
 						 std::cout << print_character( characters[ 0 ] ) << print_character( characters[ 1 ] );
 						 std::cout.flush();
@@ -250,7 +269,7 @@ void thread_main_loop() {
 	std::cout.flush();
 #endif		
 		boost::xtime_get( &xt, boost::TIME_UTC );
-		xt.nsec += 5000;
+		xt.nsec += 50;
 #ifdef DEBUG
 	xt.nsec += 200000000;	
 #endif
@@ -271,28 +290,111 @@ setup_dirs() {
 /*
  * server
  */
-int main( int argc, char* argv[] ) {
+int
+main( int argc, char* argv[] ) {
+
 	signal( SIGINT, recv_signal );
 	signal( SIGTERM, recv_signal );
+	
+	//init_structures(); // NULLify all dynamic structures
 
 	// creating worlds
-	//adding new worlds to worlds array
 	// TODO: make it on vector
 	worlds[ 0 ] = new Cworld( "Umbra", 255, 255, 0 );
 	worlds[ 1 ] = new Cworld( "Crealis", 20, 80, 50 );
 	worlds_online = 2;
 
-  if ( boost::filesystem::exists( WORLD_SAVE_PATH ) ) {
+	if ( boost::filesystem::exists( WORLD_SAVE_PATH ) ) {
 		load_world( *worlds[0], WORLD_SAVE_PATH + "umbra.world" );
 		load_world( *worlds[1], WORLD_SAVE_PATH + "crealis.world" );
 	}
-	
+
 	characters[ 0 ] = new Ccharacter( human, "Marys" ); 
 	characters[ 1 ] = new Ccharacter( elve, "Gabriel" );
 	characters[ 2 ] = new Ccharacter( dwarf, "Mirmil" );
 	characters[ 3 ] = new Ccharacter( cave_troll, "Burgh" );
 	characters_online = 4;
 
+
+#ifdef _OPENMP
+	std::cout << "OpemMP version " << _OPENMP << " initialized." << std::endl;
+	std::cout << "Running on machine with " << omp_get_num_procs() << " core(s)." << std::endl;
+	std::cout.flush();
+
+
+#pragma omp parallel sections \
+						shared( worlds, characters, job_list, timer, characters_online, worlds_online ) \
+						num_threads ( 3 )
+	 {
+			 #pragma omp section
+			 {
+		 		 thread_main_loop();
+			 }
+			 #pragma omp section
+			 {
+				 thread_timer();
+			 }
+			 #pragma omp section
+			 {
+			 	 thread_console();
+			 }
+	 }
+
+{
+	std::cout<<"Created "<< omp_get_num_threads() <<" Threads"<<std::endl;
+// enable dynamic Threads
+	 if ( omp_get_dynamic() ) omp_set_dynamic( 1 );
+
+//#ifdef DEBUG
+int64_t i;
+	#pragma omp for schedule( static, 2 )
+		for ( i = 0; i < 20000; i++ )
+		{
+			int z = 1;
+			if (! i % 2 ) z = 2;
+				else if (! i % 3 ) z = 3;
+					else z = 1;
+						
+			switch( z ) {
+					case 1:
+						std::cout << "1";
+						std::cout.flush();
+						_do( action_IDLE, characters[ 0 ] );
+						break;
+					case 2:
+						std::cout << "2";
+						std::cout.flush();
+						_do( action_IDLE, characters[ 0 ] );
+						break;
+					case 3:
+						std::cout << "3";
+						std::cout.flush();
+						_do( action_IDLE, characters[ 0 ] );
+						break;
+			}
+		}
+///#endif
+
+	 #pragma omp barrier
+	 { // all threads must execute this one
+			std::cout << "BAR" << std::endl;
+			std::cout.flush();
+	 }
+   
+/*	 #pragma omp critical
+	 { // executed only by One Thread.
+	 	 // good place for Network related operations
+			std::cout << "CRI" << std::endl;
+			std::cout.flush();
+   }
+ */
+}
+#else
+ std::cout << "Your compiler does not support OpenMP!" << std::endl;
+ recv_signal( 0 );
+#endif
+
+/*
 	boost::thread timer_thread( &thread_timer );
 	boost::thread main_loop_thread( &thread_main_loop );
 	boost::thread console_thread( &thread_console );
@@ -300,59 +402,9 @@ int main( int argc, char* argv[] ) {
 	// wait for the threads to finish
 	timer_thread.join();
 	main_loop_thread.join();
-//	console_thread.join();
-	
+	console_thread.join();
+*/	
 	recv_signal( 0 );
 	return 0;
 }
 
-	 /*Cworld delmirum; //swiat delmirum (mroczne krolestwo), 
-			    //przykladowo 10 na 10 theritoriow ;} na 200 graczy styka lekko;}
-	Cworld crealis(1,1,3,3,1.2); //swiat crealis (dolina gluchej ciszy -noob'landia)
-	//Cworld umbra(255,255,255,255,0); //ogrom, plus zero grawitacji.. czyli nie miejsce dla smiertelnikow :}
-	
-	//std::vector<Cworld> delmirum;
-	
-	crealis.name="crealis";
-	crealis.theritory.name="neomis";
-	crealis.theritory.place.name="cathalith village";
-	crealis.theritory.place.map.name="alley of the cathalith";
-	
-	//modyfikujemy pozycje w crealis
-	
-	
-		//tworzymy postac krasnoluda
-		crealis.character.push_back( Ccharacter() );
-		crealis.character[0].race=dwarf;
-		crealis.character[0].strength=17;
-		crealis.character[0].dexterity=7;
-		crealis.character[0].luck=-5;
-		crealis.character[0].intelligence=9;
-		crealis.character[0].instinct=11; //instynkt postaci
-		
-		crealis.character.push_back( Ccharacter() );
-	
-	
-	delmirum.name="delmirum";
-	std::cout << "\nname:("<< crealis.name << ") char:("<<crealis.character[0].pos.mCoord 
-			  << ") theirtory name: ("<< crealis.theritory.name << ")";
-	std::cout <<"\ncrealis version:(" << crealis.version << ") creatures online (" 
-			  << crealis.character.size() << ")\n";
-
-	std::cout << "\nplaces: x:("<< crealis.xPlaceSize << ") y:("<< crealis.yPlaceSize 
-			  << ") g:(" << crealis.gravity << ")";
-	std::cout << "\ntheritories: x:("<< crealis.xTheritorySize << ") y:("<< crealis.yTheritorySize << ")";
-	
-	std::cout << "\nname:("<< delmirum.name << ") char:("<<delmirum.character[0].pos.mCoord 
-			  << ") theritory name: ("<< delmirum.theritory.name << ")";
-
-	std::cout << "\nplaces: x:("<< delmirum.xPlaceSize << ") y:("<< delmirum.yPlaceSize 
-			  << ") g:(" << delmirum.gravity << ")";
-	std::cout << "\ntheritories: x:("<< delmirum.xTheritorySize << ") y:("<< delmirum.yTheritorySize << ")\n";
-	
-	std::cout << "\n\n crealis character [0] territory  x(" 
-			  << crealis.character[0].pos.tCoord.x << ") y:("<<crealis.character[0].pos.tCoord.y<<")\n" ;
-	
-	char z;
-	std::cin >> z ;	
-	*/

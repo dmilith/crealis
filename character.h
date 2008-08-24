@@ -37,8 +37,8 @@ enum Eraces {
 
 class Ccharacter  {
 public:
-	Ccharacter( std::string new_name = "Zbigniew Żółć" ); //domyslnie tworzony jest czlowiek
-	Ccharacter( Eraces born_race, std::string new_name = "Zbigniew Żółć" ); //podajemy rase postaci
+	Ccharacter( std::string new_name = "Zbigniew Zolc" ); //domyslnie tworzony jest czlowiek
+	Ccharacter( Eraces born_race, std::string new_name = "Zbigniew Zolc" ); //podajemy rase postaci
 	~Ccharacter();
 	bool dead;
 	void kill();
@@ -50,18 +50,15 @@ public:
 			intelligence,
 			strength,
 			dexterity,
-			instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
 			mind_strength;//cechy postaci
 	uint64_t gold;		
 	uint32_t age; // wiek postaci
-	int32_t luck; //szczescie moze byc -
-	Ccoordinates pos; //pozycja postaci w swiecie
-//	Cbackpack backpack; //plecak
+	int16_t luck; //szczescie moze byc -
+	Ccoordinatese position; //pozycja postaci w swiecie
 	Csoul soul; // aktualna dusza :}
 	Eraces race;
-	//std::list<Citem> items;
-	Citem items[50];
-	Citem private_box[250];
+	Citem* items[50];
+	Citem* private_box[250];
 }; //obiekt npc'a/ postaci gracza/ potwora
 
 #endif //_CCHARACTER_H_

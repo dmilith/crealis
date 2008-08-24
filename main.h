@@ -12,9 +12,11 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <signal.h>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 #include "job.h"
-#include "world.h"
 #include "config.h"
 #include "character.h"
 #include "item.h"
@@ -22,12 +24,15 @@
 #include "place.h"
 #include "soul.h"
 #include "version.h"
+#include "world.h"
 
 #ifdef RUBY_LOCAL_INSTALL
 #include "../local/lib/ruby/1.8/x86_64-linux/ruby.h"
 #else
 #include "../lib/ruby/1.8/x86_64-linux/ruby.h"
 #endif
+
+
 
 namespace boost {
 namespace serialization {

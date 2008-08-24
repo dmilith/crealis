@@ -1,5 +1,6 @@
 project requirements:
 
 scons
-libboost-threads
+g++ 4.2 ( with OpenMP support )
 libboost-serialization
+libboost-filesystem
