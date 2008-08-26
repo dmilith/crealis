@@ -1,0 +1,31 @@
+#! /bin/bash
+
+if [ -e "/usr/bin/gdb" ]; then
+    echo "gdb found."
+else
+    echo "Couldn't find gnu debugger ( try: sudo apt-get install gdb )"
+    exit 1
+fi
+
+if [ -e "/usr/bin/insight" ]; then
+    echo "insight found. it will be default debugger"
+    insight=1
+else
+    echo "Couldn't find insight gnu debugger frontend ( try: sudo apt-get install insight )"
+fi
+
+if [ -z "$*" ]; then
+    echo "Param not given! Debugging main."
+    if [ -z "$insight" ]; then
+	gdb ./main
+    else
+	insight ./main
+    fi
+else
+    echo "Debugging $*"
+    if [ -z "$insight" ]; then
+	gdb ./$*
+    else
+	insight ./$*
+    fi
+fi
