@@ -54,7 +54,7 @@ public:
 	uint64_t gold;		
 	uint32_t age; // wiek postaci
 	int16_t luck; //szczescie moze byc -
-	Ccoordinatese position; //pozycja postaci w swiecie
+	Ccoordinates position; //pozycja postaci w swiecie
 	Csoul soul; // aktualna dusza :}
 	Eraces race;
 	Citem* items[50];

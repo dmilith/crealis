@@ -12,9 +12,6 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <signal.h>
-#ifdef _OPENMP
-#include <omp.h>
-#endif
 
 #include "job.h"
 #include "config.h"
