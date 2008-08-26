@@ -1,11 +1,8 @@
 #include "../hashlib/hl_tools.h"
 #include <boost/thread/thread.hpp>
-#include <iostream>
 #include <ncurses.h>
 
-using namespace std;
-
-WINDOW *vin,*vin2;
+WINDOW  *mainWin,*vin1,*vin2;
 
 
 char* itoa( int value, char* result, int base ) {
@@ -18,7 +15,7 @@ char* itoa( int value, char* result, int base ) {
         int quotient = value;
         
         do {    
-                *out = "0123456789abcdef"[ abs( quotient % base ) ];
+                *out = "0123456789abcdef"[ std::abs( quotient % base ) ];
         
                 ++out;
         
@@ -27,7 +24,7 @@ char* itoa( int value, char* result, int base ) {
         } while ( quotient );
         
         if ( value < 0 && base == 10) *out++ = '-';     
-        reverse( result, out ); 
+        std::reverse( result, out ); 
         *out = 0;       
         return result;
         
@@ -37,11 +34,10 @@ void
 thread_first() {
         //cout<<"first_thread";
         char result [100];
-        for ( int i = 0; i < 1000; i++ ) {      
-                wmove(vin,2,2);
-                wprintw(vin,itoa(i,result,10));
-                wrefresh(vin);
-                
+        for ( int i = 0; i < 1000; i++ ) {
+                wclear(vin1);      
+                wprintw(vin1,"%d",itoa(i,result,10));                
+                wrefresh(vin1);                               
                 generate_sha1();
         }
 }
@@ -53,27 +49,31 @@ thread_second() {
         char result [100];
                
         for ( int i = 0; i < 100; i++ ) {
-                itoa(i,result,10);
-                wmove(vin2,0,0);            
-                wprintw(vin2,"%d","1");
-                
+                                          
+                wclear(vin2);
+                wprintw(vin2,"%d",itoa(i,result,10));
+                wrefresh(vin2);               
                 generate_sha1();
         }
- wrefresh(vin2);       
+        
 }
 
 int main() {
         
         initscr();
-        vin=newwin(40,40,0,0);
-        vin2=newwin(10,10,0,0);
+        mainWin = newwin(0, 0, 0, 0);
+        vin1 = subwin(mainWin, 20, 0, 0, 0);
+        vin2 = subwin(mainWin, 5, 0, 20, 0);
+        refresh();
+        box(vin1, 0, 0);
+        
         boost::thread first_thread( &thread_first );
         boost::thread second_thread( &thread_second );
         //first_thread.join();
         second_thread.join();
         
         getchar();
-        delwin(vin);
+        delwin(mainWin);
         endwin();
         
         return 0;
