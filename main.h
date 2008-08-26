@@ -24,9 +24,9 @@
 #include "world.h"
 
 #ifdef RUBY_LOCAL_INSTALL
-#include "../local/lib/ruby/1.8/x86_64-linux/ruby.h"
+//#include "../local/lib/ruby/1.8/x86_64-linux/ruby.h"
 #else
-#include "../lib/ruby/1.8/x86_64-linux/ruby.h"
+//#include "../lib/ruby/1.8/x86_64-linux/ruby.h"
 #endif
 
 
@@ -78,13 +78,12 @@ namespace serialization {
             ar & ch.intelligence;
             ar & ch.strength;
             ar & ch.dexterity;
-            ar & ch.instinct; // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
             ar & ch.mind_strength;//cechy postaci
             ar & ch.age; // wiek postaci
             ar & ch.luck; //szczescie moze byc -
             ar & ch.soul;
             ar & ch.gold;
-            ar & ch.pos;
+            ar & ch.position;
             ar & ch.items;
             ar & ch.private_box;
             ar & ch.race;

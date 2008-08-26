@@ -1,5 +1,4 @@
 /*
- 
     This is OpenSource Project;
     It's licensed on GPL/ LGPL public license;
     It's written by Daniel (dmilith) Dettlaff since August 2oo8.
@@ -8,6 +7,7 @@
 */
 
 #include "main.h"
+
 //removing from stack
 //std::vector<Job>::iterator rm = job_list.end();
 //job_list.erase( rm );

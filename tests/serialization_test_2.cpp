@@ -21,16 +21,17 @@
 #include "../soul.h"
 #include "../item.h"
 #include "../character.h"
+#include "../world.h"
 
 namespace boost {
 namespace serialization {
         template<class Archive>
         void serialize(Archive & ar, Cworld & world, const unsigned int version) {
             ar & world.x_theritory_size;
-            ar & world.y_theritory_size
+            ar & world.y_theritory_size;
             ar & world.gravity; //grawitacja
             ar & world.name;
-            ar & world.version; //wersja swiata. od tego zaleza ew niekompatybilnosci
+            ar & world.cl_version; //wersja swiata. od tego zaleza ew niekompatybilnosci
         } // namespace serialization
         
         template<class Archive>
@@ -61,13 +62,12 @@ namespace serialization {
             ar & ch.intelligence;
             ar & ch.strength;
             ar & ch.dexterity;
-            ar & ch.instinct; // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
             ar & ch.mind_strength;//cechy postaci
             ar & ch.age; // wiek postaci
             ar & ch.luck; //szczescie moze byc -
             ar & ch.soul;
             ar & ch.gold;
-            ar & ch.pos;
+            ar & ch.position;
             ar & ch.items;
             ar & ch.private_box;
             ar & ch.race;
@@ -101,8 +101,8 @@ int main() {
     
     // create class instance
     Ccharacter g;
-    Ccoordinates pos;
-    g.pos = pos;
+    Ccoordinates position;
+    g.position = position;
     Citem item;
     Csoul soul;
     item.weight = 5;
@@ -110,9 +110,9 @@ int main() {
     g.age = 12;
     g.gold = 0;
     g.soul = soul;
-    g.items[0] = item;
+    g.items[0] = &item;
     item.weight = 7;
-    g.private_box[0] = item;
+    g.private_box[0] = &item;
   //  std::cout << g.items.size();
 
     // save data to archive
@@ -134,10 +134,10 @@ int main() {
         ia >> newg;
         std::cout << "x: " << newg.soul.mana << std::endl;
         std::cout << "y: " << newg.gold << std::endl;
-        std::cout << "z: " << newg.items[0].weight << std::endl;
-        std::cout << "p: " << newg.private_box[0].weight << std::endl;
+        std::cout << "z: " << newg.items[0]->weight << std::endl;
+        std::cout << "p: " << newg.private_box[0]->weight << std::endl;
         for ( int i = 0; i < 6; ++i ) {
-            std::cout << i << ": " << pos.parent_positions[ i ] << std::endl;    
+            std::cout << i << ": " << position.parent_positions[ i ] << std::endl;    
         }
         
        // newg.items.begin();
