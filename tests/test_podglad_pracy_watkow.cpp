@@ -34,9 +34,11 @@ void
 thread_first() {
         //cout<<"first_thread";
         char result [100];
-        for ( int i = 0; i < 1000; i++ ) {
-                wclear(vin1);      
-                wprintw(vin1,"%d",itoa(i,result,10));                
+        for ( int i = 0; i < 10000; i++ ) {
+                wclear(vin1);
+                wprintw(vin1,"Konsola 1\n");
+                wrefresh(vin1);
+                wprintw(vin1,itoa(i,result,10));                
                 wrefresh(vin1);                               
                 generate_sha1();
         }
@@ -48,10 +50,12 @@ thread_second() {
         //cout<<"second_thread";
         char result [100];
                
-        for ( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 10000; i++ ) {
                                           
                 wclear(vin2);
-                wprintw(vin2,"%d",itoa(i,result,10));
+                wprintw(vin2,"Konsola 2\n");
+                wrefresh(vin2);
+                wprintw(vin2,itoa(i,result,10));
                 wrefresh(vin2);               
                 generate_sha1();
         }
@@ -69,7 +73,7 @@ int main() {
         
         boost::thread first_thread( &thread_first );
         boost::thread second_thread( &thread_second );
-        //first_thread.join();
+        first_thread.join();
         second_thread.join();
         
         getchar();
