@@ -4,4 +4,5 @@ echo "Serialization tests.."
 g++ serialization_test_2.cpp -L.. -lhl-sha -lboost_serialization -lcoordinates -litem -lsoul -lcoordinates -lcharacter -o test_serialization_2
 echo "sha-1 generation tests.."
 g++ sha1_speed_test.cpp -L.. -lhl-sha -o test_sha1_speed -lboost_thread -lncurses
-
+echo "Compiling test_podglad_pracy_watkow ..."
+g++ test_podglad_pracy_watkow.cpp -L.. -lhl-sha -lncurses -o test_podglad_pracy_watkow -lboost_thread -lncurses
