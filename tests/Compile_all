@@ -12,4 +12,4 @@ g++ synchronization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_thread -o test_thre
 g++ synchronization_test_2.cpp -ggdb -O0 -L.. -lboost_thread -o test_thread_synchronization_2
 
 echo "Compiling test_podglad_pracy_watkow ..."
-g++ test_podglad_pracy_watkow.cpp -ggdb -O0 -L.. -lhl-sha -lncurses -o test_podglad_pracy_watkow -lboost_thread -lncurses
+g++ test_podglad_pracy_watkow.cpp -ggdb -O0 -L.. -lhl-sha -lncurses -o test_podglad_pracy_watkow -lboost_thread
