@@ -1,15 +1,15 @@
 #! /bin/bash
 
-#g++ serialization_test.cpp -L.. -lboost_serialization -lcharacter -lsoul -lcoordinates -o test_serialization_1
 echo "Serialization tests.."
-g++ serialization_test_2.cpp -L.. -lhl-sha -lboost_serialization -lcoordinates -litem -lsoul -lcoordinates -lcharacter -o test_serialization_2
+g++ serialization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_serialization -lcoordinates -litem -lsoul -lcoordinates -lcharacter -o test_serialization
 
 echo "sha-1 generation/ thread tests.."
-g++ sha1_speed_test_with_threads.cpp -L.. -lhl-sha -o test_sha1_speed_threads -lboost_thread -lncurses
-g++ sha1_speed_test_without_threads.cpp -L.. -lhl-sha -o test_sha1_speed_no_threads -lboost_thread -lncurses
+g++ sha1_speed_test_with_threads.cpp -ggdb -O0 -L.. -lhl-sha -o test_sha1_speed_threads -lboost_thread -lncurses
+g++ sha1_speed_test_without_threads.cpp -ggdb -O0 -L.. -lhl-sha -o test_sha1_speed_no_threads -lboost_thread -lncurses
 
 echo "Thread synchronization tests.."
-g++ synchronization_test.cpp -L.. -lhl-sha -lboost_thread -o test_thread_synchronization
+g++ synchronization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_thread -o test_thread_synchronization
+g++ synchronization_test_2.cpp -ggdb -O0 -L.. -lboost_thread -o test_thread_synchronization_2
 
 echo "Compiling test_podglad_pracy_watkow ..."
-g++ test_podglad_pracy_watkow.cpp -L.. -lhl-sha -lncurses -o test_podglad_pracy_watkow -lboost_thread -lncurses
+g++ test_podglad_pracy_watkow.cpp -ggdb -O0 -L.. -lhl-sha -lncurses -o test_podglad_pracy_watkow -lboost_thread -lncurses

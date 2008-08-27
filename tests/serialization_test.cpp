@@ -7,98 +7,141 @@
     
 */
 
-//#include <boost/serialization/list.hpp>
-#include <boost/serialization/string.hpp>
+#include <fstream>
+// include headers that implement a archive in simple text format
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/version.hpp>
-#include <boost/serialization/split_member.hpp>
+//#include <boost/serialization/split_member.hpp>
 #include <boost/serialization/base_object.hpp>
-//#include <boost/serialization/vector.hpp>
+//#include "../coordinates.h"
 
-class MyContainer {
-    friend class boost::serialization::access;
-    int32_t
-			base_health,
-		  health,
-			intelligence,
-			strength,
-			dexterity,
-			instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
-			mind_strength;//cechy postaci
-      uint32_t age; // wiek postaci
-      int32_t luck; //szczescie moze byc -
-      int64_t gold;
-      
-//    public:   
-    template<class Archive>
-    void
-    save( Archive & ar, const unsigned int version ) const {
-       // ar & boost::serialization::base_object< >(*this);
-        ar & base_health,
-        ar & health,
-        ar & intelligence,
-        ar & strength,
-        ar & dexterity,
-        ar & instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
-        ar & mind_strength;//cechy postaci
-        ar & age; // wiek postaci
-        ar & luck; //szczescie moze byc -
-        ar & gold;
-    }
-    
-    template<class Archive>
-    void
-    load(Archive & ar, const unsigned int version)
-    {
-        ar & base_health,
-        ar & health,
-        ar & intelligence,
-        ar & strength,
-        ar & dexterity,
-        ar & instinct, // instynkt im wyzszy tym postac bardziej potrafi wyczuc jakie ma szanse z przeciwnikiem :}
-        ar & mind_strength;//cechy postaci
-        ar & age; // wiek postaci
-        ar & luck; //szczescie moze byc -
-        ar & gold;
-    }
-    BOOST_SERIALIZATION_SPLIT_MEMBER()
- //     Ccoordinates pos; //pozycja postaci w swiecie
-//	Cbackpack backpack( Esize ); //plecak
-//	Csoul soul; // aktualna dusza :}
-//	Eraces race;
- // std::vector<Citem*> items; // capacity 2 -> two hands 
-};
+#include "../soul.h"
+#include "../item.h"
+#include "../character.h"
+#include "../world.h"
 
-//class bus_route : MyContainer {
-//    friend class boost::serialization::access;
-//    std::vector<MyContainer *> stops;
-//    std::string driver_name;
-//    template<class Archive>
-//    void save(Archive & ar, const unsigned int version) const
-//    {
-//        // note, version is always the latest when saving
-//        ar & boost::serialization::base_object< MyContainer* >(*this);
-//        ar & driver_name;
-//        ar & stops;
-//    }
-//    template<class Archive>
-//    void load(Archive & ar, const unsigned int version)
-//    {
-//        if(version > 0)
-//            ar & driver_name;
-//        ar  & stops;
-//    }
-//    BOOST_SERIALIZATION_SPLIT_MEMBER()
-//public:
-//    bus_route(){}
-//};
-//
-//BOOST_CLASS_VERSION(bus_route, 1)
-
-//BOOST_CLASS_VERSION( MyContainer, 1 )
+namespace boost {
+namespace serialization {
+        template<class Archive>
+        void serialize(Archive & ar, Cworld & world, const unsigned int version) {
+            ar & world.x_theritory_size;
+            ar & world.y_theritory_size;
+            ar & world.gravity; //grawitacja
+            ar & world.name;
+            ar & world.cl_version; //wersja swiata. od tego zaleza ew niekompatybilnosci
+        } // namespace serialization
+        
+        template<class Archive>
+        void serialize(Archive & ar, Citem & item, const unsigned int version) {
+            ar & item.weight;
+            ar & item.size_of_item;
+        } // namespace serialization
+        
+        template<class Archive>
+        void serialize(Archive & ar, Ccoordinates & pos, const unsigned int version) {
+            ar & pos.position;
+            ar & pos.parent_positions;
+        } // namespace serialization
+        
+        template<class Archive>
+        void serialize(Archive & ar, Csoul & soul, const unsigned int version) {
+            ar & soul.mind_strength;
+            ar & soul.mana;
+            ar & soul.alignment;
+            ar & soul.soul_exist; // czy istnieje dusza czy nie
+        } // namespace serialization
+        
+        template<class Archive>
+        void serialize(Archive & ar, Ccharacter & ch, const unsigned int version) {
+            ar & ch.base_health;
+            ar & ch.dead;
+            ar & ch.health;
+            ar & ch.intelligence;
+            ar & ch.strength;
+            ar & ch.dexterity;
+            ar & ch.mind_strength;//cechy postaci
+            ar & ch.age; // wiek postaci
+            ar & ch.luck; //szczescie moze byc -
+            ar & ch.soul;
+            ar & ch.gold;
+            ar & ch.position;
+            ar & ch.items;
+            ar & ch.private_box;
+            ar & ch.race;
+        } // namespace serialization
+    } // namespace boost
+}
 
 int main() {
-    //const bus_route();
-    const MyContainer t();
+    // create and open a character archive for output
+    std::ofstream ofs("test_character_serialized");
+
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout << generate_sha1() << std::endl;
+    std::cout.flush();
     
+    // create class instance
+    Ccharacter g;
+    Ccoordinates position;
+    g.position = position;
+    Citem item;
+    Csoul soul;
+    item.weight = 5;
+    soul.mana = 666;
+    g.age = 12;
+    g.gold = 0;
+    g.soul = soul;
+    g.items[0] = &item;
+    item.weight = 7;
+    g.private_box[0] = &item;
+  //  std::cout << g.items.size();
+
+    // save data to archive
+    {
+        boost::archive::binary_oarchive oa( ofs, 1 );
+        // write class instance to archive
+        oa << g;
+    	// archive and stream closed when destructors are called
+    }
     
+    // ... some time later restore the class instance to its orginal state
+    Ccharacter newg;
+    {
+        // create and open an archive for input
+        std::ifstream ifs("test_character_serialized");
+        boost::archive::binary_iarchive ia( ifs, 1 );
+        //boost::archive::text_iarchive ia( ofs );
+        // read class state from archive
+        ia >> newg;
+        std::cout << "x: " << newg.soul.mana << std::endl;
+        std::cout << "y: " << newg.gold << std::endl;
+        std::cout << "z: " << newg.items[0]->weight << std::endl;
+        std::cout << "p: " << newg.private_box[0]->weight << std::endl;
+        for ( int i = 0; i < 6; ++i ) {
+            std::cout << i << ": " << position.parent_positions[ i ] << std::endl;    
+        }
+        
+       // newg.items.begin();
+        // archive and stream closed when destructors are called
+    }
+    return 0;
 }

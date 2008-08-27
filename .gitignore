@@ -9,3 +9,4 @@ gmon.out
 *.swp
 *.job
 compile.log
+core*

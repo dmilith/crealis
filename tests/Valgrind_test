@@ -13,5 +13,5 @@ valgrind \
 	--track-fds=yes \
 	--trace-children=yes \
 	--show-reachable=yes \
-   ./test_serialization_2 "$@"
+   ./test_thread_synchronization_2 "$@"
 
