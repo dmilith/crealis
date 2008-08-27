@@ -2,61 +2,36 @@
 #include <boost/thread/thread.hpp>
 #include <ncurses.h>
 
-WINDOW  *mainWin,*vin1,*vin2;
+#define S_THREAD_FIRST  "Thread first -> counter %i"
+#define S_THREAD_SECOND "Thread second -> counter %i"
+#define S_HELP          "Press any key or x to abort tis app. !"
 
+#define LINES_COUNT 1
 
-char* itoa( int value, char* result, int base ) {
-        
-        if (base < 2 || base > 16) { 
-                *result = 0; return result; 
-        }
-        
-        char* out = result;     
-        int quotient = value;
-        
-        do {    
-                *out = "0123456789abcdef"[ std::abs( quotient % base ) ];
-        
-                ++out;
-        
-                quotient /= base;
-        
-        } while ( quotient );
-        
-        if ( value < 0 && base == 10) *out++ = '-';     
-        std::reverse( result, out ); 
-        *out = 0;       
-        return result;
-        
-}
+WINDOW *win_1, *win_2, *win_help;
 
 void
 thread_first() {
-        //cout<<"first_thread";
-        char result [100];
-        for ( int i = 0; i < 10000; i++ ) {
-                wclear(vin1);
-                wprintw(vin1,"Konsola 1\n");
-                wrefresh(vin1);
-                wprintw(vin1,itoa(i,result,10));                
-                wrefresh(vin1);                               
+        
+        for ( int i = 0; i < 100000; i++ ) {
+                
+                wmove(win_1,0,0);
+                wprintw(win_1, S_THREAD_FIRST, i);
+                wrefresh(win_1);
+                                             
                 generate_sha1();
         }
 }
 
 void
 thread_second() {
-
-        //cout<<"second_thread";
-        char result [100];
                
-        for ( int i = 0; i < 10000; i++ ) {
+        for ( int i = 0; i < 100000; i++ ) {
                                           
-                wclear(vin2);
-                wprintw(vin2,"Konsola 2\n");
-                wrefresh(vin2);
-                wprintw(vin2,itoa(i,result,10));
-                wrefresh(vin2);               
+                wmove(win_2,0,0);
+                wprintw(win_2,S_THREAD_SECOND, i);
+                wrefresh(win_2);
+                
                 generate_sha1();
         }
         
@@ -64,20 +39,38 @@ thread_second() {
 
 int main() {
         
+        char c;
+        unsigned int i = 0;
+        
         initscr();
-        mainWin = newwin(0, 0, 0, 0);
-        vin1 = subwin(mainWin, 20, 0, 0, 0);
-        vin2 = subwin(mainWin, 5, 0, 20, 0);
+        noecho();
         refresh();
-        box(vin1, 0, 0);
+        
+        win_1 = newwin(LINES_COUNT, COLS, 0, 0);
+        win_2 = newwin(LINES_COUNT, COLS, LINES / 2 - LINES_COUNT / 2, 0);
+        win_help = newwin(1, COLS, LINES - 1, 0);
+        
+        wprintw(win_help, S_HELP);
+        wrefresh(win_help);
         
         boost::thread first_thread( &thread_first );
-        boost::thread second_thread( &thread_second );
-        first_thread.join();
-        second_thread.join();
+        //boost::thread second_thread( &thread_second );
         
-        getchar();
-        delwin(mainWin);
+        //first_thread.join();
+        //second_thread.join();
+        
+        while((c = getch()) != 'x') {                
+                
+                wmove(win_2,0,0);
+                wprintw(win_2,"%u", ++i);
+                wrefresh(win_2);                                
+        }
+        
+        //getchar();
+        
+        delwin(win_1);
+        delwin(win_2);
+        delwin(win_help);
         endwin();
         
         return 0;
