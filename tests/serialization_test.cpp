@@ -16,6 +16,7 @@
 #include <boost/serialization/version.hpp>
 //#include <boost/serialization/split_member.hpp>
 #include <boost/serialization/base_object.hpp>
+#include <boost/version.hpp>
 //#include "../coordinates.h"
 
 #include "../soul.h"

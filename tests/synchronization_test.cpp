@@ -2,6 +2,7 @@
 #include <boost/thread/thread.hpp>
 #include <boost/thread/xtime.hpp>
 #include <boost/progress.hpp>
+#include <boost/version.hpp>
 #include <iostream>
 #include <ctime>
 #include <vector>
@@ -56,6 +57,11 @@ int
 main() {
     clock_t timer = clock();
     time_t timer_time = time( NULL );
+
+    if ( BOOST_VERSION < 103500 ) {
+      cout << "This project requires Boost 1.35!" << flush;
+      exit( 0 );
+    }
 
     boost::thread first_thread( &thread_first );
     boost::thread second_thread( &thread_second );

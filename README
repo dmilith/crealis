@@ -1,0 +1,39 @@
+This project is released on LGPL public license, but all ideas, concepts of world and world rules
+belongs to Daniel (dmilith) Dettlaff.
+
+Story belongs to Daniel (dmilith) Dettlaff and Michał (wick3d) Hewelt.
+
+Artwork and graphics belongs to Marcin (blade) Kornakiewicz, and may be used only
+as part of this project.
+
+Any part of this software cannot be used in any other project without permission of authors.
+
+Copyright ( 2006/ 2008 ) by Daniel (dmilith) Dettlaff, All Rights Reserved.
+
+
+
+
+People engaged in project:
+    Main programming:	Daniel (dmilith) Dettlaff
+			Grzegorz (vara) Warywoda
+    Artwork:		Marcin (blade) Kornakiewicz
+    Story:		Daniel (dmilith) Dettlaff
+			Michał (wick3d) Hewelt
+
+
+
+Project requirements:
+
+To compile from source:
+    scons ( at least 0.98 )
+    g++ ( at least 4.2 )
+    boost-thread ( version at least 1.35 )
+    boost-serialization ( version at least 1.35 )
+    boost-filesystem ( version at least 1.35 )
+
+System requirements:
+    Linux ( with at least glibc 2.6 )
+    Windows ( at least XP )
+    128 MiB of RAM
+    50 MiB Hard Disk Space
+    128 Kibit network speed

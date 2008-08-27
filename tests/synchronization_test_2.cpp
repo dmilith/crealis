@@ -10,7 +10,6 @@ using namespace std;
 
 static bool _cont_ = false;
 static unsigned int _delay_ = 5000000;
-__thread int _i_;
 __thread char _input_;
 boost::mutex *mutex;
 boost::mutex *mutex2;
