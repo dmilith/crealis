@@ -10,3 +10,6 @@ gmon.out
 *.job
 compile.log
 core*
+main
+examples
+tests/test_*
