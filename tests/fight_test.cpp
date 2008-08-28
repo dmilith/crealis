@@ -31,7 +31,7 @@ load_world( Cworld world, std::string filename ) {
 int
 main() {
 	Ccharacter* characters = new Ccharacter[ 100 ];
-	characters[ 0 ].health = 0;
+	//characters[ 0 ].get_health() = 0;
 	uint64_t timer = 0;
 
   boost::asio::io_service io;
@@ -40,25 +40,25 @@ main() {
 				for ( int i = 0; i < 50000; i++ ) {
 					//set bright red ANSI color in console
 					 printf("%c[%d;%d;%dm", 0x1B, BRIGHT, RED, BG_BLACK);
-					 cout << "(A#):" << characters[ 0 ].health << "-";
-					 characters[ 0 ].health += 1;
-					 cout << characters[ 0 ].health;
+					 cout << "(A#):" << characters[ 0 ].get_health() << "-";
+					 characters[ 0 ].gain_health( -1 );
+					 cout << characters[ 0 ].get_health();
 				 	//reset ANSI code to default:
 				 	 printf("%c[%dm", 0x1B, 0);
 					 cout << flush;
         }
 				for ( int i = 0; i < 50000; i++ ) {
 					 printf("%c[%d;%d;%dm", 0x1B, BRIGHT, GREEN, BG_BLACK);
-					 cout << "(B#):" << characters[ 0 ].health<< "-";;
-					 characters[ 0 ].health += 1;
-					 cout << characters[ 0 ].health;
+					 cout << "(B#):" << characters[ 0 ].get_health() << "-";;
+					 characters[ 0 ].gain_health( 1 );
+					 cout << characters[ 0 ].get_health();
 				 	 printf("%c[%dm", 0x1B, 0);
 					 cout << flush;
 				}
 				for ( int i = 0; i < 50000; i++ ) {
-					 cout << "(C#):" << characters[ 0 ].health<< "-";;
-					 characters[ 0 ].health += 1;
-					 cout << characters[ 0 ].health << flush;
+					 cout << "(C#):" << characters[ 0 ].get_health() << "-";;
+					 characters[ 0 ].gain_health( 1 );
+					 cout << characters[ 0 ].get_health() << flush;
 				}
 
 	delete[] characters;

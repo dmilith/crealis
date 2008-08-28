@@ -4,6 +4,7 @@ rm -f *.os
 rm -f *.o
 rm -f *.so
 rm -f test_*
+rm -f main
 cd tests/
 rm -f test_*
 echo "Done."

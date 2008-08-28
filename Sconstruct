@@ -22,10 +22,10 @@ release.SharedLibrary('soul', 'soul.cpp')
 release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
 release.SharedLibrary('job', 'job.cpp')
-release.Program('main' , 'main2.cpp', 
-    LIBS=[ 'boost_thread', 'boost_filesystem', 'hl-sha', 'boost_serialization', 
-					 'job', 'character', 'coordinates', 
-					 'item', 'map', 'place', 'soul', 'theritory', 
-					 'world'], 
+#release.Program('main' , 'main2.cpp', 
+#    LIBS=[ 'boost_thread', 'boost_filesystem', 'hl-sha', 'boost_serialization', 
+#					 'job', 'character', 'coordinates', 
+#					 'item', 'map', 'place', 'soul', 'theritory', 
+#					 'world'], 
 #, 'ruby' ], 
-    LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])
+#    LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])

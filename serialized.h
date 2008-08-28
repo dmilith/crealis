@@ -1,5 +1,5 @@
-#ifndef _MAIN_H
-#define _MAIN_H
+#ifndef _SERIALIZED_H
+#define _SERIALIZED_H
 
 #include <iostream>
 #include <fstream>
@@ -11,7 +11,6 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <signal.h>
 
 #include "job.h"
 #include "config.h"
@@ -72,8 +71,9 @@ namespace serialization {
         
         template<class Archive>
         void serialize(Archive & ar, Ccharacter & ch, const unsigned int version) {
-            ar & ch.base_health;
             ar & ch.dead;
+            ar & ch.armor;
+            ar & ch.combat_ability;
             ar & ch.health;
             ar & ch.intelligence;
             ar & ch.strength;

@@ -1,5 +1,9 @@
 #! /bin/bash
 
+if [ -e "libhl-sha.so" ]; then 
+
+cd tests/
+
 echo "Serialization tests.."
 g++ serialization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_serialization -lcoordinates -litem -lsoul -lcoordinates -lcharacter -o test_serialization
 
@@ -7,9 +11,17 @@ echo "sha-1 generation/ thread tests.."
 g++ sha1_speed_test_with_threads.cpp -ggdb -O0 -L.. -lhl-sha -o test_sha1_speed_threads -lboost_thread -lncurses
 g++ sha1_speed_test_without_threads.cpp -ggdb -O0 -L.. -lhl-sha -o test_sha1_speed_no_threads -lboost_thread -lncurses
 
+echo "Thread tests.."
+g++ thread_group_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_thread -o test_thread_group
+
 echo "Thread synchronization tests.."
 g++ synchronization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_thread -o test_thread_synchronization
 g++ synchronization_test_2.cpp -ggdb -O0 -L.. -lboost_thread -o test_thread_synchronization_2
 
-echo "Compiling test_podglad_pracy_watkow ..."
-g++ test_podglad_pracy_watkow.cpp -ggdb -O0 -L.. -lhl-sha -lncurses -o test_podglad_pracy_watkow -lboost_thread
+echo "Ncurses thread monitor tests.."
+g++ ncurses_thread_monitor_test.cpp -ggdb -O0 -L.. -lhl-sha -lncurses -o test_ncurses_thread_monitor -lboost_thread
+
+else
+    echo "Please compile libraries first!"
+    exit
+fi

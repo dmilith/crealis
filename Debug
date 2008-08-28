@@ -15,6 +15,10 @@ else
 fi
 
 if [ -z "$*" ]; then
+    if [ ! -x "./main" ]; then
+        echo "Couldn't find executable to debug."
+        exit 1
+    fi
     echo "Param not given! Debugging main."
     if [ -z "$insight" ]; then
 	gdb ./main
@@ -22,6 +26,10 @@ if [ -z "$*" ]; then
 	insight ./main
     fi
 else
+    if [ ! -x "$*" ]; then
+        echo "Couldn't find executable to debug."
+        exit 1
+    fi
     echo "Debugging $*"
     if [ -z "$insight" ]; then
 	gdb ./$*
