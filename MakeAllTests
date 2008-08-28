@@ -4,6 +4,10 @@ if [ -e "libhl-sha.so" ]; then
 
 cd tests/
 
+echo "boost::asio tests.."
+g++ asio_client_test.cpp -ggdb -O0 -L.. -lhl-sha -lcoordinates -lcharacter -lsoul -lboost_thread -lboost_system -o test_asio_client
+g++ asio_server_test.cpp -ggdb -O0 -L.. -lhl-sha -lcoordinates -lcharacter -lsoul -lboost_thread -lboost_system -o test_asio_server
+
 echo "Serialization tests.."
 g++ serialization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_serialization -lcoordinates -litem -lsoul -lcoordinates -lcharacter -o test_serialization
 
