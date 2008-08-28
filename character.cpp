@@ -276,3 +276,7 @@ Ccharacter::set_max_load( int32_t max_load_ ) {
   max_load = max_load_;
 }
 
+void
+Ccharacter::set_name( std::string name_ ) {
+  name = name_;
+}

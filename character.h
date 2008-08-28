@@ -88,6 +88,8 @@ public:
   void set_age( int16_t age_ );
   void set_soul( Csoul* soul_ );
   void set_max_load( int32_t max_load_ );
+  void set_position( Ccoordinates position_ );
+  void set_name( std::string name_ );
   void gain_armor( int32_t armor_ );
   void gain_health( int32_t damage_ ); // get hurt or get heal
   void gain_gold( int64_t gold_amount_ ); // could be negative
@@ -97,7 +99,6 @@ public:
   void gain_strength( int64_t strength_ );
   void gain_intelligence( int64_t intelligence_ );
   void gain_luck( int16_t luck_ );
-  void set_position( Ccoordinates position_ );
   bool is_dead();
 
 }; // player/ npc/ character

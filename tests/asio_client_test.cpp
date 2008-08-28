@@ -38,18 +38,14 @@ int main(int argc, char* argv[]) {
     udp::resolver::iterator iterator = resolver.resolve( query );
 
     using namespace std; // For strlen.
-  //  std::cout << "Enter message: ";
-  //  char request[max_length];
-  //  std::cin.getline(request, max_length);
-  //  size_t request_length = strlen(request);
     z->set_age( 666 );
+    z->set_name( "yep that's me" );
     s.send_to( boost::asio::buffer( z, sizeof( Ccharacter ) ), *iterator );
 
-   // char reply[max_length];
     udp::endpoint sender_endpoint;
     size_t reply_length = s.receive_from( boost::asio::buffer( zz, sizeof( Ccharacter ) ), sender_endpoint );
     std::cout << "Reply is: ";
-    std::cout << zz->get_age(); //, sizeof( Ccharacter ) );
+    std::cout << zz->get_age() << " " << zz->get_name();
     std::cout << "\n";
   }
   catch (std::exception& e) {
