@@ -6,6 +6,6 @@ rm -f *.so
 rm -f test_*
 rm -f main
 cd tests/
-rm -f test_*
+scons -c
 echo "Done."
 

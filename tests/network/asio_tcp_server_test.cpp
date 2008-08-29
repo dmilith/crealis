@@ -4,9 +4,9 @@
 #include <boost/smart_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include "../character.h"
-#include "../soul.h"
-#include "../network.h"
+#include "../../character.h"
+#include "../../soul.h"
+#include "../../network.h"
 
 #define VERBOSE
 

@@ -11,8 +11,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../character.h"
-#include "../soul.h"
+#include "../../character.h"
+#include "../../soul.h"
 
 using boost::asio::ip::udp;
 

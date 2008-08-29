@@ -3,31 +3,9 @@
 if [ -e "libhl-sha.so" ]; then 
 
 cd tests/
-
-echo "boost::asio tests.."
-#g++ asio_client_test.cpp -ggdb -O0 -L.. -lhl-sha -lcoordinates -lcharacter -lsoul -lboost_thread -lboost_system -o test_asio_client
-#g++ asio_server_test.cpp -ggdb -O0 -L.. -lhl-sha -lcoordinates -lcharacter -lsoul -lboost_thread -lboost_system -o test_asio_server
-g++ asio_tcp_client_test.cpp -ggdb -O0 -L.. -lhl-sha -lcoordinates -lcharacter -lsoul -lboost_thread -lboost_system -o test_asio_tcp_client
-g++ asio_tcp_server_test.cpp -ggdb -O0 -L.. -lhl-sha -lcoordinates -lcharacter -lsoul -lboost_thread -lboost_system -o test_asio_tcp_server
-
-echo "Serialization tests.."
-g++ serialization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_serialization -lcoordinates -litem -lsoul -lcoordinates -lcharacter -o test_serialization
-
-echo "sha-1 generation/ thread tests.."
-g++ sha1_speed_test_with_threads.cpp -ggdb -O0 -L.. -lhl-sha -o test_sha1_speed_threads -lboost_thread -lncurses
-g++ sha1_speed_test_without_threads.cpp -ggdb -O0 -L.. -lhl-sha -o test_sha1_speed_no_threads -lboost_thread -lncurses
-
-echo "Thread tests.."
-g++ thread_group_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_thread -o test_thread_group
-
-echo "Thread synchronization tests.."
-g++ synchronization_test.cpp -ggdb -O0 -L.. -lhl-sha -lboost_thread -o test_thread_synchronization
-g++ synchronization_test_2.cpp -ggdb -O0 -L.. -lboost_thread -o test_thread_synchronization_2
-
-echo "Ncurses thread monitor tests.."
-g++ ncurses_thread_monitor_test.cpp -ggdb -O0 -L.. -lhl-sha -lncurses -o test_ncurses_thread_monitor -lboost_thread
+scons
 
 else
-    echo "Please compile libraries first!"
+    echo "Please compile shared objects first! ( execute MakeAllLibs script )"
     exit
 fi

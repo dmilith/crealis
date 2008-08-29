@@ -19,10 +19,10 @@
 #include <boost/version.hpp>
 //#include "../coordinates.h"
 
-#include "../soul.h"
-#include "../item.h"
-#include "../character.h"
-#include "../world.h"
+#include "../../soul.h"
+#include "../../item.h"
+#include "../../character.h"
+#include "../../world.h"
 //
 //#include "../serialized.h"
 

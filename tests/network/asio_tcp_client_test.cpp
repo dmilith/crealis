@@ -2,9 +2,9 @@
 #include <cstring>
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../character.h"
-#include "../soul.h"
-#include "../network.h"
+#include "../../character.h"
+#include "../../soul.h"
+#include "../../network.h"
 
 using boost::asio::ip::tcp;
 Ccharacter *z = new Ccharacter();

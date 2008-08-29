@@ -1,4 +1,4 @@
-#include "../hashlib/hl_tools.h"
+#include "../../hashlib/hl_tools.h"
 #include <boost/thread/thread.hpp>
 #include <boost/thread/xtime.hpp>
 #include <boost/progress.hpp>
