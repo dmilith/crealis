@@ -26,7 +26,9 @@ void server( boost::asio::io_service& io_service, short port ) {
     //char data[ max_length ];
     udp::endpoint sender_endpoint;
     size_t length = sock.receive_from( boost::asio::buffer( z, sizeof( Ccharacter ) ), sender_endpoint );
+    std::cout << "Connected: " << sender_endpoint << std::endl << std::flush;
     sock.send_to( boost::asio::buffer( z, sizeof( Ccharacter ) ), sender_endpoint );
+    std::cout << "Sent reply to: " << sender_endpoint << std::endl << std::flush;
   }
 }
 
