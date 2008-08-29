@@ -14,12 +14,6 @@ Ccharacter *zz = new Ccharacter();
 int main(int argc, char* argv[]) {
   try {
     
-/*    if ( argc != 2 ) {
-      std::cerr << "Usage: tcp_server <host>\n";
-      return 1;
-    }
-*/
-
     boost::asio::io_service io_service;
 
     tcp::resolver resolver( io_service );
@@ -31,7 +25,9 @@ int main(int argc, char* argv[]) {
 
     using namespace std; // For strlen.
     z->set_age( 666 );
-    z->set_name( "yep that's me" );
+
+    std::string zzzz = "yep that's me !";
+    z->set_name( zzzz );
     for ( int i = 0; i < 10000; i++ ) {
     boost::asio::write( s, boost::asio::buffer( z, sizeof( Ccharacter ) ) );
 

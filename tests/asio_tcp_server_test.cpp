@@ -33,7 +33,6 @@ void session( socket_ptr sock ) {
       }
       else if ( error )
         throw boost::system::system_error( error ); // Some other error.
-
       boost::asio::write( *sock, boost::asio::buffer( z, sizeof( Ccharacter ) ));
     }
   }
