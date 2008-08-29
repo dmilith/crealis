@@ -17,7 +17,13 @@ int main(int argc, char* argv[]) {
     boost::asio::io_service io_service;
 
     tcp::resolver resolver( io_service );
-    tcp::resolver::query query( tcp::v4(), DEFAULT_HOST, DEFAULT_PORT );
+    std::string host = DEFAULT_HOST;
+
+    if ( argc == 2 ) {
+      host = argv[1];
+    }
+
+    tcp::resolver::query query( tcp::v4(), host, DEFAULT_PORT );
     tcp::resolver::iterator iterator = resolver.resolve( query );
 
     tcp::socket s( io_service );
