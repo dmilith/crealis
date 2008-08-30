@@ -84,3 +84,9 @@ release11.Program('test_ncurses_thread_monitor' , 'thread/ncurses_thread_monitor
                                         'world'],
     LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
 
+release12 = Environment( CXX = 'g++ -O0 -ggdb -W' )
+release12.Program('test_core' , 'core/core.cpp',
+    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
+                                        'item', 'map', 'place', 'soul', 'theritory', 'ncurses',
+                                        'world'],
+    LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
