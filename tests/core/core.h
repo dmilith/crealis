@@ -29,6 +29,7 @@ namespace core {
       string get_id();
       void set_id( string id_ );
       virtual bool is_changed();
+      uint32_t get_objects_amount();
       
   };
 

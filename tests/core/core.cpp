@@ -48,6 +48,11 @@ Ccore::is_changed() {
   return false;
 }
 
+uint32_t
+Ccore::get_objects_amount() {
+  // TODO create control file, with amount of objects and sha1 list of objects
+  return 10; // FIXME temporarely !
+}
 
 //Cobject
 Cobject::Cobject() {
@@ -103,21 +108,18 @@ main( int argc, char** argv ) {
   cout << endl << "crealis root, core version " + core->get_core_version() <<
           ", classes version " << SYSTEM_CLASS_VERSION << endl << flush;
   cout << "root core id: " << core->get_id() << endl << flush;
-//  srand( time( NULL ) );
-  shared_array<Cobject> object_list( new Cobject[5000] );
-
- // shared_ptr<Cobject> object( new Cobject );
+  shared_array<Cobject> object_list( new Cobject[ core->get_objects_amount() ] );
   object_list[0].save();
 
   cout << "object core id: 0: " << object_list[0].get_id() << endl << flush;
   cout << "object core id: 1: " << object_list[1].get_id() << endl << flush;
   cout << "object core id: 2: " << object_list[2].get_id() << endl << flush;
-  cout << "object core id: 4998: " << object_list[4999].get_id() << endl << flush;
-  cout << "object core id: 4999: " << object_list[4999].get_id() << endl << flush;
 
   object_list[0].load( "zło" );
+  cout << "Cobject size: " << sizeof( Cobject ) << endl << flush;
 
 #ifdef DEBUG
+  assert( sizeof( Cobject ) == sizeof( object_list[0] ) );
   assert( object_list[0].get_id() != object_list[1].get_id() );
   assert( object_list[1].get_id() != object_list[2].get_id() );
   assert( object_list != NULL );
