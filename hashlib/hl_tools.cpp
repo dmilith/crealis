@@ -9,6 +9,7 @@
 
 #include "hl_tools.h"
 
+
 const char*
 uint2cstr( uint64_t i ) {
   std::stringstream ss;
@@ -19,10 +20,10 @@ uint2cstr( uint64_t i ) {
 }
 
 std::string
-generate_sha1( bool timeize_srand ) {
+generate_sha1() {
 	hashwrapper *sha1 = new sha1wrapper();
-	if ( timeize_srand ) srand( (unsigned)time( NULL ) );
-	std::string result = sha1->getHashFromString( (std::string)( uint2cstr( rand() % time( NULL ) ) ) );
+	std::string result = sha1->getHashFromString( 
+      (std::string)( uint2cstr( ( (rand() % 100) * clock() ) + ( (rand() % (1 + rand()%100 ) ) ) ) ) );
 	delete sha1;
 	return result;
 }

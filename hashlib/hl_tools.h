@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <ctime>
+#include <cmath>
 
 #include "hashlibpp.h"
 
@@ -20,7 +22,7 @@ const char*
 uint2cstr( uint64_t i );
 
 std::string
-generate_sha1( bool timeize_srand = false );
+generate_sha1();
 
 #endif
 

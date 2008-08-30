@@ -3,37 +3,54 @@
 
 #include <iostream>
 #include <cassert>
+#include <boost/shared_ptr.hpp>
+#include <boost/shared_array.hpp>
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_int.hpp>
+#include <boost/random/uniform_real.hpp>
+#include <boost/random/variate_generator.hpp>
 
 #include "../../hashlib/hl_tools.h"
+#include "../../coordinates.h"
+#include "../../version.h"
+
+using namespace std;
 
 namespace core {
 
-class Ccore {
-  
-  private:
-    std::string id;
-
-  public:
-    Ccore();
-    std::string get_core_version();
-    virtual std::string get_id();
-    virtual void set_id( std::string id_ );
-    bool is_changed();
+  class Ccore {
     
-};
+    private:
+      string id;
+
+    public:
+      Ccore();
+      string get_core_version();
+      string get_id();
+      void set_id( string id_ );
+      virtual bool is_changed();
+      
+  };
 
 
-class Cobject : public Ccore {
+  class Cobject : public Ccore {
 
-  private:
-    std::string id;
+    private:
+      string id;
+      Ccoordinates position; // localization of object in world
+      int8_t priority;
 
-  public:
+    public:
+      Cobject();
+      Cobject( int8_t priority_ );
+      Cobject( string id_ );
+      Cobject( string id_, int8_t priority_ ) ;
+      int8_t get_priority();
+      void set_priority( int8_t priority_ );
+      virtual bool save(); // saving with id as filename
+      virtual bool load( string filename_ );
 
-    Cobject();
-    ~Cobject();
-
-};
+  };
 
 }; // namespace
 

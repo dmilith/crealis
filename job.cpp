@@ -11,7 +11,7 @@
 
 
 Job::Job() {
-	job_id = generate_sha1( true );
+	job_id = generate_sha1();
 	actors[ 0 ] = NULL;
 	actors[ 1 ] = NULL;
 }

@@ -10,7 +10,7 @@
 #include "coordinates.h"
 
 Ccoordinates::Ccoordinates() {
-	position = generate_sha1(true);
+	position = generate_sha1();
 	parent_positions[ 0 ] = generate_sha1();
 	parent_positions[ 1 ] = generate_sha1();
 	parent_positions[ 2 ] = generate_sha1();

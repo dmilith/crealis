@@ -10,7 +10,7 @@ void
 thread_first() {
 	cout << "first_thread\n" << flush;
   	for ( int i = 0; i < 1000000; i++ ) {  	
-    		generate_sha1();
+    		cout << generate_sha1( ) << endl << flush;
   	}
 }
 
@@ -18,7 +18,7 @@ void
 thread_second() {
 	cout << "second_thread\n" << flush;
   	for ( int i = 0; i < 1000000; i++ ) {
-    		generate_sha1();
+    		cout << generate_sha1( ) << endl << flush;
   	}
 }
 
