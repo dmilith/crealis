@@ -32,6 +32,10 @@ static std::string pp = SLASH; // "normal" UNIX slash to separate parts path
 
 const std::string WORLD_SAVE_PATH = "save" + pp;
 const std::string JOB_SAVE_PATH = "jobs" + pp;
+const std::string CORE_INFO_PATH = "core" + pp;
+const std::string CORE_INFO_FILE = CORE_INFO_PATH + "purecore.cinfo";
+
+
 
 /*
 ANSI Attributes

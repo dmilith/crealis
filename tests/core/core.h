@@ -3,34 +3,37 @@
 
 #include <iostream>
 #include <cassert>
+#include <fstream>
 #include <boost/shared_ptr.hpp>
 #include <boost/shared_array.hpp>
-#include <boost/random/linear_congruential.hpp>
-#include <boost/random/uniform_int.hpp>
-#include <boost/random/uniform_real.hpp>
-#include <boost/random/variate_generator.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "../../hashlib/hl_tools.h"
 #include "../../coordinates.h"
 #include "../../version.h"
+#include "../../config.h"
+
+#define MAX_OBJECTS_AMOUNT 100
 
 using namespace std;
+
 
 namespace core {
 
   class Ccore {
     
     private:
-      string id;
+      uint32_t objects_amount;
+      void save_objects_amount();
+      void load_objects_amount();
 
     public:
       Ccore();
+      ~Ccore();
       string get_core_version();
-      string get_id();
-      void set_id( string id_ );
-      virtual bool is_changed();
-      uint32_t get_objects_amount();
-      
+      void set_amount( uint32_t value_ );
+      uint32_t get_current_objects_amount();
+      uint32_t get_max_objects_amount();
   };
 
 
@@ -46,10 +49,13 @@ namespace core {
       Cobject( int8_t priority_ );
       Cobject( string id_ );
       Cobject( string id_, int8_t priority_ ) ;
+      string get_id();
+      virtual bool is_changed();
+      void set_id( string id_ );
       int8_t get_priority();
       void set_priority( int8_t priority_ );
       virtual bool save(); // saving with id as filename
-      virtual bool load( string filename_ );
+      virtual Cobject load( string filename_ );
 
   };
 

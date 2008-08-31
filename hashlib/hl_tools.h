@@ -15,6 +15,7 @@
 #include <sstream>
 #include <ctime>
 #include <cmath>
+#include <sys/time.h>
 
 #include "hashlibpp.h"
 
