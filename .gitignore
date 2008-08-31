@@ -1,6 +1,7 @@
 .sconsign.dblite
 *.os
 *.so
+*.a
 *.o
 world
 gmon.out
