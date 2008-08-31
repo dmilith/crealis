@@ -52,10 +52,7 @@ main( int argc, char** argv ) {
 
     cout << "object core [1], after reloading with object[0] " << object_list[1].get_id() << endl << flush;
     for ( int i = 0; i < 6; i++ ) {
-      for ( int j = 0; j < 40; j++ ) {
-        cout << object_list[1].get_position().parent_positions[i][j];
-      }
-      cout << endl;
+      cout << object_list[1].get_position().get_parent_position( i ) << endl;
     }
 
     cout << "Cobject size: " << sizeof( Cobject ) << endl << flush;

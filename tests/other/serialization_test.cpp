@@ -89,7 +89,7 @@ int main() {
         //std::cout << "z: " << newg.items[0]->weight << std::endl;
         //std::cout << "p: " << newg.private_box[0]->weight << std::endl;
         for ( int i = 0; i < 6; ++i ) {
-            std::cout << i << ": " << position.parent_positions[ i ] << std::endl;    
+            std::cout << i << ": " << position.get_parent_position( i ) << std::endl;    
         }
         
        // newg.items.begin();

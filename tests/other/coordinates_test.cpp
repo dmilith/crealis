@@ -8,17 +8,15 @@ using namespace std;
 int main() {
 
   Ccoordinates position;
-
-  cout << position.position << endl;
-  assert ( sizeof( position.position ) == 41 );
-
+  cout << position.get_position() << endl << strlen( position.get_position() ) << endl;
+  assert( strlen( position.get_position() ) == 40 );
+  cout << position.get_parent_position( 5 ) << endl;
   for ( int i = 0; i < 6; i++ ) {
-    for ( int j = 0; j < 40; j++ ) {
-      cout << position.parent_positions[i][j];
-    }  
-    cout << endl;
+    assert( strlen( position.get_parent_position( i ) ) == 40 );
   }
-
+  cout << position.get_parent_position( 6 ) << endl;
+  cout << position.get_position();
 
   return 0;
 }
+
