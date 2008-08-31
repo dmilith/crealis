@@ -37,6 +37,13 @@ namespace core {
   };
 
 
+
+  typedef struct COBJECT_DATA { // to save/ load structure data
+    char id[40 + 1]; // additional \0 !
+    Ccoordinates position;
+    int8_t priority;
+  };
+  
   class Cobject : public Ccore {
 
     private:
@@ -53,12 +60,15 @@ namespace core {
       virtual bool is_changed();
       void set_id( string id_ );
       int8_t get_priority();
+      Ccoordinates get_position();
+      void set_position( Ccoordinates position_ );
       void set_priority( int8_t priority_ );
-      virtual bool save(); // saving with id as filename
-      virtual Cobject load( string filename_ );
+      virtual bool save_object(); // saving with id as filename
+      friend Cobject load_object( string filename_ );
 
   };
 
 }; // namespace
+
 
 #endif

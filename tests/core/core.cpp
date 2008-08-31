@@ -136,12 +136,30 @@ Cobject::get_priority() {
 }
 
 
+Ccoordinates
+Cobject::get_position() {
+  return position;
+}
+
+
+void
+Cobject::set_position( Ccoordinates position_ ) {
+  this->position = position_;
+}
+
+
 bool
-Cobject::save() {
+Cobject::save_object() {
+  COBJECT_DATA temp;
+  strcpy( temp.id, ( this->get_id() ).c_str() );
+  temp.priority = this->get_priority();
+  temp.position = this->get_position();
+#ifdef DEBUG
   cout << "Saving " + this->get_id() << endl << flush;
+#endif  
     try {
       ofstream file( this->get_id().c_str(), ios_base::out | ios_base::binary );
-      file.write( (char*)this, sizeof( Cobject ) );
+      file.write( (char*)&temp, sizeof( COBJECT_DATA ) );
       file.close();
     } catch (exception& e) {
       cout << e.what() << flush;
@@ -152,18 +170,24 @@ Cobject::save() {
 
 
 Cobject
-Cobject::load( string filename_ ) {
-  Cobject temp( filename_ );
+load_object( string filename_ ) {
+  Cobject temp_obj;
+  COBJECT_DATA temp;
+#ifdef DEBUG
   cout << "Loading " + filename_ << endl << flush;
+#endif
     try {
-      ifstream file( ( CORE_INFO_PATH + filename_ ).c_str(), ios_base::in | ios_base::binary );
-      file.read( (char*)&temp, sizeof( Cobject ) );
+      ifstream file( filename_.c_str(), ios_base::in | ios_base::binary );
+      file.read( (char*)&temp, sizeof( COBJECT_DATA ) );
       file.close();
     } catch (exception& e) {
       cout << e.what() << flush;
       exit( 1 );
     }
-  return temp;
+  temp_obj.set_id( temp.id );
+  temp_obj.set_priority( temp.priority );
+  temp_obj.set_position( temp.position );
+  return temp_obj;
 }
 
 

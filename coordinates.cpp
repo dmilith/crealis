@@ -10,18 +10,20 @@
 #include "coordinates.h"
 
 Ccoordinates::Ccoordinates() {
-	position = generate_sha1();
-	parent_positions[ 0 ] = generate_sha1();
-	parent_positions[ 1 ] = generate_sha1();
-	parent_positions[ 2 ] = generate_sha1();
-	parent_positions[ 3 ] = generate_sha1();
-	parent_positions[ 4 ] = generate_sha1();
-	parent_positions[ 5 ] = generate_sha1();
+	strcpy( position, generate_sha1().c_str() );
+	strcpy( parent_positions[ 0 ], generate_sha1().c_str() );
+	strcpy( parent_positions[ 1 ], generate_sha1().c_str() );
+	strcpy( parent_positions[ 2 ], generate_sha1().c_str() );
+	strcpy( parent_positions[ 3 ], generate_sha1().c_str() );
+	strcpy( parent_positions[ 4 ], generate_sha1().c_str() );
+	strcpy( parent_positions[ 5 ], generate_sha1().c_str() );
 }
 
-Ccoordinates::Ccoordinates( std::string pos, std::string parent_pos[ 6 ] ) {
-	position = pos;
+/*
+Ccoordinates::Ccoordinates( char pos[SHA1_SIZE], char parent_pos[SHA1_SIZE][ 6 ] ) {
+	strncpy( position,  pos, SHA1_SIZE );
 	for ( int i = 0; i < 6; ++i ) {
-		parent_positions[ i ] = parent_pos[ i ];
+		strncpy( parent_positions[ i ], parent_pos[ i ], SHA1_SIZE );
 	}
 }
+*/
