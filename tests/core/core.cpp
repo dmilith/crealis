@@ -84,13 +84,13 @@ Ccore::set_amount( uint32_t value_ ) {
 
 Cobject::Cobject() {
   this->set_id( generate_sha1() );
-  this->set_priority( 0 );
+  this->set_priority( 1 );
 }
 
 
 Cobject::Cobject( string id_ ) {
   this->set_id( id_ );
-  this->set_priority( 0 );
+  this->set_priority( 1 );
 }
 
 
