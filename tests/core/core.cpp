@@ -153,7 +153,7 @@ Cobject::save() {
 
 Cobject
 Cobject::load( string filename_ ) {
-  Cobject temp;
+  Cobject temp( filename_ );
   cout << "Loading " + filename_ << endl << flush;
     try {
       ifstream file( ( CORE_INFO_PATH + filename_ ).c_str(), ios_base::in | ios_base::binary );

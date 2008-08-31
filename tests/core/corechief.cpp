@@ -55,7 +55,7 @@ main( int argc, char** argv ) {
 #ifdef DEBUG
   assert( sizeof( Cobject ) == sizeof( object_list[0] ) );
   if ( core->get_current_objects_amount() > 2 ) {
-  //  assert( object_list[0].get_id() == object_list[1].get_id() );
+    assert( object_list[0].get_id() == object_list[1].get_id() );
     assert( object_list[1].get_id() != object_list[2].get_id() );
   }
   assert( object_list != NULL );
