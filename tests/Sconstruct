@@ -51,50 +51,50 @@ release6.Program('test_asio_tcp_client' , 'network/asio_tcp_client_test.cpp',
 
 release7 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release7.Program('test_serialization' , 'other/serialization_test.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
+    LIBS=[ 'boost_thread', 'hl-sha', 'job', 'character', 'coordinates',
                                         'item', 'map', 'place', 'soul', 'theritory',
                                         'world'],
     LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
 
 release8 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release8.Program('test_thread' , 'thread/thread_group_test.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
+    LIBS=[ 'boost_thread',  'hl-sha', 'job', 'character', 'coordinates',
                                         'item', 'map', 'place', 'soul', 'theritory',
                                         'world'],
     LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
 
 release9 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release9.Program('test_thread_synchronization_1' , 'thread/synchronization_test.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
+    LIBS=[ 'boost_thread',  'hl-sha', 'job', 'character', 'coordinates',
                                         'item', 'map', 'place', 'soul', 'theritory',
                                         'world'],
     LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
 
 release10 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release10.Program('test_thread_synchronization_2' , 'thread/synchronization_test_2.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
+    LIBS=[ 'boost_thread',  'hl-sha', 'job', 'character', 'coordinates',
                                         'item', 'map', 'place', 'soul', 'theritory',
                                         'world'],
     LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
 
 release11 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release11.Program('test_ncurses_thread_monitor' , 'thread/ncurses_thread_monitor_test.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
-                                        'item', 'map', 'place', 'soul', 'theritory', 'ncurses',
+    LIBS=[ 'boost_thread',  'hl-sha', 'job', 'character', 'coordinates', 'ncurses',
+                                        'item', 'map', 'place', 'soul', 'theritory',
                                         'world'],
     LIBPATH=[ '../', '/usr/local/lib', '/usr/lib' ])
 
 release12 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release12.Library('core', 'core/core.cpp')
 release12.Program('test_core' , 'core/corechief.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
-                                        'item', 'map', 'place', 'soul', 'theritory', 'ncurses',
+    LIBS=[ 'boost_thread',  'hl-sha', 'job', 'character', 'coordinates',
+                                        'item', 'map', 'place', 'soul', 'theritory',
                                         'world', 'core'],
     LIBPATH=[ '.', '../', '/usr/local/lib', '/usr/lib' ])
 
 release13 = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release13.Program('test_coordinates' , 'other/coordinates_test.cpp',
-    LIBS=[ 'boost_thread', 'boost_serialization', 'hl-sha', 'job', 'character', 'coordinates',
-                                        'item', 'map', 'place', 'soul', 'theritory', 'ncurses',
+    LIBS=[ 'boost_thread',  'hl-sha', 'job', 'character', 'coordinates',
+                                        'item', 'map', 'place', 'soul', 'theritory',
                                         'world', 'core'],
     LIBPATH=[ '.', '../', '/usr/local/lib', '/usr/lib' ])

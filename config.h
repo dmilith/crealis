@@ -16,24 +16,26 @@
 #define RUBY_LOCAL_INSTALL // if defined then we'll look for headers in /usr/local instead of /usr
 // TODO: #define RUBY_EMB // if defined we'll use Ruby As Embeeded Scripting Language
 
-const std::string SLASH = "/";
-const std::string BACKSLASH = "\\";
-static std::string pp = SLASH; // "normal" UNIX slash to separate parts path
+using namespace std;
+
+const string SLASH = "/";
+const string BACKSLASH = "\\";
+static string pp = SLASH; // "normal" UNIX slash to separate parts path
 
 // main declarations and constants
 #ifndef WIN32
 #include <cstdlib>
- const std::string MAIN_DIR = std::string( getenv( "HOME" ) ) + pp + ".cWorld";
+ const string MAIN_DIR = string( getenv( "HOME" ) ) + pp + ".cWorld";
 #else
  pp = BACKSLASH;
  // TODO: fix static path for windows 
- const std::string MAIN_DIR = std::string( "C:" + pp + "CWorld" );
+ const string MAIN_DIR = string( "C:" + pp + "CWorld" );
 #endif
 
-const std::string WORLD_SAVE_PATH = "save" + pp;
-const std::string JOB_SAVE_PATH = "jobs" + pp;
-const std::string CORE_INFO_PATH = "core" + pp;
-const std::string CORE_INFO_FILE = CORE_INFO_PATH + "purecore.cinfo";
+const string WORLD_SAVE_PATH = "save" + pp;
+const string JOB_SAVE_PATH = "jobs" + pp;
+const string CORE_INFO_PATH = "core" + pp + "objects" + pp;
+const string CORE_INFO_FILE = CORE_INFO_PATH + "purecore.cinfo";
 
 
 

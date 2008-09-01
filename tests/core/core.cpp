@@ -41,24 +41,26 @@ Ccore::~Ccore() {
 
 void
 Ccore::save_objects_amount() {
-  try {
+ /* try {
     ofstream file( CORE_INFO_FILE.c_str(), ios_base::out | ios_base::binary );
-    file.write( (char*)&objects_amount, sizeof( uint32_t ) );
+    file.write( (char*)this->get_current_objects_amount(), sizeof( uint32_t ) );
     file.close();
   } catch (exception& e) {
     cout << e.what() << flush;
   }
+  */
 }
 
 void
 Ccore::load_objects_amount() {
-  try {
+  /*try {
     ifstream file( CORE_INFO_FILE.c_str(), ios_base::in | ios_base::binary );
     file.read( (char*)&objects_amount, sizeof( uint32_t ) );
     file.close();
   } catch (exception& e) {
     cout << e.what() << flush;
   }
+  */
 }
 
 
@@ -150,21 +152,22 @@ Cobject::set_position( Ccoordinates position_ ) {
 
 bool
 Cobject::save_object() {
-  COBJECT_DATA temp;
-  strcpy( temp.id, ( this->get_id() ).c_str() );
-  temp.priority = this->get_priority();
-  temp.position = this->get_position();
+  COBJECT_DATA *temp = new COBJECT_DATA;
+  strcpy( temp->id, ( this->get_id() ).c_str() );
+  temp->priority = this->get_priority();
+  temp->position = this->get_position();
 #ifdef DEBUG
-  cout << "Saving " + this->get_id() << endl << flush;
+  cout << "Saving " + CORE_INFO_PATH + this->get_id() << endl << flush;
 #endif  
     try {
-      ofstream file( this->get_id().c_str(), ios_base::out | ios_base::binary );
-      file.write( (char*)&temp, sizeof( COBJECT_DATA ) );
+      ofstream file( ( CORE_INFO_PATH + this->get_id() ).c_str(), ios_base::out | ios_base::binary );
+      file.write( (char*)temp, sizeof( COBJECT_DATA ) );
       file.close();
     } catch (exception& e) {
       cout << e.what() << flush;
       exit( 1 );
     }
+  delete temp;  
   return true;
 }
 
@@ -172,21 +175,22 @@ Cobject::save_object() {
 Cobject
 load_object( string filename_ ) {
   Cobject temp_obj;
-  COBJECT_DATA temp;
+  COBJECT_DATA *temp = new COBJECT_DATA;
 #ifdef DEBUG
-  cout << "Loading " + filename_ << endl << flush;
+  cout << "Loading " + CORE_INFO_PATH + filename_ << endl << flush;
 #endif
     try {
-      ifstream file( filename_.c_str(), ios_base::in | ios_base::binary );
-      file.read( (char*)&temp, sizeof( COBJECT_DATA ) );
+      ifstream file( ( CORE_INFO_PATH + filename_ ).c_str(), ios_base::in | ios_base::binary );
+      file.read( (char*)temp, sizeof( COBJECT_DATA ) );
       file.close();
     } catch (exception& e) {
       cout << e.what() << flush;
       exit( 1 );
     }
-  temp_obj.set_id( temp.id );
-  temp_obj.set_priority( temp.priority );
-  temp_obj.set_position( temp.position );
+  temp_obj.set_id( temp->id );
+  temp_obj.set_priority( temp->priority );
+  temp_obj.set_position( temp->position );
+  delete temp;
   return temp_obj;
 }
 

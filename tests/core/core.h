@@ -6,14 +6,13 @@
 #include <fstream>
 #include <boost/shared_ptr.hpp>
 #include <boost/shared_array.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "../../hashlib/hl_tools.h"
 #include "../../coordinates.h"
 #include "../../version.h"
 #include "../../config.h"
 
-#define MAX_OBJECTS_AMOUNT 100
+#define MAX_OBJECTS_AMOUNT 100 //temporarely
 
 using namespace std;
 
