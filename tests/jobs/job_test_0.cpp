@@ -33,7 +33,7 @@ int main() {
 
   Cobject myjob;
   myjob = job->get_actor( 0 );
-  
+
   delete job;
   //delete x;
   //delete y;

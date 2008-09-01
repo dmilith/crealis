@@ -37,7 +37,7 @@ namespace core {
 
 
 
-  typedef struct COBJECT_DATA { // to save/ load structure data
+  struct COBJECT_DATA { // to save/ load structure data
     char id[40 + 1]; // additional \0 !
     Ccoordinates position;
     int8_t priority;

@@ -22,8 +22,6 @@ Job::~Job() {
 
 void
 Job::create_job( Cobject& object0_, Cobject& object1_, ETypeOfJob action_ ) {
-  //shared_ptr<Cobject> actor0( object0_ );
-  //shared_ptr<Cobject> actor1( object1_ );
   actor0 = (const Csoul&)object0_;
   actor1 = (const Csoul&)object1_;
   set_action( action_ );
@@ -47,7 +45,7 @@ Job::set_action( ETypeOfJob type_ ) {
 
 void
 Job::run() {
-
+#define DEBUG
 // matter on job type, do something with data
 	 switch ( type ) {
 			case action_IDLE:
@@ -67,7 +65,7 @@ Job::run() {
 			break;
 			case action_ATTACK:
 #ifdef DEBUG
-	std::cout << "A:" << action_DEFEND << flush;
+	std::cout << "A:" << action_ATTACK << flush;
 #endif
 			break;
 
