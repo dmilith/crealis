@@ -16,3 +16,4 @@ tests/test_*
 *~
 tests/.sconsign.dblite
 tests/core/objects
+data/objects

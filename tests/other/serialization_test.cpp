@@ -58,7 +58,7 @@ int main() {
     Citem item;
     Csoul* soul = new Csoul();
     item.weight = 5;
-    soul->mana = 666;
+    soul->set_mana( 666 );
     g.set_age( 12 );
     g.gain_gold( 10000 );
     g.set_soul( soul );
@@ -84,7 +84,7 @@ int main() {
         //boost::archive::text_iarchive ia( ofs );
         // read class state from archive
       //  ia >> newg;
-        std::cout << "x: " << g.get_soul()->mana << std::endl;
+        std::cout << "x: " << g.get_soul()->get_mana() << std::endl;
         std::cout << "y: " << g.get_gold() << std::endl;
         //std::cout << "z: " << newg.items[0]->weight << std::endl;
         //std::cout << "p: " << newg.private_box[0]->weight << std::endl;

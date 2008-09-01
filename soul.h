@@ -12,25 +12,38 @@
 
 #include <iostream>
 
+#include "core.h"
+
+using namespace core;
+
 enum Ealignment {
-		chaoticEvil = -3,
-		evil = -2,
-		neutralEvil = -1,
-		neutral = 0,
-		neutralGood = 1,
-		good = 2,
-		lawfulGood = 3,
-		demoan = 4 //demoan, polaczenie demona i aniola -cos jak chaoticNeutral
+		chaoticEvil = 0,
+		evil = 1,
+		neutralEvil = 2,
+		neutral = 3,
+		neutralGood = 4,
+		good = 5,
+		lawfulGood = 6,
+		demoan = 7 //demoan, polaczenie demona i aniola -cos jak chaoticNeutral
 };
 
-class Csoul {
-public:
-	Csoul();
-	uint64_t mana,
-			mind_strength; //sila umyslu
-	Ealignment alignment; //charakter
-	
-	bool soul_exist; //czy istnieje dusza. czyli czy postac jest graczem czy nie
+class Csoul : public Cobject {
+  
+  private:
+	  
+    uint64_t mana, /* mana */
+             mind_strength; /* sila umyslu */
+	  Ealignment alignment; //charakter
+// XXX: it should be possible to 	  bool soul_exist; // does soul exist? - is it player or AI*
+    
+  public:
+	  
+    uint64_t get_mana();
+    uint64_t get_mind_strength();
+    void set_mana( uint64_t mana_ );
+    void set_mind_strength( uint64_t mind_strength_ );
+
+    Csoul();
 	
 };
 

@@ -23,6 +23,13 @@ using namespace boost;
 
 //Ccore
 
+Ccore::Ccore() {
+}
+
+
+Ccore::~Ccore() {
+}
+
 
 string
 Ccore::get_core_version() {
@@ -30,44 +37,12 @@ Ccore::get_core_version() {
 }
 
 
-Ccore::Ccore() {
-  load_objects_amount();
-}
-
-
-Ccore::~Ccore() {
-  save_objects_amount();
-}
-
-void
-Ccore::save_objects_amount() {
- /* try {
-    ofstream file( CORE_INFO_FILE.c_str(), ios_base::out | ios_base::binary );
-    file.write( (char*)this->get_current_objects_amount(), sizeof( uint32_t ) );
-    file.close();
-  } catch (exception& e) {
-    cout << e.what() << flush;
-  }
-  */
-}
-
-void
-Ccore::load_objects_amount() {
-  /*try {
-    ifstream file( CORE_INFO_FILE.c_str(), ios_base::in | ios_base::binary );
-    file.read( (char*)&objects_amount, sizeof( uint32_t ) );
-    file.close();
-  } catch (exception& e) {
-    cout << e.what() << flush;
-  }
-  */
-}
-
-
 uint32_t
 Ccore::get_current_objects_amount() {
   return objects_amount;
 }
+
+
 uint32_t
 Ccore::get_max_objects_amount() {
   return MAX_OBJECTS_AMOUNT;
@@ -114,7 +89,7 @@ Cobject::is_changed() {
 
 string
 Cobject::get_id() {
-  return id;
+  return this->id;
 }
 
 
@@ -138,7 +113,7 @@ Cobject::get_priority() {
 
 Ccoordinates
 Cobject::get_position() {
-  return position;
+  return this->position;
 }
 
 

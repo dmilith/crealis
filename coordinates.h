@@ -10,6 +10,8 @@
 #ifndef _CCOORDINATES_H_
 #define _CCOORDINATES_H_
 
+#include <iostream>
+#include <string.h>
 #include "hashlib/hl_tools.h" //instead of haslibpp.h. It's kinda proxy for hashlib
 
 static const uint8_t SHA1_SIZE = 41; // 40 + \0

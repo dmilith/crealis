@@ -19,6 +19,8 @@ debug_optimized = Environment( CXX = 'g++ -O2 -ggdb -W' )
 #release = debug64
 release = debug_optimized
 
+release.SharedLibrary('purecore', 'core.cpp')
+release.SharedLibrary('job', 'job.cpp')
 release.SharedLibrary('hl-sha', [ 'hashlib/hl_sha1.cpp', 
     'hashlib/hl_sha1wrapper.cpp', 'hashlib/hl_sha256.cpp', 
     'hashlib/hl_sha256wrapper.cpp', 'hashlib/hl_tools.cpp' ] )
@@ -30,11 +32,10 @@ release.SharedLibrary('place', 'place.cpp')
 release.SharedLibrary('soul', 'soul.cpp')
 release.SharedLibrary('theritory', 'theritory.cpp')
 release.SharedLibrary('world', 'world.cpp')
-release.SharedLibrary('job', 'job.cpp')
 #release.Program('main' , 'main2.cpp', 
 #    LIBS=[ 'boost_thread', 'boost_filesystem', 'hl-sha', 'boost_serialization', 
 #					 'job', 'character', 'coordinates', 
 #					 'item', 'map', 'place', 'soul', 'theritory', 
-#					 'world'], 
+#					 'world', 'purecore' ], 
 #, 'ruby' ], 
 #    LIBPATH=[ '.', '/usr/local/lib', '/usr/lib' ])

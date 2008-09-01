@@ -280,3 +280,4 @@ void
 Ccharacter::set_name( std::string name_ ) {
   name = name_;
 }
+
