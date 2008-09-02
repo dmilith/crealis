@@ -63,9 +63,13 @@ Job::run() {
 #endif
 			break;
 			case action_ATTACK:
+        get_actor( 0 ).set_mana( 666 );
+
 #ifdef DEBUG
-	std::cout << "A:" << action_ATTACK << flush;
+	cout << "A:" << action_ATTACK << flush;
+  cout << "A#" << actor0.get_mana() << flush;
 #endif
+
 			break;
 
 			default: break;
