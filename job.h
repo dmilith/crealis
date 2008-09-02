@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "core.h"
 #include "hashlib/hl_tools.h"
+#include "config.h"
 
 using namespace std;
 using namespace core;

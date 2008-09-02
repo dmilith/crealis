@@ -45,7 +45,6 @@ Job::set_action( ETypeOfJob type_ ) {
 
 void
 Job::run() {
-#define DEBUG
 // matter on job type, do something with data
 	 switch ( type ) {
 			case action_IDLE:

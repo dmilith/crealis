@@ -106,7 +106,7 @@ release14.Program('test_job_0' , 'jobs/job_test_0.cpp',
                                         'world', 'purecore'],
     LIBPATH=[ '.', '../', '/usr/local/lib', '/usr/lib' ])
 
-release15 = Environment( CXX = 'g++ -O0 -ggdb -W' )
+release15 = Environment( CXX = 'g++ -Os -W' )
 release15.Program('test_job_thread_0' , 'jobs/job_thread_test.cpp',
     LIBS=[ 'boost_thread',  'hl-sha', 'purecore', 'job', 'character', 'coordinates',
                                         'item', 'map', 'place', 'soul', 'theritory',
