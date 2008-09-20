@@ -7,6 +7,8 @@
 
 """
 
+Decider('MD5')
+
 release = Environment( CXX = 'g++ -O0 -ggdb -W' )
 release.Program('test_sha1_speed_threads' , 'hashlib/sha1_speed_test_with_threads.cpp',
     LIBS=[ 'boost_thread', 'hl-sha', 'job', 'character', 'coordinates',
@@ -112,3 +114,10 @@ release15.Program('test_job_thread_0' , 'jobs/job_thread_test.cpp',
                                         'item', 'map', 'place', 'soul', 'theritory',
                                         'world', 'purecore'],
     LIBPATH=[ '.', '../', '/usr/local/lib', '/usr/lib' ])
+
+#release16 = Environment( CC = 'gdc' )
+#release16.Program('test_D_0' , 'D/assertions.d',
+#    LIBS=[ 'hl-sha', 'purecore', 'job', 'character', 'coordinates',
+#                                        'item', 'map', 'place', 'soul', 'theritory',
+#                                        'world'],
+#    LIBPATH=[ '.', '../', '/usr/local/lib', '/usr/lib' ])

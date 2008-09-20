@@ -64,7 +64,6 @@ Job::run() {
 			break;
 			case action_ATTACK:
         get_actor( 0 ).set_mana( 666 );
-
 #ifdef DEBUG
 	cout << "A:" << action_ATTACK << flush;
   cout << "A#" << actor0.get_mana() << flush;
