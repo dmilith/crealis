@@ -24,16 +24,21 @@ using namespace boost;
 //Ccore
 
 Ccore::Ccore() {
+	cout << "Core Init." << endl << flush;
 }
 
 
 Ccore::~Ccore() {
+	cout << "Core UnInit." << endl << flush;
 }
 
 
 string
 Ccore::get_core_version() {
   return CREALIS_CORE_VERSION;
+#ifdef DEBUG
+	cout << "GettingCoreVersion." << endl << flush;
+#endif
 }
 
 

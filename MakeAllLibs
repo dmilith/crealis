@@ -1,6 +1,6 @@
 #! /bin/bash
 
-scons 2> compile.log
+time scons 2> compile.log
 
 if [ $? = 0 ]; then
 	echo "done. ready"

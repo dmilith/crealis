@@ -9,7 +9,6 @@
 
 #include "character.h"
 
-
 Ccharacter::Ccharacter( std::string new_name ) {
 	name = new_name; // creature name
 	race = human; //(0)

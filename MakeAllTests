@@ -1,6 +1,6 @@
 #! /bin/bash
 
-if [ -e "libhl-sha.so" ]; then 
+if [ -e "libpurecore.so" ]; then 
 
 cd tests/
 scons
